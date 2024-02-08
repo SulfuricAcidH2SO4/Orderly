@@ -8,6 +8,7 @@
     xmlns:local="clr-namespace:Orderly.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Name="mainPage"
     Title="DashboardPage"
     d:DataContext="{d:DesignInstance local:DashboardPage,
                                      IsDesignTimeCreatable=False}"
@@ -20,6 +21,8 @@
     <Page.Resources>
         <converters:StringToBrushConverter x:Key="StringToBrushConverter" />
         <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:BoolToVisibilityReconverter x:Key="BoolToVisibilityReconverter" />
     </Page.Resources>
 
     <Grid VerticalAlignment="Top">
@@ -66,14 +69,40 @@
                                             HorizontalAlignment="Left"
                                             Background="{Binding FlairColor, Converter={StaticResource StringToBrushConverter}}"
                                             CornerRadius="2" />
-                                        <TextBlock Grid.Row="1" Text="{Binding Name}" />
+                                        <StackPanel
+                                            Grid.Row="1"
+                                            Orientation="Horizontal"
+                                            Visibility="{Binding ElementName=btnEdit, Path=IsChecked, Converter={StaticResource BoolToVisibilityReconverter}}">
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                                            <ui:SymbolIcon
+                                                Margin="5,0"
+                                                VerticalAlignment="Center"
+                                                Filled="True"
+                                                Foreground="#ffe257"
+                                                Symbol="Star28" />
+                                        </StackPanel>
+                                        <StackPanel
+                                            Grid.Row="1"
+                                            Orientation="Horizontal"
+                                            Visibility="{Binding ElementName=btnEdit, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <TextBox HorizontalAlignment="Left" Text="{Binding Name, Mode=TwoWay}" />
+                                            <Button
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.ViewModel.SaveEditModeCommand}"
+                                                CommandParameter="{Binding ElementName=btnEdit, Path=., Mode=TwoWay}"
+                                                Cursor="Hand">
+                                                <ui:SymbolIcon Symbol="Checkmark28" />
+                                            </Button>
+                                        </StackPanel>
                                         <StackPanel
                                             Grid.RowSpan="2"
                                             Margin="5,0"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Center"
                                             Orientation="Horizontal">
-                                            <Button
+                                            <ToggleButton
+                                                x:Name="btnEdit"
                                                 Padding="5"
                                                 Background="Transparent"
                                                 BorderThickness="0"
@@ -82,11 +111,12 @@
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     Symbol="Pen20" />
-                                            </Button>
+                                            </ToggleButton>
                                             <Popup
                                                 AllowsTransparency="True"
+                                                Closed="Popup_Closed"
                                                 IsOpen="{Binding ElementName=tgbColor, Path=IsChecked, Mode=TwoWay}"
-                                                MouseDown="Popup_MouseDown" Closed="Popup_Closed"
+                                                MouseDown="Popup_MouseDown"
                                                 Placement="Top"
                                                 StaysOpen="False">
                                                 <Border
@@ -95,7 +125,6 @@
                                                     CornerRadius="5"
                                                     Focusable="False">
                                                     <StackPanel>
-
                                                         <colorpicker:PickerControlBase>
                                                             <Grid>
                                                                 <StackPanel>

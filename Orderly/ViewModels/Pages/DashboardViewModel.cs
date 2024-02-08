@@ -2,6 +2,7 @@
 using Orderly.Database.Entities;
 using Orderly.Helpers;
 using System.Collections.ObjectModel;
+using System.Windows.Controls.Primitives;
 using Wpf.Ui.Controls;
 
 namespace Orderly.ViewModels.Pages
@@ -15,6 +16,15 @@ namespace Orderly.ViewModels.Pages
         [ObservableProperty]
         ExtendedObservableCollection<Category> categories = new();
         #endregion
+
+        [RelayCommand]
+        public void SaveEditMode(ToggleButton editButton)
+        {
+            if (editButton == null) return;
+            if (editButton.DataContext is not Category) return;
+            UpdateCategory((Category)editButton.DataContext);
+            editButton.IsChecked = false;
+        }
 
         public void OnNavigatedFrom()
         {

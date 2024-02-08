@@ -15,6 +15,7 @@ namespace Orderly.Database.Entities
     {
         private string name = string.Empty;
         private string flairColor = "#ffff7b2e";
+        private bool defaultCategory;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -33,6 +34,14 @@ namespace Orderly.Database.Entities
             set
             {
                 SetProperty(ref flairColor, value); 
+            }
+        }
+        public bool DefaultCategory
+        {
+            get => defaultCategory;
+            set
+            {
+                SetProperty(ref defaultCategory, value);
             }
         }
 
