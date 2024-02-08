@@ -2,7 +2,9 @@
     x:Class="Orderly.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:views="clr-namespace:Orderly.Views.Pages"
     DispatcherUnhandledException="OnDispatcherUnhandledException"
     Exit="OnExit"
     ShutdownMode="OnExplicitShutdown"
@@ -12,7 +14,16 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Dark" />
                 <ui:ControlsDictionary />
+
             </ResourceDictionary.MergedDictionaries>
+            <tb:TaskbarIcon
+                x:Key="TaskBarIcon"
+                IconSource="/Assets/Logo_ICO.ico"
+                PopupActivation="LeftOrRightClick">
+                <tb:TaskbarIcon.TrayPopup>
+                    <views:TaskbarView />
+                </tb:TaskbarIcon.TrayPopup>
+            </tb:TaskbarIcon>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

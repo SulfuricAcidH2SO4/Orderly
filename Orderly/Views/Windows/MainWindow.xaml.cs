@@ -3,6 +3,9 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Orderly.ViewModels.Pages;
 using Orderly.ViewModels.Windows;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
@@ -13,6 +16,7 @@ namespace Orderly.Views.Windows
     public partial class MainWindow : INavigationWindow
     {
         public MainWindowViewModel ViewModel { get; }
+        public static MainWindow Instance { get; private set; }
 
         public MainWindow(
             MainWindowViewModel viewModel,
@@ -22,7 +26,8 @@ namespace Orderly.Views.Windows
         {
             ViewModel = viewModel;
             DataContext = this;
-
+            Instance = this;
+            
             SystemThemeWatcher.Watch(this);
 
             InitializeComponent();
@@ -50,8 +55,8 @@ namespace Orderly.Views.Windows
         /// </summary>
         protected override void OnClosed(EventArgs e)
         {
+            Instance = null;
             base.OnClosed(e);
-
         }
 
         INavigationView INavigationWindow.GetNavigation()
@@ -62,6 +67,19 @@ namespace Orderly.Views.Windows
         public void SetServiceProvider(IServiceProvider serviceProvider)
         {
             throw new NotImplementedException();
+        }
+
+        private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+            TaskbarIcon tb = (TaskbarIcon)FindResource("TaskBarIcon");
+            tb.Visibility = Visibility.Visible;
+            tb.DataContext = new TaskbarViewModel();
+
+            new ToastContentBuilder()
+            .AddText("Orderly has been minimized!")
+            .Show();
         }
     }
 }

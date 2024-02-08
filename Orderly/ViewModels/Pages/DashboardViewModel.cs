@@ -26,6 +26,7 @@ namespace Orderly.ViewModels.Pages
             editButton.IsChecked = false;
         }
 
+
         public void OnNavigatedFrom()
         {
             
@@ -36,6 +37,7 @@ namespace Orderly.ViewModels.Pages
             if (!isInitialized) Initalize();
         }
 
+        [RelayCommand]
         public void UpdateCategory(Category category)
         {
             db = new();

@@ -11,14 +11,13 @@ using Orderly.Views.Pages;
 using Orderly.Views.Windows;
 using System.IO;
 using System.Reflection;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Wpf.Ui;
+using Wpf.Ui.Appearance;
 
 namespace Orderly
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App
     {
         #region WinUI WPF
@@ -99,6 +98,8 @@ namespace Orderly
                 });
                 db.SaveChanges();
             }
+
+            ApplicationAccentColorManager.ApplySystemAccent();
 
             base.OnStartup(e);
         }
