@@ -69,7 +69,10 @@
                 </Grid>
             </ui:NavigationView.ContentOverlay>
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="Home" TargetPageTag="home">
+                <ui:NavigationViewItem
+                    Content="Home"
+                    TargetPageTag="home"
+                    TargetPageType="{x:Type views:DashboardPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Home32" />
                     </ui:NavigationViewItem.Icon>

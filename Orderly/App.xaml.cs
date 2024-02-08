@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Orderly.Database;
+using Orderly.Database.Entities;
 using Orderly.Modules;
 using Orderly.Services;
 using Orderly.ViewModels.Pages;
@@ -90,6 +92,12 @@ namespace Orderly
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            DatabaseContext db = new();
+            if(!db.Categories.Any(x => x.Name == "General")) {
+                db.Categories.Add(new() { Name = "General" });
+                db.SaveChanges();
+            }
+
             base.OnStartup(e);
         }
     }

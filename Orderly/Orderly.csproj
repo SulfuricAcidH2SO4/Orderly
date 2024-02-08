@@ -26,6 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Orderly.Database\Orderly.Database.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\Logo_1024.png" />
     <Resource Include="Assets\Logo_128.png" />
     <Resource Include="Assets\Logo_512.png" />

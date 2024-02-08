@@ -16,5 +16,54 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <Grid VerticalAlignment="Top" />
+    <Grid VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="300" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                VerticalAlignment="Bottom"
+                FontSize="15"
+                FontWeight="Bold"
+                Text="Credentials List" />
+            <ui:AutoSuggestBox Grid.Column="1" PlaceholderText="Search..." />
+        </Grid>
+        <Border
+            Grid.Row="1"
+            Padding="10"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            CornerRadius="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Border
+                    Margin="0"
+                    BorderThickness="1"
+                    CornerRadius="1">
+                    <Border.BorderBrush>
+                        <VisualBrush>
+                            <VisualBrush.Visual>
+                                <Rectangle
+                                    Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
+                                    Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
+                                    Stroke="Gray"
+                                    StrokeDashArray="5 3"
+                                    StrokeThickness="1" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Border.BorderBrush>
+                    <Button Height="50" HorizontalAlignment="Stretch">
+                        <ui:SymbolIcon Symbol="Add32" />
+                    </Button>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
 </Page>
