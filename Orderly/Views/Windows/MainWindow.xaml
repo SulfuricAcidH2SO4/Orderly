@@ -70,6 +70,7 @@
             </ui:NavigationView.ContentOverlay>
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
+                    VerticalAlignment="Stretch"
                     Content="Home"
                     TargetPageTag="home"
                     TargetPageType="{x:Type views:DashboardPage}">

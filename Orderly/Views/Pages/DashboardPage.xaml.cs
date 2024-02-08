@@ -3,7 +3,9 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using Orderly.Database.Entities;
 using Orderly.ViewModels.Pages;
+using System.Windows.Controls.Primitives;
 using Wpf.Ui.Controls;
 
 namespace Orderly.Views.Pages
@@ -18,6 +20,17 @@ namespace Orderly.Views.Pages
             DataContext = this;
 
             InitializeComponent();
+        }
+
+        private void Popup_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void Popup_Closed(object sender, EventArgs e)
+        {
+            if (sender is not Popup pop || pop.DataContext is not Category) return;
+            ViewModel.UpdateCategory((Category)pop.DataContext);
         }
     }
 }

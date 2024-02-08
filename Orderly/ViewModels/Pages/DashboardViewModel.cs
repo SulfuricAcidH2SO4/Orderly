@@ -26,6 +26,15 @@ namespace Orderly.ViewModels.Pages
             if (!isInitialized) Initalize();
         }
 
+        public void UpdateCategory(Category category)
+        {
+            db = new();
+            if (db.Categories.Update(category).Entity == null) {
+                //Failed to update
+            }
+            db.SaveChanges();
+        }
+
         private void Initalize()
         {
             isInitialized = true;
