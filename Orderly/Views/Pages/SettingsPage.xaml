@@ -40,7 +40,12 @@
             Content="Dark"
             GroupName="themeSelect"
             IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}" />
-
+        <Separator Margin="0,10" />
+        <Image
+            Width="200"
+            HorizontalAlignment="Center"
+            RenderOptions.BitmapScalingMode="HighQuality"
+            Source="/Assets/Logo_HQ.png" />
         <TextBlock
             Margin="0,24,0,0"
             FontSize="20"
@@ -48,8 +53,8 @@
             Text="About Orderly" />
         <TextBlock
             Margin="0,10"
-            Text="Orderly is a secure and user-friendly password management program designed to simplify and enhance the way users organize and protect their sensitive credentials. With a focus on user convenience and robust security, Orderly offers a streamlined solution for storing, retrieving, and managing passwords."
+            Text="Orderly is a secure and user-friendly password management program designed to simplify and enhance the way users organize and protect their sensitive credentials."
             TextWrapping="Wrap" />
-        <TextBlock Opacity=".5" Text="{Binding ViewModel.AppVersion, Mode=OneWay}" />
+        <TextBlock Opacity=".5" Text="{Binding ViewModel.AppVersion, Mode=OneWay, StringFormat={}Ver. {0}}" />
     </StackPanel>
 </Page>

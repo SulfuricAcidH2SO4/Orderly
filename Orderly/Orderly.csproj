@@ -11,6 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Logo_1024.png" />
+    <None Remove="Assets\Logo_128.png" />
+    <None Remove="Assets\Logo_512.png" />
     <None Remove="Assets\Logo_HQ.png" />
   </ItemGroup>
 
@@ -23,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Logo_1024.png" />
+    <Resource Include="Assets\Logo_128.png" />
+    <Resource Include="Assets\Logo_512.png" />
     <Resource Include="Assets\Logo_HQ.png" />
     <Resource Include="Assets\Logo_ICO.ico" />
   </ItemGroup>
