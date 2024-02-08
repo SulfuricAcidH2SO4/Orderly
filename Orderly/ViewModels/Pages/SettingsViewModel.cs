@@ -18,7 +18,7 @@ namespace Orderly.ViewModels.Pages
         private string _appVersion = String.Empty;
 
         [ObservableProperty]
-        ProgramConfiguration? configuration;
+        ProgramConfiguration configuration;
 
         public void OnNavigatedTo()
         {
@@ -31,13 +31,15 @@ namespace Orderly.ViewModels.Pages
         private void InitializeViewModel()
         {
             AppVersion = $"{GetAssemblyVersion()}";
-            Configuration = (ProgramConfiguration?)App.GetService<IProgramConfiguration>();
+            Configuration = (ProgramConfiguration?)App.GetService<IProgramConfiguration>()!;
+            Configuration = IProgramConfiguration.Load();
             Configuration.PropertyChanged += OnPropertyChanged;
             _isInitialized = true;
         }
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            Configuration.Save();
             if(e.PropertyName == nameof(Configuration.IsDarkMode))
             {
                 if (Configuration.IsDarkMode) ApplicationThemeManager.Apply(ApplicationTheme.Dark);

@@ -5,6 +5,8 @@
 
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Orderly.Interfaces;
+using Orderly.Modules;
 using Orderly.ViewModels.Pages;
 using Orderly.ViewModels.Windows;
 using Wpf.Ui;
@@ -18,6 +20,7 @@ namespace Orderly.Views.Windows
         public MainWindowViewModel ViewModel { get; }
         public static MainWindow? Instance { get; private set; }
 
+        private ProgramConfiguration Configuration { get; set; }
         public MainWindow(
             MainWindowViewModel viewModel,
             IPageService pageService,
@@ -27,6 +30,8 @@ namespace Orderly.Views.Windows
             ViewModel = viewModel;
             DataContext = this;
             Instance = this;
+
+            Configuration = (ProgramConfiguration?)App.GetService<IProgramConfiguration>()!;
             
             SystemThemeWatcher.Watch(this);
 
@@ -84,9 +89,12 @@ namespace Orderly.Views.Windows
             tb.Visibility = Visibility.Visible;
             tb.DataContext = new TaskbarViewModel();
 
-            new ToastContentBuilder()
-            .AddText("Orderly has been minimized!")
-            .Show();
+            if (Configuration.ShowMinimizeNotification)
+            {
+                new ToastContentBuilder()
+                    .AddText("Orderly has been minimized!")
+                    .Show();
+            }
         }
     }
 }
