@@ -68,6 +68,13 @@ namespace Orderly.Views.Windows
         {
             throw new NotImplementedException();
         }
+        public void ShowWindowAgain()
+        {
+            Show();
+            TaskbarIcon tb = (TaskbarIcon)FindResource("TaskBarIcon");
+            tb.Visibility = Visibility.Collapsed;
+            tb.DataContext = new TaskbarViewModel();
+        }
 
         private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {

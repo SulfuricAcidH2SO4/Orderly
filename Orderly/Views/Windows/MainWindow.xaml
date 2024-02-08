@@ -16,10 +16,11 @@
     d:DesignWidth="800"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Closing="OnClosing"
     ExtendsContentIntoTitleBar="True"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     WindowBackdropType="Mica"
-    WindowCornerPreference="Round" Closing="OnClosing"
+    WindowCornerPreference="Round"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <ui:FluentWindow.InputBindings>
@@ -36,7 +37,7 @@
             Grid.Row="0"
             CloseWindowByDoubleClickOnIcon="False">
             <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="pack://application:,,,/Assets/Logo_128.png" />
+                <ui:ImageIcon Source="/Assets/Logo_128.png" />
             </ui:TitleBar.Icon>
         </ui:TitleBar>
 

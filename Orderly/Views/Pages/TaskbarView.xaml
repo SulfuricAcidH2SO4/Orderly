@@ -19,20 +19,15 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <ui:SymbolIcon
-                Margin="0,20"
-                FontSize="60"
-                Symbol="Checkmark28" />
-            <TextBlock
-                Grid.Row="1"
-                HorizontalAlignment="Center"
-                FontWeight="Bold"
-                Text="Orderly Is Currently Running!" />
+            <Image
+                Width="200"
+                Height="50"
+                Source="/Assets/Banner.png"
+                Stretch="UniformToFill" />
             <Grid
-                Grid.Row="2"
+                Grid.Row="1"
                 Margin="0,10"
                 VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
@@ -50,7 +45,7 @@
                     ToolTipService.InitialShowDelay="0"
                     ToolTipService.Placement="Top"
                     ToolTipService.ToolTip="Open Orderly">
-                    <ui:SymbolIcon FontSize="30" Symbol="ArrowUp32" />
+                    <ui:SymbolIcon FontSize="25" Symbol="ArrowUp32" />
                 </Button>
                 <Button
                     Grid.Column="1"
@@ -62,7 +57,7 @@
                     ToolTipService.InitialShowDelay="0"
                     ToolTipService.Placement="Top"
                     ToolTipService.ToolTip="Open Settings">
-                    <ui:SymbolIcon FontSize="30" Symbol="Settings32" />
+                    <ui:SymbolIcon FontSize="25" Symbol="Settings32" />
                 </Button>
                 <Button
                     Grid.Column="2"
@@ -75,7 +70,7 @@
                     ToolTipService.InitialShowDelay="0"
                     ToolTipService.Placement="Top"
                     ToolTipService.ToolTip="Close Orderly">
-                    <ui:SymbolIcon FontSize="30" Symbol="Dismiss32" />
+                    <ui:SymbolIcon FontSize="25" Symbol="Dismiss32" />
                 </Button>
             </Grid>
         </Grid>

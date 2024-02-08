@@ -11,10 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Banner.png" />
     <None Remove="Assets\Logo_1024.png" />
     <None Remove="Assets\Logo_128.png" />
     <None Remove="Assets\Logo_512.png" />
     <None Remove="Assets\Logo_HQ.png" />
+    <None Remove="Assets\SpalshScreen.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,11 +35,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Banner.png" />
     <Resource Include="Assets\Logo_1024.png" />
     <Resource Include="Assets\Logo_128.png" />
     <Resource Include="Assets\Logo_512.png" />
     <Resource Include="Assets\Logo_HQ.png" />
     <Resource Include="Assets\Logo_ICO.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SplashScreen Include="Assets\SpalshScreen.png" />
   </ItemGroup>
 
   <ItemGroup>

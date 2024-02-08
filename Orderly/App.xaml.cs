@@ -93,6 +93,7 @@ namespace Orderly
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            Thread.Sleep(5000);
             DatabaseContext db = new();
             if (!db.Categories.Any())
             {
