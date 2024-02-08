@@ -3,6 +3,8 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using Orderly.Interfaces;
+using Orderly.Modules;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -16,32 +18,7 @@ namespace Orderly.ViewModels.Pages
         private string _appVersion = String.Empty;
 
         [ObservableProperty]
-        private ApplicationTheme _currentTheme = ApplicationTheme.Unknown;
-        
-        [RelayCommand]
-        private void OnChangeTheme(string parameter)
-        {
-            switch (parameter)
-            {
-                case "theme_light":
-                    if (CurrentTheme == ApplicationTheme.Light)
-                        break;
-
-                    ApplicationThemeManager.Apply(ApplicationTheme.Light);
-                    CurrentTheme = ApplicationTheme.Light;
-
-                    break;
-
-                default:
-                    if (CurrentTheme == ApplicationTheme.Dark)
-                        break;
-
-                    ApplicationThemeManager.Apply(ApplicationTheme.Dark);
-                    CurrentTheme = ApplicationTheme.Dark;
-
-                    break;
-            }
-        }
+        ProgramConfiguration? configuration;
 
         public void OnNavigatedTo()
         {
@@ -53,10 +30,19 @@ namespace Orderly.ViewModels.Pages
 
         private void InitializeViewModel()
         {
-            CurrentTheme = ApplicationThemeManager.GetAppTheme();
             AppVersion = $"{GetAssemblyVersion()}";
-
+            Configuration = (ProgramConfiguration?)App.GetService<IProgramConfiguration>();
+            Configuration.PropertyChanged += OnPropertyChanged;
             _isInitialized = true;
+        }
+
+        private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(Configuration.IsDarkMode))
+            {
+                if (Configuration.IsDarkMode) ApplicationThemeManager.Apply(ApplicationTheme.Dark);
+                else ApplicationThemeManager.Apply(ApplicationTheme.Light);
+            }
         }
 
         private string GetAssemblyVersion()
@@ -65,6 +51,5 @@ namespace Orderly.ViewModels.Pages
                 ?? String.Empty;
         }
 
-        
     }
 }

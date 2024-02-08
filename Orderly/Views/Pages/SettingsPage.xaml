@@ -19,42 +19,74 @@
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
     </Page.Resources>
-
-    <StackPanel>
-        <TextBlock
-            FontSize="20"
-            FontWeight="Medium"
-            Text="Personalization" />
-        <TextBlock Margin="0,12,0,0" Text="Theme" />
-        <RadioButton
-            Margin="0,12,0,0"
-            Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
-            CommandParameter="theme_light"
-            Content="Light"
-            GroupName="themeSelect"
-            IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}" />
-        <RadioButton
-            Margin="0,8,0,0"
-            Command="{Binding ViewModel.ChangeThemeCommand, Mode=OneWay}"
-            CommandParameter="theme_dark"
-            Content="Dark"
-            GroupName="themeSelect"
-            IsChecked="{Binding ViewModel.CurrentTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}" />
-        <Separator Margin="0,10" />
-        <Image
-            Width="200"
-            HorizontalAlignment="Center"
-            RenderOptions.BitmapScalingMode="HighQuality"
-            Source="/Assets/Logo_HQ.png" />
-        <TextBlock
-            Margin="0,24,0,0"
-            FontSize="20"
-            FontWeight="Medium"
-            Text="About Orderly" />
-        <TextBlock
-            Margin="0,10"
-            Text="Orderly is a secure and user-friendly password management program designed to simplify and enhance the way users organize and protect their sensitive credentials."
-            TextWrapping="Wrap" />
-        <TextBlock Opacity=".5" Text="{Binding ViewModel.AppVersion, Mode=OneWay, StringFormat={}Ver. {0}}" />
-    </StackPanel>
+    <Grid>
+        <StackPanel>
+            <StackPanel x:Name="Properties">
+                <TextBlock
+                    Margin="0,0,0,5"
+                    FontSize="20"
+                    Text="General" />
+                <Border
+                    Height="50"
+                    Margin="0,5"
+                    Padding="15"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="5">
+                    <DockPanel VerticalAlignment="Center" LastChildFill="True">
+                        <TextBlock Text="Automatic Start Up" />
+                        <ui:ToggleSwitch Margin="5,0" HorizontalAlignment="Right" />
+                    </DockPanel>
+                </Border>
+                <Border
+                    Height="50"
+                    Margin="0,5"
+                    Padding="15"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="5">
+                    <DockPanel VerticalAlignment="Center" LastChildFill="True">
+                        <TextBlock Text="Send Minimizing Notification" />
+                        <ui:ToggleSwitch Margin="5,0" HorizontalAlignment="Right" />
+                    </DockPanel>
+                </Border>
+                <Separator Margin="0,10" />
+                <TextBlock
+                    Margin="0,0,0,5"
+                    FontSize="20"
+                    Text="Appearance" />
+                <Border
+                    Height="50"
+                    Margin="0,5"
+                    Padding="15"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="5">
+                    <DockPanel VerticalAlignment="Center" LastChildFill="True">
+                        <TextBlock Text="Theme" />
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="WeatherSunny32" />
+                            <ui:ToggleSwitch Margin="5,0" IsChecked="{Binding ViewModel.Configuration.IsDarkMode, Mode=TwoWay}" />
+                            <ui:SymbolIcon Symbol="WeatherMoon28" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+            </StackPanel>
+            <StackPanel>
+                <Separator Margin="0,10" />
+                <Image
+                    Width="200"
+                    HorizontalAlignment="Center"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    Source="/Assets/Logo_HQ.png" />
+                <TextBlock
+                    Margin="0,24,0,0"
+                    FontSize="20"
+                    FontWeight="Medium"
+                    Text="About Orderly" />
+                <TextBlock
+                    Margin="0,10"
+                    Text="Orderly is a secure and user-friendly password management program designed to simplify and enhance the way users organize and protect their sensitive credentials."
+                    TextWrapping="Wrap" />
+                <TextBlock Opacity=".5" Text="{Binding ViewModel.AppVersion, Mode=OneWay, StringFormat={}Ver. {0}}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 </Page>
