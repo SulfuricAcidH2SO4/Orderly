@@ -16,6 +16,7 @@ namespace Orderly.Database.Entities
         public string ServiceName { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public bool Pinned { get; set; } = false;    
 
         [ForeignKey("Category")]
         public int CategoryId { get; set; }

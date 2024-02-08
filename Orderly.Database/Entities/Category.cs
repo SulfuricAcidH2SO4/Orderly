@@ -15,6 +15,6 @@ namespace Orderly.Database.Entities
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
 
-        public virtual ICollection<Category>? Credentials { get; set; }
+        public virtual ICollection<Credential>? Credentials { get; set; }
     }
 }

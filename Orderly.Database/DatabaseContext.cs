@@ -16,6 +16,7 @@ namespace Orderly.Database
 
         public DatabaseContext()
         {
+            Database.EnsureCreated();
             Database.Migrate();
         }
 
