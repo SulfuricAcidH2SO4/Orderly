@@ -17,6 +17,31 @@ namespace Orderly.ViewModels.Pages
 
         [ObservableProperty]
         private ApplicationTheme _currentTheme = ApplicationTheme.Unknown;
+        
+        [RelayCommand]
+        private void OnChangeTheme(string parameter)
+        {
+            switch (parameter)
+            {
+                case "theme_light":
+                    if (CurrentTheme == ApplicationTheme.Light)
+                        break;
+
+                    ApplicationThemeManager.Apply(ApplicationTheme.Light);
+                    CurrentTheme = ApplicationTheme.Light;
+
+                    break;
+
+                default:
+                    if (CurrentTheme == ApplicationTheme.Dark)
+                        break;
+
+                    ApplicationThemeManager.Apply(ApplicationTheme.Dark);
+                    CurrentTheme = ApplicationTheme.Dark;
+
+                    break;
+            }
+        }
 
         public void OnNavigatedTo()
         {
@@ -40,28 +65,6 @@ namespace Orderly.ViewModels.Pages
                 ?? String.Empty;
         }
 
-        [RelayCommand]
-        private void OnChangeTheme(string parameter)
-        {
-            switch (parameter) {
-                case "theme_light":
-                    if (CurrentTheme == ApplicationTheme.Light)
-                        break;
-
-                    ApplicationThemeManager.Apply(ApplicationTheme.Light);
-                    CurrentTheme = ApplicationTheme.Light;
-
-                    break;
-
-                default:
-                    if (CurrentTheme == ApplicationTheme.Dark)
-                        break;
-
-                    ApplicationThemeManager.Apply(ApplicationTheme.Dark);
-                    CurrentTheme = ApplicationTheme.Dark;
-
-                    break;
-            }
-        }
+        
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Orderly.Database;
 using Orderly.Database.Entities;
+using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Services;
 using Orderly.ViewModels.Pages;
@@ -29,6 +30,9 @@ namespace Orderly
 
                 // Page resolver service
                 services.AddSingleton<IPageService, PageService>();
+
+                // Program Configuration
+                services.AddSingleton<IProgramConfiguration, ProgramConfiguration>();
 
                 // Theme manipulation
                 services.AddSingleton<IThemeService, ThemeService>();
@@ -100,6 +104,9 @@ namespace Orderly
             }
 
             ApplicationAccentColorManager.ApplySystemAccent();
+
+            ProgramConfiguration config = (ProgramConfiguration)App.GetService<IProgramConfiguration>();
+            config = IProgramConfiguration.Load();
 
             base.OnStartup(e);
         }

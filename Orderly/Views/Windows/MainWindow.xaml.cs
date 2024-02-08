@@ -16,7 +16,7 @@ namespace Orderly.Views.Windows
     public partial class MainWindow : INavigationWindow
     {
         public MainWindowViewModel ViewModel { get; }
-        public static MainWindow Instance { get; private set; }
+        public static MainWindow? Instance { get; private set; }
 
         public MainWindow(
             MainWindowViewModel viewModel,
