@@ -15,7 +15,7 @@ namespace Orderly.Database.Entities
     {
         private string name = string.Empty;
         private string flairColor = "#ffff7b2e";
-        private bool defaultCategory;
+        private bool isFavorite;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -36,12 +36,12 @@ namespace Orderly.Database.Entities
                 SetProperty(ref flairColor, value); 
             }
         }
-        public bool DefaultCategory
+        public bool IsFavorite
         {
-            get => defaultCategory;
+            get => isFavorite;
             set
             {
-                SetProperty(ref defaultCategory, value);
+                SetProperty(ref isFavorite, value);
             }
         }
 

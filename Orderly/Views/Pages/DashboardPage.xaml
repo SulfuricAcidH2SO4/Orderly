@@ -74,12 +74,26 @@
                                             Orientation="Horizontal"
                                             Visibility="{Binding ElementName=btnEdit, Path=IsChecked, Converter={StaticResource BoolToVisibilityReconverter}}">
                                             <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-                                            <ui:SymbolIcon
-                                                Margin="5,0"
-                                                VerticalAlignment="Center"
-                                                Filled="True"
-                                                Foreground="#ffe257"
-                                                Symbol="Star28" />
+                                            <ToggleButton
+                                                x:Name="tbFavorite"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                IsChecked="{Binding IsFavorite}">
+                                                <ui:SymbolIcon Symbol="Star28">
+                                                    <ui:SymbolIcon.Style>
+                                                        <Style TargetType="ui:SymbolIcon">
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="Filled" Value="False" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsFavorite}" Value="true">
+                                                                    <Setter Property="Foreground" Value="#ffd663" />
+                                                                    <Setter Property="Filled" Value="True" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ui:SymbolIcon.Style>
+                                                </ui:SymbolIcon>
+                                            </ToggleButton>
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"

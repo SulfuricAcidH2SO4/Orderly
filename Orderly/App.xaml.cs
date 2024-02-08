@@ -91,8 +91,12 @@ namespace Orderly
         protected override void OnStartup(StartupEventArgs e)
         {
             DatabaseContext db = new();
-            if(!db.Categories.Any(x => x.DefaultCategory)) {
-                db.Categories.Add(new() { Name = "General", DefaultCategory = true });
+            if (!db.Categories.Any())
+            {
+                db.Categories.Add(new()
+                {
+                    Name = "General",
+                });
                 db.SaveChanges();
             }
 
