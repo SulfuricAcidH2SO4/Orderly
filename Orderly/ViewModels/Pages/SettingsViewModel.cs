@@ -8,7 +8,7 @@ using Wpf.Ui.Controls;
 
 namespace Orderly.ViewModels.Pages
 {
-    public partial class SettingsViewModel : ObservableObject, INavigationAware
+    public partial class SettingsViewModel : ViewModelBase, INavigationAware
     {
         private bool _isInitialized = false;
 

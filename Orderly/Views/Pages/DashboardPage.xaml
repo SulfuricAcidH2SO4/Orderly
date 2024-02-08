@@ -43,26 +43,24 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Border
-                    Margin="0"
-                    BorderThickness="1"
-                    CornerRadius="1">
-                    <Border.BorderBrush>
-                        <VisualBrush>
-                            <VisualBrush.Visual>
-                                <Rectangle
-                                    Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
-                                    Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
-                                    Stroke="Gray"
-                                    StrokeDashArray="5 3"
-                                    StrokeThickness="1" />
-                            </VisualBrush.Visual>
-                        </VisualBrush>
-                    </Border.BorderBrush>
-                    <Button Height="50" HorizontalAlignment="Stretch">
-                        <ui:SymbolIcon Symbol="Add32" />
-                    </Button>
-                </Border>
+                <ItemsControl ItemsSource="{Binding ViewModel.Categories}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Expander>
+                                <Expander.Header>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Border />
+                                        <TextBlock Text="{Binding Name}" />
+                                    </Grid>
+                                </Expander.Header>
+                            </Expander>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </Border>
     </Grid>

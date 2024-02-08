@@ -1,19 +1,36 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
-// If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
-// Copyright (C) Leszek Pomianowski and WPF UI Contributors.
-// All Rights Reserved.
+﻿using Orderly.Database;
+using Orderly.Database.Entities;
+using Orderly.Helpers;
+using System.Collections.ObjectModel;
+using Wpf.Ui.Controls;
 
 namespace Orderly.ViewModels.Pages
 {
-    public partial class DashboardViewModel : ObservableObject
+    public partial class DashboardViewModel : ViewModelBase, INavigationAware
     {
-        [ObservableProperty]
-        private int _counter = 0;
+        bool isInitialized;
+        DatabaseContext db;
 
-        [RelayCommand]
-        private void OnCounterIncrement()
+        #region Properties
+        [ObservableProperty]
+        ExtendedObservableCollection<Category> categories = new();
+        #endregion
+
+        public void OnNavigatedFrom()
         {
-            Counter++;
+            
+        }
+
+        public void OnNavigatedTo()
+        {
+            if (!isInitialized) Initalize();
+        }
+
+        private void Initalize()
+        {
+            isInitialized = true;
+            db = new();
+            Categories.AddRange(db.Categories);
         }
     }
 }
