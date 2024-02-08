@@ -14,6 +14,7 @@ namespace Orderly.Database.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public string FlairColor { get; set; } = "#00000000";
 
         public virtual ICollection<Credential>? Credentials { get; set; }
     }
