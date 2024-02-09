@@ -224,7 +224,7 @@
                                                                                 HorizontalAlignment="Center"
                                                                                 FontSize="50"
                                                                                 FontWeight="Heavy"
-                                                                                Text="{Binding Source={x:Static face:EEManager}, Path=Face}" />
+                                                                                Text="{Binding Path=(face:EEManager.Face), Mode=TwoWay}" />
                                                                             <TextBlock
                                                                                 Margin="0,10,0,0"
                                                                                 HorizontalAlignment="Center"

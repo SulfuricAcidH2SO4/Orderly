@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Orderly.EE
 {
-    internal class EEManager
+    public static class EEManager
     {
         public static string GetRandomPhrase()
         {
@@ -17,8 +17,8 @@ namespace Orderly.EE
             return phrases[new Random().Next(phrases.Length - 1)];
         }
 
-        private static readonly Random rnd = new();
-        private static readonly string[] Faces = {
+        private static Random rnd = new();
+        private static string[] Faces = {
                 "(╥﹏╥)",
                 "(＞﹏＜)",
                 "(＃￣ω￣)",
@@ -30,7 +30,14 @@ namespace Orderly.EE
                 "╮(￣ω￣;)╭",
                 "(ಡ‸ಡ)"
             };
+        private static string face;
 
-        public static string Face { get => Faces[rnd.Next(Faces.Length - 1)]; }
+        public static string Face { 
+            get => Faces[rnd.Next(Faces.Length - 1)]; 
+            set
+            {
+                face = value;
+            }
+        }
     }
 }
