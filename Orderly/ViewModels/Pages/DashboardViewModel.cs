@@ -25,7 +25,37 @@ namespace Orderly.ViewModels.Pages
             UpdateCategory((Category)editButton.DataContext);
             editButton.IsChecked = false;
         }
+        
+        [RelayCommand]
+        public void UpdateCategory(Category category)
+        {
+            db = new();
+            if (db.Categories.Update(category).Entity == null) {
+                //Failed to update
+            }
+            db.SaveChanges();
+        }
 
+        [RelayCommand]
+        public void AddCategory()
+        {
+            db = new();
+            Category addedCategory = db.Categories.Add(new() {
+                Name = "New Category"
+            }).Entity;
+            db.SaveChanges();
+
+            if(addedCategory != null) Categories.Add(addedCategory);
+        }
+
+        [RelayCommand]
+        public void RemoveCategory(Category category)
+        {
+            db = new();
+            db.Categories.Remove(category);
+            db.SaveChanges();
+            Categories.Remove(category);
+        }
 
         public void OnNavigatedFrom()
         {
@@ -35,16 +65,6 @@ namespace Orderly.ViewModels.Pages
         public void OnNavigatedTo()
         {
             if (!isInitialized) Initalize();
-        }
-
-        [RelayCommand]
-        public void UpdateCategory(Category category)
-        {
-            db = new();
-            if (db.Categories.Update(category).Entity == null) {
-                //Failed to update
-            }
-            db.SaveChanges();
         }
 
         private void Initalize()
