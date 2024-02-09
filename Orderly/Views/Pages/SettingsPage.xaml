@@ -33,6 +33,7 @@
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                     CornerRadius="5">
                     <DockPanel VerticalAlignment="Center" LastChildFill="True">
+                        <ui:SymbolIcon Margin="0,0,5,0" Symbol="Autocorrect20" />
                         <TextBlock Text="Automatic Start Up" />
                         <ui:ToggleSwitch Margin="5,0" HorizontalAlignment="Right" />
                     </DockPanel>
@@ -44,6 +45,7 @@
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                     CornerRadius="5">
                     <DockPanel VerticalAlignment="Center" LastChildFill="True">
+                        <ui:SymbolIcon Margin="0,0,5,0" Symbol="ArrowMinimize16" />
                         <TextBlock Text="Send Minimizing Notification" />
                         <ui:ToggleSwitch
                             Margin="5,0"
@@ -63,6 +65,7 @@
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                     CornerRadius="5">
                     <DockPanel VerticalAlignment="Center" LastChildFill="True">
+                        <ui:SymbolIcon Margin="0,0,5,0" Symbol="Color16" />
                         <TextBlock Text="Theme" />
                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                             <ui:SymbolIcon Symbol="WeatherSunny32" />
