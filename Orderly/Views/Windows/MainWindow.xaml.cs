@@ -10,6 +10,7 @@ using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.ViewModels.Pages;
 using Orderly.ViewModels.Windows;
+using Orderly.Views.Pages;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -38,6 +39,7 @@ namespace Orderly.Views.Windows
             SystemThemeWatcher.Watch(this);
 
             InitializeComponent();
+
             SetPageService(pageService);
 
             navigationService.SetNavigationControl(RootNavigation);
@@ -86,13 +88,17 @@ namespace Orderly.Views.Windows
         private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
+            ShowTaskbarIcon();
+        }
+
+        private void ShowTaskbarIcon()
+        {
             Hide();
             TaskbarIcon tb = (TaskbarIcon)FindResource("TaskBarIcon");
             tb.Visibility = Visibility.Visible;
             tb.DataContext = new TaskbarViewModel();
 
-            if (Configuration.ShowMinimizeNotification)
-            {
+            if (Configuration.ShowMinimizeNotification) {
                 new ToastContentBuilder()
                     .AddText("Orderly has been minimized!")
                     .Show();
@@ -103,6 +109,8 @@ namespace Orderly.Views.Windows
         {
             if (Configuration.IsDarkMode) ApplicationThemeManager.Apply(ApplicationTheme.Dark);
             else ApplicationThemeManager.Apply(ApplicationTheme.Light);
+
+            Navigate(typeof(DashboardPage));
         }
     }
 }

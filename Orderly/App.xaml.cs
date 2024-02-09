@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Orderly.Database;
@@ -22,6 +23,7 @@ namespace Orderly
     public partial class App
     {
         #region WinUI WPF
+        static ProgramConfiguration config = IProgramConfiguration.Load();
         private static readonly IHost _host = Host
             .CreateDefaultBuilder()
             .ConfigureAppConfiguration(c => { c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)); })
@@ -32,7 +34,7 @@ namespace Orderly
                 services.AddSingleton<IPageService, PageService>();
 
                 // Program Configuration
-                ProgramConfiguration config = IProgramConfiguration.Load();
+                
                 services.AddSingleton<IProgramConfiguration>(config);
 
                 // Theme manipulation
@@ -94,6 +96,11 @@ namespace Orderly
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            SplashScreen sc = new("/Assets/SplashScreen.png");
+            if (!config.StartMinimized) {
+                sc.Show(false);
+            }
+
             DatabaseContext db = new();
             if (!db.Categories.Any())
             {
@@ -104,9 +111,19 @@ namespace Orderly
                 db.SaveChanges();
             }
 
-            ApplicationAccentColorManager.ApplySystemAccent();
+            INavigationWindow window = GetService<INavigationWindow>();
+            MainWindow = (Window)window;
 
-            base.OnStartup(e);
+            sc.Close(TimeSpan.FromSeconds(.5));
+
+            if (config.StartMinimized) {
+                TaskbarIcon tb = (TaskbarIcon)FindResource("TaskBarIcon");
+                tb.Visibility = Visibility.Visible;
+                tb.DataContext = new TaskbarViewModel();
+            }
+            else {
+                window.ShowWindow();
+            }
         }
     }
 }

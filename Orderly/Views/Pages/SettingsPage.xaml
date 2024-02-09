@@ -45,6 +45,21 @@
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                     CornerRadius="5">
                     <DockPanel VerticalAlignment="Center" LastChildFill="True">
+                        <ui:SymbolIcon Margin="0,0,5,0" Symbol="TabDesktopBottom20" />
+                        <TextBlock Text="Start Minimized" />
+                        <ui:ToggleSwitch
+                            Margin="5,0"
+                            HorizontalAlignment="Right"
+                            IsChecked="{Binding ViewModel.Configuration.StartMinimized}" />
+                    </DockPanel>
+                </Border>
+                <Border
+                    Height="50"
+                    Margin="0,5"
+                    Padding="15"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="5">
+                    <DockPanel VerticalAlignment="Center" LastChildFill="True">
                         <ui:SymbolIcon Margin="0,0,5,0" Symbol="ArrowMinimize16" />
                         <TextBlock Text="Send Minimizing Notification" />
                         <ui:ToggleSwitch

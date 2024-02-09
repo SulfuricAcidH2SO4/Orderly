@@ -15,6 +15,7 @@ namespace Orderly.Interfaces
         bool IsDarkMode {  get; set; }
         bool ShowMinimizeNotification { get; set; }
         bool StartOnStartUp {  get; set; }
+        bool StartMinimized { get; set; }
 
         void Save();
         static ProgramConfiguration Load()

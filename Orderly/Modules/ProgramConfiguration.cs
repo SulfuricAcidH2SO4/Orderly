@@ -19,6 +19,7 @@ namespace Orderly.Modules
         private bool isDarkMode = true;
         private bool showMinimizeNotifaction = true;
         private bool startOnStartup = true;
+        private bool startMinimized = false;
         
         public string AbsolutePassword
         {
@@ -52,6 +53,14 @@ namespace Orderly.Modules
             set
             {
                 SetProperty(ref startOnStartup, value);
+            }
+        }
+        public bool StartMinimized
+        {
+            get => startMinimized;
+            set
+            {
+                SetProperty(ref startMinimized, value);
             }
         }
 
