@@ -34,7 +34,7 @@
                     CornerRadius="5">
                     <DockPanel VerticalAlignment="Center" LastChildFill="True">
                         <ui:SymbolIcon Margin="0,0,5,0" Symbol="Autocorrect20" />
-                        <TextBlock Text="Automatic Start Up" />
+                        <TextBlock Text="Automatic start up" />
                         <ui:ToggleSwitch Margin="5,0" HorizontalAlignment="Right" />
                     </DockPanel>
                 </Border>
@@ -46,7 +46,7 @@
                     CornerRadius="5">
                     <DockPanel VerticalAlignment="Center" LastChildFill="True">
                         <ui:SymbolIcon Margin="0,0,5,0" Symbol="TabDesktopBottom20" />
-                        <TextBlock Text="Start Minimized" />
+                        <TextBlock Text="Start minimized" />
                         <ui:ToggleSwitch
                             Margin="5,0"
                             HorizontalAlignment="Right"
@@ -61,7 +61,7 @@
                     CornerRadius="5">
                     <DockPanel VerticalAlignment="Center" LastChildFill="True">
                         <ui:SymbolIcon Margin="0,0,5,0" Symbol="ArrowMinimize16" />
-                        <TextBlock Text="Send Minimizing Notification" />
+                        <TextBlock Text="Send minimizing notification" />
                         <ui:ToggleSwitch
                             Margin="5,0"
                             HorizontalAlignment="Right"
@@ -76,7 +76,7 @@
                     CornerRadius="5">
                     <DockPanel VerticalAlignment="Center" LastChildFill="True">
                         <ui:SymbolIcon Margin="0,0,5,0" Symbol="Dismiss12" />
-                        <TextBlock Text="Close Button Closes App" />
+                        <TextBlock Text="Close button closes app" />
                         <ui:ToggleSwitch
                             Margin="5,0"
                             HorizontalAlignment="Right"

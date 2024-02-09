@@ -25,7 +25,7 @@
         <converters:BoolToVisibilityReconverter x:Key="BoolToVisibilityReconverter" />
     </Page.Resources>
 
-    <Grid VerticalAlignment="Stretch">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
@@ -176,14 +176,56 @@
                                                     VerticalAlignment="Center"
                                                     Symbol="Eyedropper24" />
                                             </ToggleButton>
+                                            <Button
+                                                Margin="5,0"
+                                                Padding="5"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Cursor="Hand">
+                                                <ui:SymbolIcon
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Symbol="Add12" />
+                                            </Button>
                                         </StackPanel>
                                     </Grid>
                                 </Expander.Header>
+                                <Expander.Content>
+                                    <Grid>
+                                        <ItemsControl ItemsSource="{Binding Credentials}" />
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Opacity=".5">
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                FontSize="50"
+                                                FontWeight="Heavy"
+                                                Text="(╥﹏╥)" />
+                                            <TextBlock
+                                                Margin="0,10,0,0"
+                                                HorizontalAlignment="Center"
+                                                Text="Seems like this category is empty!" />
+                                            <TextBlock HorizontalAlignment="Center" Text="Let's add something to it!" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Expander.Content>
                             </Expander>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
         </Border>
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,10"
+            HorizontalAlignment="Right">
+            <Button Padding="20,10">
+                <StackPanel Orientation="Horizontal">
+                    <ui:SymbolIcon Symbol="Add12" />
+                    <TextBlock Margin="5,0" Text="Add Category" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>
