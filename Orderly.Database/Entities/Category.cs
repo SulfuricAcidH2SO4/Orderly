@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Orderly.Database.Modules;
+using System.Collections.ObjectModel;
 
 namespace Orderly.Database.Entities
 {
@@ -45,6 +46,6 @@ namespace Orderly.Database.Entities
             }
         }
 
-        public virtual ICollection<Credential>? Credentials { get; set; }
+        public virtual ICollection<Credential>? Credentials { get; set; } = new List<Credential>();
     }
 }

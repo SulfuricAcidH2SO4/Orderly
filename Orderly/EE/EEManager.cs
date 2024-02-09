@@ -17,9 +17,8 @@ namespace Orderly.EE
             return phrases[new Random().Next(phrases.Length - 1)];
         }
 
-        public static string GetRandomAngryFace()
-        {
-            string[] faces = {
+        private static readonly Random rnd = new();
+        private static readonly string[] Faces = {
                 "(╥﹏╥)",
                 "(＞﹏＜)",
                 "(＃￣ω￣)",
@@ -32,7 +31,6 @@ namespace Orderly.EE
                 "(ಡ‸ಡ)"
             };
 
-            return faces[new Random().Next(faces.Length - 1)];
-        }
+        public static string Face { get => Faces[rnd.Next(Faces.Length - 1)]; }
     }
 }

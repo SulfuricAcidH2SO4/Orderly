@@ -39,7 +39,7 @@ namespace Orderly.Views.Pages
         private void OnSadFaceLoaded(object sender, RoutedEventArgs e)
         {
             if(sender is TextBlock tb) {
-                tb.Text = EEManager.GetRandomAngryFace();
+                //tb.Text = EEManager.GetRandomAngryFace();
             }
         }
     }

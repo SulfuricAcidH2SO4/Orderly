@@ -5,6 +5,7 @@
     xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
     xmlns:converters="clr-namespace:Orderly.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:face="clr-namespace:Orderly.EE"
     xmlns:local="clr-namespace:Orderly.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -184,6 +185,8 @@
                                                 Padding="5"
                                                 Background="Transparent"
                                                 BorderThickness="0"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.AddCredentialsCommand}"
+                                                CommandParameter="{Binding ElementName=btnEdit, Path=DataContext, Mode=TwoWay}"
                                                 Cursor="Hand">
                                                 <ui:SymbolIcon
                                                     HorizontalAlignment="Center"
@@ -195,22 +198,47 @@
                                 </Expander.Header>
                                 <Expander.Content>
                                     <Grid>
-                                        <ItemsControl ItemsSource="{Binding Credentials}" />
-                                        <StackPanel
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Opacity=".5">
-                                            <TextBlock
-                                                HorizontalAlignment="Center"
-                                                FontSize="50"
-                                                FontWeight="Heavy"
-                                                Loaded="OnSadFaceLoaded" />
-                                            <TextBlock
-                                                Margin="0,10,0,0"
-                                                HorizontalAlignment="Center"
-                                                Text="Seems like this category is empty!" />
-                                            <TextBlock HorizontalAlignment="Center" Text="Let's add something to it!" />
-                                        </StackPanel>
+                                        <ItemsControl x:Name="icItems" ItemsSource="{Binding Credentials}">
+                                            <ItemsControl.Style>
+                                                <Style TargetType="ItemsControl">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" Value="0">
+                                                            <Setter Property="Template">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate>
+                                                                        <StackPanel
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            Opacity=".5">
+                                                                            <StackPanel.Style>
+                                                                                <Style TargetType="StackPanel">
+                                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding ElementName=icItems, Path=ItemsSource.Count}" Value="0">
+                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </StackPanel.Style>
+                                                                            <TextBlock
+                                                                                HorizontalAlignment="Center"
+                                                                                FontSize="50"
+                                                                                FontWeight="Heavy"
+                                                                                Text="{Binding Source={x:Static face:EEManager}, Path=Face}" />
+                                                                            <TextBlock
+                                                                                Margin="0,10,0,0"
+                                                                                HorizontalAlignment="Center"
+                                                                                Text="Seems like this category is empty!" />
+                                                                            <TextBlock HorizontalAlignment="Center" Text="Let's add something to it!" />
+                                                                        </StackPanel>
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ItemsControl.Style>
+                                        </ItemsControl>
                                     </Grid>
                                 </Expander.Content>
                             </Expander>

@@ -1,8 +1,10 @@
-﻿using Orderly.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using Orderly.Database;
 using Orderly.Database.Entities;
 using Orderly.Helpers;
 using System.Collections.ObjectModel;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using Wpf.Ui.Controls;
 
 namespace Orderly.ViewModels.Pages
@@ -61,13 +63,16 @@ namespace Orderly.ViewModels.Pages
         public void AddCredentials(Category CredentialCategory)
         {
             db = new();
-            db.Credentials.Add(new() {
-                Category = CredentialCategory,
+            Credential cr = new() {
+                CategoryId = CredentialCategory.Id,
                 ServiceName = string.Empty,
                 Password = string.Empty,
                 Username = string.Empty,
-            });
+            };
+            var cred = db.Credentials.Add(cr).Entity;
             db.SaveChanges();
+            CredentialCategory.Credentials!.Add(cred);
+            CollectionViewSource.GetDefaultView(CredentialCategory.Credentials).Refresh();
         }
 
         public void OnNavigatedFrom()
@@ -84,7 +89,7 @@ namespace Orderly.ViewModels.Pages
         {
             isInitialized = true;
             db = new();
-            Categories.AddRange(db.Categories);
+            Categories.AddRange(db.Categories.Include(x => x.Credentials));
         }
     }
 }
