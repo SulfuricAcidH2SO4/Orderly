@@ -53,6 +53,7 @@
                     VerticalAlignment="Center"
                     Background="Transparent"
                     BorderThickness="0"
+                    Command="{Binding ViewModel.OpenSettingCommand}"
                     Cursor="Hand"
                     ToolTipService.InitialShowDelay="0"
                     ToolTipService.Placement="Top"
