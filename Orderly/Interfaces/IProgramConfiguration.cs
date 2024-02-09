@@ -16,6 +16,7 @@ namespace Orderly.Interfaces
         bool ShowMinimizeNotification { get; set; }
         bool StartOnStartUp {  get; set; }
         bool StartMinimized { get; set; }
+        bool CloseButtonClosesApp { get; set; }  
 
         void Save();
         static ProgramConfiguration Load()

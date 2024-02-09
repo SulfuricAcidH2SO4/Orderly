@@ -19,7 +19,9 @@
             <tb:TaskbarIcon
                 x:Key="TaskBarIcon"
                 IconSource="/Assets/Logo_ICO.ico"
-                PopupActivation="LeftOrRightClick">
+                PopupActivation="All"
+                ToolTipService.InitialShowDelay="0"
+                ToolTipService.ToolTip="Orderly">
                 <tb:TaskbarIcon.TrayPopup>
                     <views:TaskbarView />
                 </tb:TaskbarIcon.TrayPopup>

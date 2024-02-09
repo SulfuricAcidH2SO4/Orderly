@@ -20,6 +20,7 @@ namespace Orderly.Modules
         private bool showMinimizeNotifaction = true;
         private bool startOnStartup = true;
         private bool startMinimized = false;
+        private bool closeButtonClosesApp = false;
         
         public string AbsolutePassword
         {
@@ -63,11 +64,15 @@ namespace Orderly.Modules
                 SetProperty(ref startMinimized, value);
             }
         }
-
-        public ProgramConfiguration()
+        public bool CloseButtonClosesApp
         {
-                
+            get => closeButtonClosesApp;
+            set
+            {
+                SetProperty(ref closeButtonClosesApp, value);
+            }
         }
+
 
         public void Save()
         {
