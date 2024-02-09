@@ -16,5 +16,19 @@ namespace Orderly.EE
 
             return phrases[new Random().Next(phrases.Length - 1)];
         }
+
+        public static string GetRandomAngryFace()
+        {
+            string[] faces = {
+                "(╥﹏╥)",
+                "(＞﹏＜)",
+                "(＃￣ω￣)",
+                "(ノ°益°)ノ",
+                "(｡╯︵╰｡)",
+                "＼(º □ º l|l)/"
+            };
+
+            return faces[new Random().Next(faces.Length - 1)];
+        }
     }
 }

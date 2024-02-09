@@ -72,8 +72,8 @@
             </ui:NavigationView.ContentOverlay>
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
-                    VerticalAlignment="Stretch"
                     Content="Home"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
                     TargetPageTag="home"
                     TargetPageType="{x:Type views:DashboardPage}">
                     <ui:NavigationViewItem.Icon>

@@ -4,9 +4,12 @@
 // All Rights Reserved.
 
 using Orderly.Database.Entities;
+using Orderly.EE;
 using Orderly.ViewModels.Pages;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Wpf.Ui.Controls;
+using TextBlock = System.Windows.Controls.TextBlock;
 
 namespace Orderly.Views.Pages
 {
@@ -31,6 +34,13 @@ namespace Orderly.Views.Pages
         {
             if (sender is not Popup pop || pop.DataContext is not Category) return;
             ViewModel.UpdateCategory((Category)pop.DataContext);
+        }
+
+        private void OnSadFaceLoaded(object sender, RoutedEventArgs e)
+        {
+            if(sender is TextBlock tb) {
+                tb.Text = EEManager.GetRandomAngryFace();
+            }
         }
     }
 }
