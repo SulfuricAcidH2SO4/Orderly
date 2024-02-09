@@ -90,6 +90,20 @@ namespace Orderly.ViewModels.Pages
             isInitialized = true;
             db = new();
             Categories.AddRange(db.Categories.Include(x => x.Credentials));
+
+            foreach (var category in Categories) {
+                category.PropertyChanged += OnCategoryPropertyChanged;
+            }
+        }
+
+        private void OnCategoryPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(Category.IsFavorite)) {
+                //This might break EF
+                var sortedCollection = Categories.OrderBy(x => !x.IsFavorite).ToList();
+                Categories.Clear();
+                Categories.AddRange(sortedCollection);
+            }
         }
     }
 }

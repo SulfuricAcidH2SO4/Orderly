@@ -51,8 +51,8 @@
                 <ItemsControl ItemsSource="{Binding ViewModel.Categories}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Expander>
-                                <Expander.Header>
+                            <ui:CardExpander>
+                                <ui:CardExpander.Header>
                                     <Grid x:Name="grid">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto" />
@@ -195,7 +195,7 @@
                                             </Button>
                                         </StackPanel>
                                     </Grid>
-                                </Expander.Header>
+                                </ui:CardExpander.Header>
                                 <Expander.Content>
                                     <Grid>
                                         <ItemsControl x:Name="icItems" ItemsSource="{Binding Credentials}">
@@ -238,10 +238,41 @@
                                                     </Style.Triggers>
                                                 </Style>
                                             </ItemsControl.Style>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Expander>
+                                                        <Expander.Header>
+                                                            <DockPanel LastChildFill="True">
+                                                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                                                    <TextBlock Text="Service Name" />
+                                                                    <Border
+                                                                        Width="2"
+                                                                        Height="20"
+                                                                        Margin="10,0"
+                                                                        VerticalAlignment="Top"
+                                                                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+                                                                    <TextBlock
+                                                                        FontStyle="Italic"
+                                                                        Opacity=".5"
+                                                                        Text="Username" />
+                                                                </StackPanel>
+                                                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                                    <ToggleButton
+                                                                        Background="Transparent"
+                                                                        BorderThickness="0"
+                                                                        Cursor="Hand">
+                                                                        <ui:SymbolIcon Symbol="Pin12" />
+                                                                    </ToggleButton>
+                                                                </StackPanel>
+                                                            </DockPanel>
+                                                        </Expander.Header>
+                                                    </Expander>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
                                         </ItemsControl>
                                     </Grid>
                                 </Expander.Content>
-                            </Expander>
+                            </ui:CardExpander>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
