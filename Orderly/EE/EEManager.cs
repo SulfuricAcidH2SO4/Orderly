@@ -25,7 +25,11 @@ namespace Orderly.EE
                 "(＃￣ω￣)",
                 "(ノ°益°)ノ",
                 "(｡╯︵╰｡)",
-                "＼(º □ º l|l)/"
+                "＼(º □ º l|l)/",
+                "(｡T ω T｡)",
+                "ヽ(￣～￣　)ノ",
+                "╮(￣ω￣;)╭",
+                "(ಡ‸ಡ)"
             };
 
             return faces[new Random().Next(faces.Length - 1)];

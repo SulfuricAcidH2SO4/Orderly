@@ -57,6 +57,19 @@ namespace Orderly.ViewModels.Pages
             Categories.Remove(category);
         }
 
+        [RelayCommand]
+        public void AddCredentials(Category CredentialCategory)
+        {
+            db = new();
+            db.Credentials.Add(new() {
+                Category = CredentialCategory,
+                ServiceName = string.Empty,
+                Password = string.Empty,
+                Username = string.Empty,
+            });
+            db.SaveChanges();
+        }
+
         public void OnNavigatedFrom()
         {
             
