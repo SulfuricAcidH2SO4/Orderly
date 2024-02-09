@@ -5,6 +5,7 @@
 
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json.Linq;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.ViewModels.Pages;
@@ -20,10 +21,11 @@ namespace Orderly.Views.Windows
         public MainWindowViewModel ViewModel { get; }
         public static MainWindow? Instance { get; private set; }
 
-        private ProgramConfiguration Configuration { get; set; }
+        private IProgramConfiguration Configuration { get; set; }
         public MainWindow(
             MainWindowViewModel viewModel,
             IPageService pageService,
+            IProgramConfiguration config,
             INavigationService navigationService
         )
         {
@@ -31,7 +33,7 @@ namespace Orderly.Views.Windows
             DataContext = this;
             Instance = this;
 
-            Configuration = (ProgramConfiguration?)App.GetService<IProgramConfiguration>()!;
+            Configuration = config!;
             
             SystemThemeWatcher.Watch(this);
 
@@ -95,6 +97,12 @@ namespace Orderly.Views.Windows
                     .AddText("Orderly has been minimized!")
                     .Show();
             }
+        }
+
+        private void FluentWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Configuration.IsDarkMode) ApplicationThemeManager.Apply(ApplicationTheme.Dark);
+            else ApplicationThemeManager.Apply(ApplicationTheme.Light);
         }
     }
 }

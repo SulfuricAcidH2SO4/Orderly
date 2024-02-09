@@ -32,7 +32,8 @@ namespace Orderly
                 services.AddSingleton<IPageService, PageService>();
 
                 // Program Configuration
-                services.AddSingleton<IProgramConfiguration, ProgramConfiguration>();
+                ProgramConfiguration config = IProgramConfiguration.Load();
+                services.AddSingleton<IProgramConfiguration>(config);
 
                 // Theme manipulation
                 services.AddSingleton<IThemeService, ThemeService>();
@@ -104,9 +105,6 @@ namespace Orderly
             }
 
             ApplicationAccentColorManager.ApplySystemAccent();
-
-            ProgramConfiguration config = (ProgramConfiguration)App.GetService<IProgramConfiguration>();
-            config = IProgramConfiguration.Load();
 
             base.OnStartup(e);
         }

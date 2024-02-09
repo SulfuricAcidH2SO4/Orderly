@@ -3,11 +3,13 @@ using Orderly.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Wpf.Ui.Appearance;
 
 namespace Orderly.Modules
 {
@@ -32,6 +34,8 @@ namespace Orderly.Modules
             set
             {
                 SetProperty(ref isDarkMode, value);
+                if (value) ApplicationThemeManager.Apply(ApplicationTheme.Dark);
+                else ApplicationThemeManager.Apply(ApplicationTheme.Light);
             }
         }
         public bool ShowMinimizeNotification
@@ -53,8 +57,9 @@ namespace Orderly.Modules
 
         public ProgramConfiguration()
         {
-            
+                
         }
+
         public void Save()
         {
             File.WriteAllText("CoreConfig.ordcf", JsonConvert.SerializeObject(this, Formatting.Indented));

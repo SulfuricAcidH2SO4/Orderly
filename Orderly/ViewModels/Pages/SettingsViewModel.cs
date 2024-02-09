@@ -20,31 +20,22 @@ namespace Orderly.ViewModels.Pages
         [ObservableProperty]
         ProgramConfiguration configuration;
 
+        public SettingsViewModel(IProgramConfiguration config)
+        {
+            AppVersion = $"{GetAssemblyVersion()}";
+            Configuration = (ProgramConfiguration)config;
+            Configuration.PropertyChanged += OnPropertyChanged;
+        }
+
         public void OnNavigatedTo()
         {
-            if (!_isInitialized)
-                InitializeViewModel();
         }
 
         public void OnNavigatedFrom() { }
 
-        private void InitializeViewModel()
-        {
-            AppVersion = $"{GetAssemblyVersion()}";
-            Configuration = (ProgramConfiguration?)App.GetService<IProgramConfiguration>()!;
-            Configuration = IProgramConfiguration.Load();
-            Configuration.PropertyChanged += OnPropertyChanged;
-            _isInitialized = true;
-        }
-
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             Configuration.Save();
-            if(e.PropertyName == nameof(Configuration.IsDarkMode))
-            {
-                if (Configuration.IsDarkMode) ApplicationThemeManager.Apply(ApplicationTheme.Dark);
-                else ApplicationThemeManager.Apply(ApplicationTheme.Light);
-            }
         }
 
         private string GetAssemblyVersion()

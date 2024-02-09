@@ -8,7 +8,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:views="clr-namespace:Orderly.Views.Pages"
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
-    Width="1100"
+    Width="1100" Loaded="FluentWindow_Loaded"
     Height="650"
     d:DataContext="{d:DesignInstance local:MainWindow,
                                      IsDesignTimeCreatable=True}"
