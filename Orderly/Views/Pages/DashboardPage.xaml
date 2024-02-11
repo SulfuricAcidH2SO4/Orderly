@@ -257,6 +257,16 @@
                                                                         Text="Username" />
                                                                 </StackPanel>
                                                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                                    <Button
+                                                                        Background="Transparent"
+                                                                        BorderThickness="0"
+                                                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.RemoveCredentialsCommand}"
+                                                                        CommandParameter="{Binding}">
+                                                                        <ui:SymbolIcon
+                                                                            Cursor="Hand"
+                                                                            Foreground="#de3535"
+                                                                            Symbol="Delete12" />
+                                                                    </Button>
                                                                     <ToggleButton
                                                                         Background="Transparent"
                                                                         BorderThickness="0"

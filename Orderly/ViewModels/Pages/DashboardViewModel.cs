@@ -71,8 +71,19 @@ namespace Orderly.ViewModels.Pages
             };
             var cred = db.Credentials.Add(cr).Entity;
             db.SaveChanges();
+            cred.Category = CredentialCategory;
             CredentialCategory.Credentials!.Add(cred);
             CollectionViewSource.GetDefaultView(CredentialCategory.Credentials).Refresh();
+        }
+
+        [RelayCommand]
+        public void RemoveCredentials(Credential credential)
+        {
+            Category categoryToUpdate = Categories.First(x => x == credential.Category);
+            db = new();
+            db.Credentials.Remove(credential);
+            db.SaveChanges();
+            CollectionViewSource.GetDefaultView(categoryToUpdate.Credentials).Refresh();
         }
 
         public void OnNavigatedFrom()
