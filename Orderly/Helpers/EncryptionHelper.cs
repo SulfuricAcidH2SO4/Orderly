@@ -11,7 +11,7 @@ namespace Orderly.Helpers
     {
         public static string EncryptPassword(string password)
         {
-            string hashedPassword = password;
+            string hashedPassword = $"{password}-odr";
             for (int i = 0; i < 500; i++) {
                 byte[] hashedBytes = SHA256.HashData(Encoding.UTF8.GetBytes(hashedPassword));
                 hashedPassword = Convert.ToHexString(hashedBytes);

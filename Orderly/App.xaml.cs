@@ -9,9 +9,11 @@ using Orderly.Modules;
 using Orderly.Services;
 using Orderly.ViewModels.Pages;
 using Orderly.ViewModels.Windows;
+using Orderly.ViewModels.Wizard;
 using Orderly.Views.Dialogs;
 using Orderly.Views.Pages;
 using Orderly.Views.Windows;
+using Orderly.Views.Wizard;
 using System.IO;
 using System.Reflection;
 using System.Windows.Media;
@@ -54,6 +56,11 @@ namespace Orderly
                 //Dialogs
                 services.AddSingleton<PasswordConfirmDialog>();
 
+                //Wizard
+                services.AddSingleton<WizardMainWindow>();
+                services.AddSingleton<WizardMainWIndowViewModel>();
+                
+                //General
                 services.AddSingleton<DashboardPage>();
                 services.AddSingleton<DashboardViewModel>();
                 services.AddSingleton<SettingsPage>();
