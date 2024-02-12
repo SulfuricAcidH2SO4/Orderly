@@ -9,7 +9,7 @@ namespace Orderly.Helpers
 {
     public class EncryptionHelper
     {
-        public static string EncryptPassword(string password)
+        public static string HashPassword(string password)
         {
             string hashedPassword = $"{password}-odr";
             for (int i = 0; i < 500; i++) {

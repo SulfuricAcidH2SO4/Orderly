@@ -46,7 +46,7 @@ namespace Orderly.Views.Dialogs
         {
             string password = pbPassword.Password.ToString();
             var stop = Stopwatch.StartNew();
-            string hashPassword = EncryptionHelper.EncryptPassword(password);
+            string hashPassword = EncryptionHelper.HashPassword(password);
             stop.Stop();
             
 
