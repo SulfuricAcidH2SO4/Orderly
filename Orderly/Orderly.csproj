@@ -18,6 +18,7 @@
     <None Remove="Assets\Logo_HQ.png" />
     <None Remove="Assets\SpalshScreen.png" />
     <None Remove="Assets\SplashScreen.png" />
+    <None Remove="DaVault\DaVault.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +47,7 @@
 
   <ItemGroup>
     <Resource Include="Assets\SplashScreen.png" />
+    <EmbeddedResource Include="DaVault\DaVault.json" />
   </ItemGroup>
 
   <ItemGroup>

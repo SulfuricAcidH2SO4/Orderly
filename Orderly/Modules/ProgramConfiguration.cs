@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Orderly.DaVault;
+using Orderly.Helpers;
 using Orderly.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -76,7 +78,16 @@ namespace Orderly.Modules
 
         public void Save()
         {
-            File.WriteAllText("CoreConfig.ordcf", JsonConvert.SerializeObject(this, Formatting.Indented));
+            string serializedString = JsonConvert.SerializeObject(this, Formatting.Indented);
+            string encryptedFile = EncryptionHelper.EncryptString(serializedString, App.GetService<Vault>().ConfigEncryptionKey);
+            File.WriteAllText("CoreConfig.ordcf", encryptedFile);
+        }
+
+        public void Save(Vault vault)
+        {
+            string serializedString = JsonConvert.SerializeObject(this, Formatting.Indented);
+            string encryptedFile = EncryptionHelper.EncryptString(serializedString, vault.ConfigEncryptionKey);
+            File.WriteAllText("CoreConfig.ordcf", encryptedFile);
         }
 
         #region Property Changed

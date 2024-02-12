@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Orderly.Database;
 using Orderly.Database.Entities;
+using Orderly.DaVault;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Services;
@@ -26,7 +27,7 @@ namespace Orderly
     public partial class App
     {
         #region WinUI WPF
-        static ProgramConfiguration config = IProgramConfiguration.Load();
+        static ProgramConfiguration config;
         private static readonly IHost _host = Host
             .CreateDefaultBuilder()
             .ConfigureAppConfiguration(c => { c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)); })
@@ -37,7 +38,9 @@ namespace Orderly
                 services.AddSingleton<IPageService, PageService>();
 
                 // Program Configuration
-                
+                Vault v = Vault.Initialize();
+                services.AddSingleton(v);
+                config = IProgramConfiguration.Load(v);
                 services.AddSingleton<IProgramConfiguration>(config);
 
                 // Theme manipulation

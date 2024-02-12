@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Orderly.DaVault;
+using Orderly.Helpers;
 using Orderly.Modules;
 using System;
 using System.Collections.Generic;
@@ -19,14 +21,16 @@ namespace Orderly.Interfaces
         bool CloseButtonClosesApp { get; set; }  
 
         void Save();
-        static ProgramConfiguration Load()
+        static ProgramConfiguration Load(Vault vault)
         {
             if (!File.Exists("CoreConfig.ordcf"))
             {
                 ProgramConfiguration config = new();
-                config.Save();
+                config.Save(vault);
             }
-            return JsonConvert.DeserializeObject<ProgramConfiguration>(File.ReadAllText("CoreConfig.ordcf"))!;
+            string encryptedFile = File.ReadAllText("CoreConfig.ordcf");
+            string decryptedFile = EncryptionHelper.DecryptString(encryptedFile, vault.ConfigEncryptionKey);
+            return JsonConvert.DeserializeObject<ProgramConfiguration>(decryptedFile)!;
         }
     }
 }
