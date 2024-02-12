@@ -15,6 +15,7 @@ namespace Orderly.Database.Entities
         private string username = string.Empty;
         private string password = string.Empty;
         private bool pinned = false;
+        private bool isEditing = false;
 
         private Category? category;
 
@@ -62,6 +63,16 @@ namespace Orderly.Database.Entities
             set
             {
                 SetProperty(ref category, value);   
+            }
+        }
+
+        [NotMapped]
+        public bool IsEditing
+        {
+            get => isEditing;
+            set
+            {
+                SetProperty(ref isEditing, value); 
             }
         }
     }

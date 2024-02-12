@@ -68,6 +68,7 @@ namespace Orderly.ViewModels.Pages
                 ServiceName = string.Empty,
                 Password = string.Empty,
                 Username = string.Empty,
+                IsEditing = true
             };
             var cred = db.Credentials.Add(cr).Entity;
             db.SaveChanges();

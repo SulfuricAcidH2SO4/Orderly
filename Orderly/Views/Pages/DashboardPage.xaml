@@ -244,20 +244,53 @@
                                                         <Expander.Header>
                                                             <DockPanel LastChildFill="True">
                                                                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                                                    <TextBlock Text="Service Name" />
+                                                                    <ui:TextBox
+                                                                        Width="150"
+                                                                        IsEnabled="False"
+                                                                        PlaceholderEnabled="True"
+                                                                        PlaceholderText="Service Name" />
                                                                     <Border
                                                                         Width="2"
-                                                                        Height="20"
                                                                         Margin="10,0"
-                                                                        VerticalAlignment="Top"
+                                                                        VerticalAlignment="Stretch"
                                                                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
-                                                                    <TextBlock
+                                                                    <ui:TextBox
+                                                                        Width="150"
                                                                         FontStyle="Italic"
+                                                                        IsEnabled="False"
                                                                         Opacity=".5"
-                                                                        Text="Username" />
+                                                                        PlaceholderEnabled="True"
+                                                                        PlaceholderText="Username..." />
+                                                                    <ui:PasswordBox
+                                                                        Width="200"
+                                                                        Margin="10,0"
+                                                                        FontStyle="Italic"
+                                                                        IsEnabled="False"
+                                                                        Opacity=".5"
+                                                                        PlaceholderEnabled="True"
+                                                                        PlaceholderText="Password..." />
+                                                                    <Button
+                                                                        Background="Transparent"
+                                                                        BorderThickness="0"
+                                                                        Cursor="Hand">
+                                                                        <ui:SymbolIcon Symbol="Checkmark28" />
+                                                                    </Button>
                                                                 </StackPanel>
                                                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                                                     <Button
+                                                                        x:Name="btnEdit"
+                                                                        Padding="5"
+                                                                        Background="Transparent"
+                                                                        BorderThickness="0"
+                                                                        Cursor="Hand">
+                                                                        <ui:SymbolIcon
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            Foreground="{DynamicResource SystemAccentColorPrimaryBrush}"
+                                                                            Symbol="ShieldLock28" />
+                                                                    </Button>
+                                                                    <Button
+                                                                        Margin="0,0,-10,0"
                                                                         Background="Transparent"
                                                                         BorderThickness="0"
                                                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.RemoveCredentialsCommand}"
@@ -292,12 +325,15 @@
             Grid.Row="2"
             Margin="0,10"
             HorizontalAlignment="Right">
-            <Button Padding="20,10" Command="{Binding ViewModel.AddCategoryCommand}">
+            <ui:Button
+                Padding="20,10"
+                Appearance="Primary"
+                Command="{Binding ViewModel.AddCategoryCommand}">
                 <StackPanel Orientation="Horizontal">
                     <ui:SymbolIcon Symbol="Add12" />
                     <TextBlock Margin="5,0" Text="Add Category" />
                 </StackPanel>
-            </Button>
+            </ui:Button>
         </StackPanel>
     </Grid>
 </UserControl>
