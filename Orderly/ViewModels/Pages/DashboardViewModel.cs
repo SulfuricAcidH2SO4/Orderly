@@ -2,6 +2,9 @@
 using Orderly.Database;
 using Orderly.Database.Entities;
 using Orderly.Helpers;
+using Orderly.Interfaces;
+using Orderly.Modules;
+using Orderly.Views.Dialogs;
 using System.Collections.ObjectModel;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -13,11 +16,17 @@ namespace Orderly.ViewModels.Pages
     {
         bool isInitialized;
         DatabaseContext db;
+        ProgramConfiguration config;
 
         #region Properties
         [ObservableProperty]
         ExtendedObservableCollection<Category> categories = new();
         #endregion
+
+        public DashboardViewModel(IProgramConfiguration config)
+        {
+            this.config = (ProgramConfiguration?)config!;
+        }
 
         [RelayCommand]
         public void SaveEditMode(ToggleButton editButton)
@@ -80,6 +89,8 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void RemoveCredentials(Credential credential)
         {
+            PasswordConfirmDialog dialog = new(config);
+            if (dialog.ShowDialog() == false) return;
             Category categoryToUpdate = Categories.First(x => x == credential.Category);
             db = new();
             db.Credentials.Remove(credential);
