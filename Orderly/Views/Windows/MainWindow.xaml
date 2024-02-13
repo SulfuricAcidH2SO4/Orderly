@@ -49,6 +49,7 @@
             FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}"
             FrameMargin="0"
             IsBackButtonVisible="Visible"
+            IsPaneOpen="False"
             IsPaneToggleVisible="True"
             OpenPaneLength="200"
             PaneDisplayMode="Left"

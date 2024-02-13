@@ -36,7 +36,7 @@ namespace Orderly.ViewModels.Pages
             UpdateCategory((Category)editButton.DataContext);
             editButton.IsChecked = false;
         }
-        
+
         [RelayCommand]
         public void UpdateCategory(Category category)
         {
@@ -56,14 +56,14 @@ namespace Orderly.ViewModels.Pages
             }).Entity;
             db.SaveChanges();
 
-            if(addedCategory != null) Categories.Add(addedCategory);
+            if (addedCategory != null) Categories.Add(addedCategory);
         }
 
         [RelayCommand]
         public void RemoveCategory(Category category)
         {
             ConfirmDialog dialg = new($"Are you sure you want to delete {category.Name}? You will lose all the credentials associated with it. This action cannot be undone");
-            if(dialg.ShowDialog() == false) return;
+            if (dialg.ShowDialog() == false) return;
 
             PasswordConfirmDialog pdialog = new();
             if (pdialog.ShowDialog() == false) return;
@@ -103,6 +103,25 @@ namespace Orderly.ViewModels.Pages
             db.Credentials.Remove(credential);
             db.SaveChanges();
             CollectionViewSource.GetDefaultView(categoryToUpdate.Credentials).Refresh();
+        }
+
+        [RelayCommand]
+        public void EnableEditing(Credential credential)
+        {
+            PasswordConfirmDialog dialog = new();
+            if (dialog.ShowDialog() == false) return;
+
+            credential.IsEditing = true;
+        }
+
+        [RelayCommand]
+        public void SaveEditing(Credential credential)
+        {
+            credential.IsEditing = false;
+
+            db = new();
+            db.Credentials.Update(credential);
+            db.SaveChanges();
         }
 
         public void OnNavigatedFrom()

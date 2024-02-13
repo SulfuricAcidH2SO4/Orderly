@@ -63,5 +63,10 @@ namespace Orderly.Views.Dialogs
                 tbError.Visibility = Visibility.Visible;
             }
         }
+
+        private void FluentWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            pbPassword.Focus();
+        }
     }
 }
