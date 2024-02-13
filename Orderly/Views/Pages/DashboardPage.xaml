@@ -45,7 +45,14 @@
                 VerticalAlignment="Bottom"
                 FontSize="20"
                 Text="Credentials List" />
-            <ui:AutoSuggestBox Grid.Column="1" PlaceholderText="Search..." />
+            <ui:TextBox
+                Grid.Column="1"
+                PlaceholderText="Search..."
+                TextChanged="OnTextSearchChanged">
+                <ui:TextBox.Icon>
+                    <ui:SymbolIcon Symbol="Search12" />
+                </ui:TextBox.Icon>
+            </ui:TextBox>
             <ui:Flyout
                 Grid.Column="2"
                 IsOpen="{Binding ElementName=tbFilterWindow, Path=IsChecked, Mode=TwoWay}"
@@ -108,10 +115,10 @@
             Padding="10"
             Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
             <ScrollViewer>
-                <ItemsControl ItemsSource="{Binding ViewModel.Categories}">
+                <ItemsControl ItemsSource="{Binding ViewModel.Categories}" VirtualizingPanel.IsVirtualizing="True">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <ui:CardExpander>
+                            <ui:CardExpander Visibility="{Binding IsVisibile, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <ui:CardExpander.Header>
                                     <Grid x:Name="grid">
                                         <Grid.RowDefinitions>

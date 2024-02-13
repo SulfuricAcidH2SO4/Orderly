@@ -19,6 +19,7 @@ namespace Orderly.Database.Entities
         private bool isFavorite;
         private string additionDate = string.Empty;
         private string lastEditDate = string.Empty;
+        private bool isVisibile = true;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -61,6 +62,16 @@ namespace Orderly.Database.Entities
             set
             {
                 SetProperty(ref lastEditDate, value);
+            }
+        }
+
+        [NotMapped]
+        public bool IsVisibile
+        {
+            get => isVisibile;
+            set
+            {
+                SetProperty(ref isVisibile, value);
             }
         }
 

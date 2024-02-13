@@ -2,11 +2,13 @@
 using Orderly.Database;
 using Orderly.Database.Entities;
 using Orderly.DaVault;
+using Orderly.Extensions;
 using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Views.Dialogs;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Wpf.Ui.Controls;
@@ -174,49 +176,68 @@ namespace Orderly.ViewModels.Pages
             }
         }
 
-        private void SortList()
+        public void SortList(string searchString = "", bool reloadOrder = true)
         {
-            //This might break EF
-            switch (Config.FilteringOptions.SortingOption) {
-                case Models.SortingOption.AlphabeticalDescending:
-                    var sortedADesc = Categories.OrderByDescending(x => x.Name).ToList();
-                    Categories.Clear();
-                    Categories.AddRange(sortedADesc);
-                    break;
-                case Models.SortingOption.AlphabeticalAscending:
-                    var sortedAAsc = Categories.OrderBy(x => x.Name).ToList();
-                    Categories.Clear();
-                    Categories.AddRange(sortedAAsc);
-                    break;
-                case Models.SortingOption.NewestAdded:
-                    var sortedNA = Categories.OrderBy(x => x.AdditionDate).ToList();
-                    Categories.Clear();
-                    Categories.AddRange(sortedNA);
-                    break;
-                case Models.SortingOption.OldestAdded:
-                    var sortedOA = Categories.OrderByDescending(x => x.AdditionDate).ToList();
-                    Categories.Clear();
-                    Categories.AddRange(sortedOA);
-                    break;
-                case Models.SortingOption.NewestEdited:
-                    var sortedNE = Categories.OrderBy(x => x.AdditionDate).ToList();
-                    Categories.Clear();
-                    Categories.AddRange(sortedNE);
-                    break;
-                case Models.SortingOption.OldestEdited:
-                    var sortedOE = Categories.OrderByDescending(x => x.AdditionDate).ToList();
-                    Categories.Clear();
-                    Categories.AddRange(sortedOE);
-                    break;
-            }
-
-            if (Config.FilteringOptions.FavoriteOnTop) {
-                var favoriteCategories = Categories.Where(x => x.IsFavorite).ToList();
-                Categories.RemoveAll(x => x.IsFavorite);
-                foreach (var category in favoriteCategories) {
-                    Categories.Insert(0, category);
+            Task.Factory.StartNew(() => {
+                //This might break EF
+                List<Category> appregory = new(Categories);
+                if (!string.IsNullOrEmpty(searchString.ToLower())) {
+                    var textFiltered = appregory.Where(x => x.Name.ToLower().Contains(searchString) || x.Credentials.Any(x => x.ServiceName.ToLower().Contains(searchString))).Distinct().ToList();
+                    appregory.Clear();
+                    appregory.AddRange(textFiltered);
                 }
-            }
+
+                if (reloadOrder) {
+                    switch (Config.FilteringOptions.SortingOption) {
+                        case Models.SortingOption.AlphabeticalDescending:
+                            var sortedADesc = appregory.OrderByDescending(x => x.Name).ToList();
+                            appregory.Clear();
+                            appregory.AddRange(sortedADesc);
+                            break;
+                        case Models.SortingOption.AlphabeticalAscending:
+                            var sortedAAsc = appregory.OrderBy(x => x.Name).ToList();
+                            appregory.Clear();
+                            appregory.AddRange(sortedAAsc);
+                            break;
+                        case Models.SortingOption.NewestAdded:
+                            var sortedNA = appregory.OrderBy(x => x.AdditionDate).ToList();
+                            appregory.Clear();
+                            appregory.AddRange(sortedNA);
+                            break;
+                        case Models.SortingOption.OldestAdded:
+                            var sortedOA = appregory.OrderByDescending(x => x.AdditionDate).ToList();
+                            appregory.Clear();
+                            appregory.AddRange(sortedOA);
+                            break;
+                        case Models.SortingOption.NewestEdited:
+                            var sortedNE = appregory.OrderBy(x => x.AdditionDate).ToList();
+                            appregory.Clear();
+                            appregory.AddRange(sortedNE);
+                            break;
+                        case Models.SortingOption.OldestEdited:
+                            var sortedOE = appregory.OrderByDescending(x => x.AdditionDate).ToList();
+                            appregory.Clear();
+                            appregory.AddRange(sortedOE);
+                            break;
+                    }
+
+                    if (Config.FilteringOptions.FavoriteOnTop) {
+                        var favoriteCategories = appregory.Where(x => x.IsFavorite).ToList();
+                        appregory.RemoveAll(x => x.IsFavorite);
+                        foreach (var category in favoriteCategories) {
+                            appregory.Insert(0, category);
+                        }
+                    }
+                    Categories.Clear();
+                    Categories.AddRange(appregory);
+                }
+
+                Categories.ForEach(x => x.IsVisibile = false);
+
+                foreach (var cat in appregory) {
+                    Categories.First(x => x.Id == cat.Id).IsVisibile = true;
+                }
+            });
         }
     }
 }

@@ -6,10 +6,12 @@
 using Orderly.Database.Entities;
 using Orderly.EE;
 using Orderly.ViewModels.Pages;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Wpf.Ui.Controls;
 using TextBlock = System.Windows.Controls.TextBlock;
+using TextBox = Wpf.Ui.Controls.TextBox;
 
 namespace Orderly.Views.Pages
 {
@@ -41,6 +43,12 @@ namespace Orderly.Views.Pages
             if(sender is TextBlock tb) {
                 //tb.Text = EEManager.GetRandomAngryFace();
             }
+        }
+
+        private void OnTextSearchChanged(object sender, TextChangedEventArgs e)
+        {
+            string textQuery = (sender as TextBox).Text;
+            ViewModel.SortList(textQuery, false);
         }
     }
 }
