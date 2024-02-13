@@ -25,7 +25,7 @@
         <converters:BoolToVisibilityReconverter x:Key="BoolToVisibilityReconverter" />
     </UserControl.Resources>
 
-    <Grid x:Name="grMainGrid">
+    <Grid x:Name="grMainGrid" Margin="0,0,0,30">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition x:Name="middleRow" Height="*" />
@@ -35,12 +35,24 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <TextBlock
                 VerticalAlignment="Bottom"
                 FontSize="20"
                 Text="Credentials List" />
             <ui:AutoSuggestBox Grid.Column="1" PlaceholderText="Search..." />
+            <ui:Button
+                Grid.Column="3"
+                Margin="10,0,0,0"
+                Appearance="Primary"
+                Command="{Binding ViewModel.AddCategoryCommand}"
+                ToolTipService.InitialShowDelay="0"
+                ToolTipService.ToolTip="Add new category">
+                <StackPanel Orientation="Horizontal">
+                    <ui:SymbolIcon Symbol="Add12" />
+                </StackPanel>
+            </ui:Button>
         </Grid>
         <Border
             x:Name="bdCredentialList"
@@ -321,19 +333,5 @@
                 </ItemsControl>
             </ScrollViewer>
         </Border>
-        <StackPanel
-            Grid.Row="2"
-            Margin="0,10"
-            HorizontalAlignment="Right">
-            <ui:Button
-                Padding="20,10"
-                Appearance="Primary"
-                Command="{Binding ViewModel.AddCategoryCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <ui:SymbolIcon Symbol="Add12" />
-                    <TextBlock Margin="5,0" Text="Add Category" />
-                </StackPanel>
-            </ui:Button>
-        </StackPanel>
     </Grid>
 </UserControl>
