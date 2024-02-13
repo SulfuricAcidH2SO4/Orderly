@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Orderly.Database;
 using Orderly.Database.Entities;
 using Orderly.DaVault;
+using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Services;
@@ -41,6 +42,7 @@ namespace Orderly
                 Vault v = Vault.Initialize();
                 services.AddSingleton(v);
                 config = IProgramConfiguration.Load(v);
+                v.PasswordEncryptionKey = EncryptionHelper.HashPassword(config.AbsolutePassword).Substring(0, 24);
                 services.AddSingleton<IProgramConfiguration>(config);
 
                 // Theme manipulation

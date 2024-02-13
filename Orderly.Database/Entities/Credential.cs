@@ -16,6 +16,8 @@ namespace Orderly.Database.Entities
         private string password = string.Empty;
         private bool pinned = false;
         private bool isEditing = false;
+        private string additionDate = string.Empty;
+        private string lastEditDate = string.Empty;
 
         private Category? category;
 
@@ -52,6 +54,22 @@ namespace Orderly.Database.Entities
             set
             {
                 SetProperty(ref pinned, value);
+            }
+        }
+        public string AdditionDate
+        {
+            get => additionDate;
+            set
+            {
+                SetProperty(ref additionDate, value);   
+            }
+        }
+        public string LastEditDate
+        {
+            get => lastEditDate;
+            set
+            {
+                SetProperty(ref lastEditDate, value);
             }
         }
 

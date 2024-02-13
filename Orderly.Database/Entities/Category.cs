@@ -17,6 +17,8 @@ namespace Orderly.Database.Entities
         private string name = string.Empty;
         private string flairColor = "#ffff7b2e";
         private bool isFavorite;
+        private string additionDate = string.Empty;
+        private string lastEditDate = string.Empty;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -43,6 +45,22 @@ namespace Orderly.Database.Entities
             set
             {
                 SetProperty(ref isFavorite, value);
+            }
+        }
+        public string AdditionDate
+        {
+            get => additionDate;
+            set
+            {
+                SetProperty(ref additionDate, value);
+            }
+        }
+        public string LastEditDate
+        {
+            get => lastEditDate;
+            set
+            {
+                SetProperty(ref lastEditDate, value);
             }
         }
 

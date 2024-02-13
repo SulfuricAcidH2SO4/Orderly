@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Orderly.DaVault;
 using Orderly.Helpers;
+using Orderly.Models;
 using Orderly.Modules;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Orderly.Interfaces
         bool StartOnStartUp {  get; set; }
         bool StartMinimized { get; set; }
         bool CloseButtonClosesApp { get; set; }  
+        FilteringOptions FilteringOptions { get; set; }
 
         void Save();
         static ProgramConfiguration Load(Vault vault)

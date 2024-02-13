@@ -17,6 +17,8 @@ namespace Orderly.ViewModels.Pages
     {
         bool isInitialized;
         DatabaseContext db;
+
+        [ObservableProperty]
         ProgramConfiguration config;
 
         #region Properties
@@ -42,6 +44,7 @@ namespace Orderly.ViewModels.Pages
         public void UpdateCategory(Category category)
         {
             db = new();
+            category.LastEditDate = DateTime.Now.ToString();
             if (db.Categories.Update(category).Entity == null) {
                 //Failed to update
             }
@@ -53,11 +56,14 @@ namespace Orderly.ViewModels.Pages
         {
             db = new();
             Category addedCategory = db.Categories.Add(new() {
-                Name = "New Category"
+                Name = "New Category",
+                AdditionDate = DateTime.Now.ToString(),
+                LastEditDate = DateTime.Now.ToString()
             }).Entity;
             db.SaveChanges();
 
             if (addedCategory != null) Categories.Add(addedCategory);
+            SortList();
         }
 
         [RelayCommand]
@@ -84,7 +90,9 @@ namespace Orderly.ViewModels.Pages
                 ServiceName = string.Empty,
                 Password = string.Empty,
                 Username = string.Empty,
-                IsEditing = true
+                IsEditing = true,
+                AdditionDate = DateTime.Now.ToString(),
+                LastEditDate = DateTime.Now.ToString()
             };
             var cred = db.Credentials.Add(cr).Entity;
             db.SaveChanges();
@@ -122,6 +130,7 @@ namespace Orderly.ViewModels.Pages
         public void SaveEditing(Credential credential)
         {
             credential.IsEditing = false;
+            credential.LastEditDate = DateTime.Now.ToString();
             Vault v = App.GetService<Vault>();
             credential.Password = EncryptionHelper.EncryptString(credential.Password, v.PasswordEncryptionKey);
             db = new();
@@ -148,6 +157,13 @@ namespace Orderly.ViewModels.Pages
             foreach (var category in Categories) {
                 category.PropertyChanged += OnCategoryPropertyChanged;
             }
+            config.FilteringOptions.PropertyChanged += OnFilteringOptionChanged;
+            SortList();
+        }
+
+        private void OnFilteringOptionChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            config.Save();
             SortList();
         }
 
@@ -161,9 +177,46 @@ namespace Orderly.ViewModels.Pages
         private void SortList()
         {
             //This might break EF
-            var sortedCollection = Categories.OrderBy(x => !x.IsFavorite).ToList();
-            Categories.Clear();
-            Categories.AddRange(sortedCollection);
+            switch (Config.FilteringOptions.SortingOption) {
+                case Models.SortingOption.AlphabeticalDescending:
+                    var sortedADesc = Categories.OrderByDescending(x => x.Name).ToList();
+                    Categories.Clear();
+                    Categories.AddRange(sortedADesc);
+                    break;
+                case Models.SortingOption.AlphabeticalAscending:
+                    var sortedAAsc = Categories.OrderBy(x => x.Name).ToList();
+                    Categories.Clear();
+                    Categories.AddRange(sortedAAsc);
+                    break;
+                case Models.SortingOption.NewestAdded:
+                    var sortedNA = Categories.OrderBy(x => x.AdditionDate).ToList();
+                    Categories.Clear();
+                    Categories.AddRange(sortedNA);
+                    break;
+                case Models.SortingOption.OldestAdded:
+                    var sortedOA = Categories.OrderByDescending(x => x.AdditionDate).ToList();
+                    Categories.Clear();
+                    Categories.AddRange(sortedOA);
+                    break;
+                case Models.SortingOption.NewestEdited:
+                    var sortedNE = Categories.OrderBy(x => x.AdditionDate).ToList();
+                    Categories.Clear();
+                    Categories.AddRange(sortedNE);
+                    break;
+                case Models.SortingOption.OldestEdited:
+                    var sortedOE = Categories.OrderByDescending(x => x.AdditionDate).ToList();
+                    Categories.Clear();
+                    Categories.AddRange(sortedOE);
+                    break;
+            }
+
+            if (Config.FilteringOptions.FavoriteOnTop) {
+                var favoriteCategories = Categories.Where(x => x.IsFavorite).ToList();
+                Categories.RemoveAll(x => x.IsFavorite);
+                foreach (var category in favoriteCategories) {
+                    Categories.Insert(0, category);
+                }
+            }
         }
     }
 }

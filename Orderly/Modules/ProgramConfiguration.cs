@@ -2,6 +2,7 @@
 using Orderly.DaVault;
 using Orderly.Helpers;
 using Orderly.Interfaces;
+using Orderly.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,7 @@ namespace Orderly.Modules
         private bool startOnStartup = true;
         private bool startMinimized = false;
         private bool closeButtonClosesApp = false;
+        private FilteringOptions filteringOptions = new();
         
         public string AbsolutePassword
         {
@@ -72,6 +74,14 @@ namespace Orderly.Modules
             set
             {
                 SetProperty(ref closeButtonClosesApp, value);
+            }
+        }
+        public FilteringOptions FilteringOptions
+        {
+            get => filteringOptions;
+            set
+            {
+                SetProperty(ref filteringOptions, value);
             }
         }
 
