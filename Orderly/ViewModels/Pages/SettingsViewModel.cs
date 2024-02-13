@@ -25,7 +25,7 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void ChangeMasterPassword()
         {
-            PasswordConfirmDialog confirmDialog = new(Configuration);
+            PasswordConfirmDialog confirmDialog = new();
 
             if(confirmDialog.ShowDialog() == true) {
                 PasswordChangeDialog dialog = new(Configuration);

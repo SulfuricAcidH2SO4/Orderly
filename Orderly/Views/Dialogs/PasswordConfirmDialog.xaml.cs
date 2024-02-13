@@ -29,14 +29,14 @@ namespace Orderly.Views.Dialogs
         public ICommand ConfirmCommand { get; set; }
         ProgramConfiguration Config;
 
-        public PasswordConfirmDialog(IProgramConfiguration config)
+        public PasswordConfirmDialog()
         {
             Owner = MainWindow.Instance;
             ConfirmCommand = new RelayCommand(Confirm);
             InitializeComponent();
             tbError.Visibility = Visibility.Collapsed;
-            Config = (ProgramConfiguration?)config!;
             DataContext = this;
+            Config = (ProgramConfiguration)App.GetService<IProgramConfiguration>();
         }
 
         private void Confirm() => OnConfirmClick(this, new());

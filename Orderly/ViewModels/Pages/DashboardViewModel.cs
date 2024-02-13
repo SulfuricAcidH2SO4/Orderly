@@ -62,6 +62,12 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void RemoveCategory(Category category)
         {
+            ConfirmDialog dialg = new($"Are you sure you want to delete {category.Name}? You will lose all the credentials associated with it. This action cannot be undone");
+            if(dialg.ShowDialog() == false) return;
+
+            PasswordConfirmDialog pdialog = new();
+            if (pdialog.ShowDialog() == false) return;
+
             db = new();
             db.Categories.Remove(category);
             db.SaveChanges();
@@ -89,8 +95,9 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void RemoveCredentials(Credential credential)
         {
-            PasswordConfirmDialog dialog = new(config);
+            PasswordConfirmDialog dialog = new();
             if (dialog.ShowDialog() == false) return;
+
             Category categoryToUpdate = Categories.First(x => x == credential.Category);
             db = new();
             db.Credentials.Remove(credential);
