@@ -26,15 +26,20 @@ namespace Orderly.Views.Dialogs
     /// </summary>
     public partial class PasswordConfirmDialog : FluentWindow
     {
+        public ICommand ConfirmCommand { get; set; }
         ProgramConfiguration Config;
 
         public PasswordConfirmDialog(IProgramConfiguration config)
         {
             Owner = MainWindow.Instance;
+            ConfirmCommand = new RelayCommand(Confirm);
             InitializeComponent();
             tbError.Visibility = Visibility.Collapsed;
             Config = (ProgramConfiguration?)config!;
+            DataContext = this;
         }
+
+        private void Confirm() => OnConfirmClick(this, new());
 
         private void OnCancelClick(object sender, RoutedEventArgs e)
         {

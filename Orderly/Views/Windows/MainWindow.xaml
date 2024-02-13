@@ -80,6 +80,15 @@
                         <ui:SymbolIcon Symbol="Home32" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
+                <ui:NavigationViewItem
+                    Content="About"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    TargetPageTag="home"
+                    TargetPageType="{x:Type views:AboutView}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Info28" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
                 <ui:NavigationViewItem

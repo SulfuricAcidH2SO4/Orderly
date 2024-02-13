@@ -68,6 +68,7 @@ namespace Orderly
                 services.AddSingleton<DashboardViewModel>();
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();
+                services.AddSingleton<AboutView>();
             }).Build();
 
         /// <summary>

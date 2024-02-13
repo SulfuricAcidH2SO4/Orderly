@@ -5,6 +5,7 @@
 
 using Orderly.Interfaces;
 using Orderly.Modules;
+using Orderly.Views.Dialogs;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -12,19 +13,24 @@ namespace Orderly.ViewModels.Pages
 {
     public partial class SettingsViewModel : ViewModelBase, INavigationAware
     {
-        private bool _isInitialized = false;
-
-        [ObservableProperty]
-        private string _appVersion = String.Empty;
-
         [ObservableProperty]
         ProgramConfiguration configuration;
 
         public SettingsViewModel(IProgramConfiguration config)
         {
-            AppVersion = $"{GetAssemblyVersion()}";
             Configuration = (ProgramConfiguration)config;
             Configuration.PropertyChanged += OnPropertyChanged;
+        }
+
+        [RelayCommand]
+        public void ChangeMasterPassword()
+        {
+            PasswordConfirmDialog confirmDialog = new(Configuration);
+
+            if(confirmDialog.ShowDialog() == true) {
+                PasswordChangeDialog dialog = new(Configuration);
+                dialog.ShowDialog();
+            }
         }
 
         public void OnNavigatedTo()
@@ -38,11 +44,6 @@ namespace Orderly.ViewModels.Pages
             Configuration.Save();
         }
 
-        private string GetAssemblyVersion()
-        {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString()
-                ?? String.Empty;
-        }
 
     }
 }
