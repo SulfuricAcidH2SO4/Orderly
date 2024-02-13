@@ -90,7 +90,7 @@
                                                 BorderThickness="0"
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.UpdateCategoryCommand}"
                                                 CommandParameter="{Binding .}"
-                                                IsChecked="{Binding IsFavorite}">
+                                                IsChecked="{Binding IsFavorite, Mode=TwoWay}">
                                                 <ui:SymbolIcon Symbol="Star28">
                                                     <ui:SymbolIcon.Style>
                                                         <Style TargetType="ui:SymbolIcon">
@@ -305,7 +305,8 @@
                                                                         BorderThickness="0"
                                                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.EnableEditingCommand}"
                                                                         CommandParameter="{Binding}"
-                                                                        Cursor="Hand">
+                                                                        Cursor="Hand"
+                                                                        Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityReconverter}}">
                                                                         <ui:SymbolIcon
                                                                             HorizontalAlignment="Center"
                                                                             VerticalAlignment="Center"

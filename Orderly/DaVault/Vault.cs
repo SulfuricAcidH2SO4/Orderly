@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace Orderly.DaVault
     public class Vault
     {
         public string ConfigEncryptionKey { get; set; } = string.Empty;
+        public string PasswordEncryptionKey { get; set; } = string.Empty;
 
         public static Vault Initialize()
         {
@@ -24,7 +26,10 @@ namespace Orderly.DaVault
                 }
             }
 
-            return JsonConvert.DeserializeObject<Vault>(jsonContent)!;
+            Vault v = JsonConvert.DeserializeObject<Vault>(jsonContent)!;
+            v.PasswordEncryptionKey = v.ConfigEncryptionKey.Substring(0, 24);
+
+            return v;
         }
     }
 }

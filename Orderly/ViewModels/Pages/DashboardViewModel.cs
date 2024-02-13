@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Orderly.Database;
 using Orderly.Database.Entities;
+using Orderly.DaVault;
 using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Modules;
@@ -108,9 +109,12 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void EnableEditing(Credential credential)
         {
+            if (credential.IsEditing) return;
             PasswordConfirmDialog dialog = new();
             if (dialog.ShowDialog() == false) return;
 
+            Vault v = App.GetService<Vault>();
+            credential.Password = EncryptionHelper.DecryptString(credential.Password, v.PasswordEncryptionKey);
             credential.IsEditing = true;
         }
 
@@ -118,7 +122,8 @@ namespace Orderly.ViewModels.Pages
         public void SaveEditing(Credential credential)
         {
             credential.IsEditing = false;
-
+            Vault v = App.GetService<Vault>();
+            credential.Password = EncryptionHelper.EncryptString(credential.Password, v.PasswordEncryptionKey);
             db = new();
             db.Credentials.Update(credential);
             db.SaveChanges();
@@ -143,16 +148,22 @@ namespace Orderly.ViewModels.Pages
             foreach (var category in Categories) {
                 category.PropertyChanged += OnCategoryPropertyChanged;
             }
+            SortList();
         }
 
         private void OnCategoryPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if(e.PropertyName == nameof(Category.IsFavorite)) {
-                //This might break EF
-                var sortedCollection = Categories.OrderBy(x => !x.IsFavorite).ToList();
-                Categories.Clear();
-                Categories.AddRange(sortedCollection);
+                SortList();
             }
+        }
+
+        private void SortList()
+        {
+            //This might break EF
+            var sortedCollection = Categories.OrderBy(x => !x.IsFavorite).ToList();
+            Categories.Clear();
+            Categories.AddRange(sortedCollection);
         }
     }
 }
