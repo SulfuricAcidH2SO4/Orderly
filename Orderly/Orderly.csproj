@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Orderly.Database\Orderly.Database.csproj" />
+    <ProjectReference Include="..\RadialMenu\RadialMenu.csproj" />
   </ItemGroup>
 
   <ItemGroup>

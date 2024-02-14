@@ -1,0 +1,26 @@
+﻿<Window
+    x:Class="Orderly.Views.RadialMenu.RadialMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:RadialMenu="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Orderly.Views.RadialMenu"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="RadialMenuView"
+    Width="800"
+    Height="450"
+    AllowsTransparency="True"
+    Background="Transparent"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Grid>
+        <RadialMenu:RadialMenu IsOpen="True">
+            <RadialMenu:RadialMenuItem>
+                <TextBlock Text="ayyy" />
+            </RadialMenu:RadialMenuItem>
+            <RadialMenu:RadialMenuItem>
+                <TextBlock Text="zamn" />
+            </RadialMenu:RadialMenuItem>
+        </RadialMenu:RadialMenu>
+    </Grid>
+</Window>

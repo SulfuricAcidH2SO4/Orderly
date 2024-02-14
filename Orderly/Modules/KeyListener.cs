@@ -1,4 +1,5 @@
-﻿using SharpHook;
+﻿using Orderly.Views.RadialMenu;
+using SharpHook;
 
 namespace Orderly.Modules
 {
@@ -21,7 +22,11 @@ namespace Orderly.Modules
         {
             if((e.RawEvent.Mask & (SharpHook.Native.ModifierMask.LeftAlt | SharpHook.Native.ModifierMask.LeftCtrl)) == (SharpHook.Native.ModifierMask.LeftAlt | SharpHook.Native.ModifierMask.LeftCtrl) && e.Data.KeyCode == SharpHook.Native.KeyCode.VcP)
             {
-                MessageBox.Show("zaaaamn");
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    RadialMenuView menu = new();
+                    menu.Show();
+                });
             }
         }
     }
