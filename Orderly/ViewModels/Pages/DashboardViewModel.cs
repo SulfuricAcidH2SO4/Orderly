@@ -75,7 +75,7 @@ namespace Orderly.ViewModels.Pages
             if (dialg.ShowDialog() == false) return;
 
             PasswordConfirmDialog pdialog = new();
-            if (pdialog.ShowDialog() == false) return;
+            if (category.Credentials!.Count != 0 && pdialog.ShowDialog() == false) return;
 
             db = new();
             db.Categories.Remove(category);
