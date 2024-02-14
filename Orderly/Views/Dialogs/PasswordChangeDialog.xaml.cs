@@ -1,4 +1,6 @@
-﻿using Orderly.Helpers;
+﻿using Orderly.Database;
+using Orderly.DaVault;
+using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.ViewModels;
@@ -62,7 +64,7 @@ namespace Orderly.Views.Dialogs
             }
 
             config.AbsolutePassword = EncryptionHelper.HashPassword(pass1);
-            config.Save();
+            UpdatePassword();
             Close();
         }
 
@@ -70,6 +72,21 @@ namespace Orderly.Views.Dialogs
         {
             DialogResult = false;
             Close();
+        }
+
+        private void UpdatePassword()
+        {
+            string oldKey = App.GetService<Vault>().PasswordEncryptionKey;
+            string newKey = EncryptionHelper.HashPassword(config.AbsolutePassword).Substring(0, 24);
+
+            DatabaseContext db = new();
+            foreach (var credential in db.Credentials) {
+                string plainPassword = EncryptionHelper.DecryptString(credential.Password, oldKey);
+                credential.Password = EncryptionHelper.EncryptString(plainPassword, newKey);
+                db.Credentials.Update(credential);
+            }
+            db.SaveChanges();
+            config.Save();
         }
     }
 }
