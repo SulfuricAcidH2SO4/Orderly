@@ -1,4 +1,5 @@
-﻿using Orderly.Helpers;
+﻿using Orderly.DaVault;
+using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Views.Windows;
@@ -63,6 +64,8 @@ namespace Orderly.ViewModels.Wizard
             }
             if(currentStep == 3) {
                 Config.Save();
+                Vault v = App.GetService<Vault>();
+                v.PasswordEncryptionKey = EncryptionHelper.HashPassword(Config.AbsolutePassword).Substring(0, 24);
                 MainWindow window = (MainWindow)App.GetService<INavigationWindow>();
                 window.Show();
                 WizardMainWindow wizardWindow = App.GetService<WizardMainWindow>();

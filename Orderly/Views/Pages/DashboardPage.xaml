@@ -31,10 +31,10 @@
     <Grid x:Name="grMainGrid" Margin="0,0,0,30">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-            <RowDefinition x:Name="middleRow" Height="*" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Margin="0,0,0,10">
+        <Grid Grid.Row="1" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="300" />
@@ -111,7 +111,7 @@
         </Grid>
         <Border
             x:Name="bdCredentialList"
-            Grid.Row="1"
+            Grid.Row="2"
             Padding="10"
             Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
             <ScrollViewer>

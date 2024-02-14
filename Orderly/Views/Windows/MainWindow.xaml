@@ -23,6 +23,7 @@
     WindowBackdropType="Mica"
     WindowCornerPreference="Round"
     WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     mc:Ignorable="d">
     <ui:FluentWindow.InputBindings>
         <KeyBinding
@@ -54,7 +55,20 @@
             PaneDisplayMode="Left"
             TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}">
             <ui:NavigationView.Header>
-                <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
+                <DockPanel>
+                    <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
+                    <StackPanel
+                        Margin="0,15,40,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <ui:SymbolIcon Symbol="Person12" />
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding ViewModel.Config.UserName}" />
+                    </StackPanel>
+                </DockPanel>
             </ui:NavigationView.Header>
             <ui:NavigationView.AutoSuggestBox>
                 <ui:AutoSuggestBox x:Name="AutoSuggestBox" PlaceholderText="Search">
