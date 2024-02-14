@@ -1,0 +1,182 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:RadialMenu.Controls"
+    xmlns:Converters="clr-namespace:RadialMenu.Converters">
+
+    <Converters:RadialMenuItemToContentPosition x:Key="RadialMenuItemToContentPosition"/>
+    <Converters:RadialMenuItemToArrowPosition x:Key="RadialMenuItemToArrowPosition"/>
+
+    <Style x:Key="RoundedArrowPath" TargetType="Path">
+        <Setter Property="Data" Value="m 5.427 222.9380 c 3.614 3.617 7.898 5.424 12.848 5.424 l 255.813 0 c 4.952 0 9.233 -1.807 12.85 -5.424 3.617 -3.621 5.424 -7.902 5.424 -12.851 0 -4.948 -1.807 -9.229 -5.424 -12.847 L 159.031 69.3330 c -3.621 -3.617 -7.902 -5.428 -12.85 -5.428 -4.948 0 -9.233 1.811 -12.847 5.428 L 5.427 197.2410 C 1.814 200.8580 0 205.1390 0 210.0880 c 0 4.948 1.814 9.229 5.427 12.85 z"/>
+        <Setter Property="Width" Value="76"/>
+        <Setter Property="Height" Value="42.75"/>
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="Canvas.Left" Value="0"/>
+        <Setter Property="Canvas.Top" Value="16.125"/>
+    </Style>
+
+    <Style TargetType="Controls:RadialMenuItem">
+
+        <Style.Triggers>
+
+            <!-- RadialMenuItem style when overed -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="EdgeBackground" Value="#999"/>
+                <Setter Property="Panel.ZIndex" Value="10"/>
+            </Trigger>
+
+            <!-- RadialMenuItem style when pressed -->
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="EdgeBackground" Value="#666"/>
+                <Setter Property="Panel.ZIndex" Value="10"/>
+            </Trigger>
+
+            <!-- RadialMenuItem style when disabled -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="EdgeBackground" Value="#F3F3F3"/>
+                <Setter Property="Foreground" Value="#AFAFAF"/>
+            </Trigger>
+
+        </Style.Triggers>
+
+        <!-- Default RadialMenuItem style -->
+        <Setter Property="Width" Value="300"/>
+        <Setter Property="Height" Value="300"/>
+        <Setter Property="CenterX" Value="150"/>
+        <Setter Property="CenterY" Value="150"/>
+        <Setter Property="InnerRadius" Value="30"/>
+        <Setter Property="OuterRadius" Value="150"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#111"/>
+        <Setter Property="EdgeInnerRadius" Value="135"/>
+        <Setter Property="EdgeOuterRadius" Value="150"/>
+        <Setter Property="EdgeBackground" Value="#CCC"/>
+        <Setter Property="EdgePadding" Value="2"/>
+        <Setter Property="ContentRadius" Value="82.5"/>
+        <Setter Property="ArrowBackground" Value="#FFF"/>
+        <Setter Property="ArrowRadius" Value="142.5"/>
+        <Setter Property="ArrowWidth" Value="14"/>
+        <Setter Property="ArrowHeight" Value="14"/>
+        <Setter Property="Panel.ZIndex" Value="0"/>
+
+        <!-- RadialMenuItem template -->
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Controls:RadialMenuItem">
+                    <Canvas Panel.ZIndex="{TemplateBinding Panel.ZIndex}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+
+                        <!-- Main pie piece -->
+                        <Controls:PieShape
+                            CenterX="{TemplateBinding CenterX}"
+                            CenterY="{TemplateBinding CenterY}"
+                            Padding="{TemplateBinding Padding}"
+                            OuterRadius="{TemplateBinding OuterRadius}"
+                            InnerRadius="{TemplateBinding InnerRadius}"
+                            Fill="{TemplateBinding Background}"
+                            StrokeThickness="{Binding BorderThickness.Top, RelativeSource={RelativeSource AncestorType=Controls:RadialMenuItem}}"
+                            Stroke="{TemplateBinding BorderBrush}"
+                            StartAngle="{TemplateBinding StartAngle}"
+                            AngleDelta="{TemplateBinding AngleDelta}"/>
+
+                        <!-- Edge pie piece -->
+                        <Controls:PieShape
+                            CenterX="{TemplateBinding CenterX}"
+                            CenterY="{TemplateBinding CenterY}"
+                            Padding="{TemplateBinding EdgePadding}"
+                            OuterRadius="{TemplateBinding EdgeOuterRadius}"
+                            InnerRadius="{TemplateBinding EdgeInnerRadius}"
+                            Fill="{TemplateBinding EdgeBackground}"
+                            StrokeThickness="{TemplateBinding EdgeBorderThickness}"
+                            Stroke="{TemplateBinding EdgeBorderBrush}"
+                            StartAngle="{TemplateBinding StartAngle}"
+                            AngleDelta="{TemplateBinding AngleDelta}"/>
+
+                        <!-- Edge content (arrow) -->
+                        <Canvas>
+
+                            <Canvas.RenderTransform>
+                                <!-- See : http://stackoverflow.com/a/3190907/2837434 -->
+                                <RotateTransform
+                                    x:Name="BindingErrorFix"
+                                    Angle="{Binding Rotation, RelativeSource={RelativeSource TemplatedParent}}"
+                                    CenterX="{Binding CenterX, RelativeSource={RelativeSource TemplatedParent}}"
+                                    CenterY="{Binding CenterY, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Canvas.RenderTransform>
+
+                            <Rectangle Width="{TemplateBinding ArrowWidth}" Height="{TemplateBinding ArrowHeight}">
+
+                                <Canvas.Left>
+                                    <MultiBinding Converter="{StaticResource RadialMenuItemToArrowPosition}" ConverterParameter="X">
+                                        <Binding Path="CenterX" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="CenterY" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="ArrowWidth" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="ArrowHeight" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="ArrowRadius" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    </MultiBinding>
+                                </Canvas.Left>
+
+                                <Canvas.Top>
+                                    <MultiBinding Converter="{StaticResource RadialMenuItemToArrowPosition}" ConverterParameter="Y">
+                                        <Binding Path="CenterX" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="CenterY" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="ArrowWidth" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="ArrowHeight" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="ArrowRadius" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    </MultiBinding>
+                                </Canvas.Top>
+
+                                <Rectangle.Fill>
+                                    <VisualBrush>
+                                        <VisualBrush.Visual>
+                                            <Canvas Width="76" Height="76" Background="Transparent">
+                                                <Path
+                                                    Style="{StaticResource RoundedArrowPath}"
+                                                    Stroke="{TemplateBinding ArrowBorderBrush}"
+                                                    StrokeThickness="{TemplateBinding ArrowBorderThickness}"
+                                                    Fill="{TemplateBinding ArrowBackground}"/>
+                                            </Canvas>
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </Rectangle.Fill>
+
+                            </Rectangle>
+                        </Canvas>
+
+                        <!-- Main content -->
+                        <ContentControl Content="{TemplateBinding Content}">
+
+                            <Canvas.Left>
+                                <MultiBinding Converter="{StaticResource RadialMenuItemToContentPosition}" ConverterParameter="X">
+                                    <Binding Path="Rotation" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    <Binding Path="CenterX" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    <Binding Path="CenterY" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    <Binding Path="Content.ActualWidth" RelativeSource="{RelativeSource TemplatedParent}" FallbackValue="0"/>
+                                    <Binding Path="Content.ActualHeight" RelativeSource="{RelativeSource TemplatedParent}" FallbackValue="0"/>
+                                    <Binding Path="ContentRadius" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                </MultiBinding>
+                            </Canvas.Left>
+
+                            <Canvas.Top>
+                                <MultiBinding Converter="{StaticResource RadialMenuItemToContentPosition}" ConverterParameter="Y">
+                                    <Binding Path="Rotation" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    <Binding Path="CenterX" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    <Binding Path="CenterY" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                    <Binding Path="Content.ActualWidth" RelativeSource="{RelativeSource TemplatedParent}" FallbackValue="0"/>
+                                    <Binding Path="Content.ActualHeight" RelativeSource="{RelativeSource TemplatedParent}" FallbackValue="0"/>
+                                    <Binding Path="ContentRadius" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                </MultiBinding>
+                            </Canvas.Top>
+
+                        </ContentControl>
+
+                    </Canvas>
+                </ControlTemplate>
+
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+</ResourceDictionary>
