@@ -95,6 +95,15 @@
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem
+                    Content="Backups"
+                    IsEnabled="False"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    TargetPageTag="backup">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="DatabaseLink24" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem
                     Content="About"
                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
                     TargetPageTag="home"
