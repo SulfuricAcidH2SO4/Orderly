@@ -1,5 +1,7 @@
 ﻿using Orderly.Views.RadialMenu;
 using SharpHook;
+using System.Windows.Media;
+using Wpf.Ui.Appearance;
 
 namespace Orderly.Modules
 {
@@ -26,7 +28,7 @@ namespace Orderly.Modules
                     RadialMenuView menu = App.GetService<RadialMenuView>();
                     menu.ViewModel.IsMenuOpen = true;
                     double xPos = System.Windows.Forms.Cursor.Position.X - (menu.Width / 2);
-                    double yPos = e.RawEvent.Mouse.Y - (menu.Height / 2);
+                    double yPos = System.Windows.Forms.Cursor.Position.Y - (menu.Height / 2);
                     yPos = yPos < 0 ? 0 : yPos;
                     menu.Top = yPos;
                     menu.Left = xPos;
