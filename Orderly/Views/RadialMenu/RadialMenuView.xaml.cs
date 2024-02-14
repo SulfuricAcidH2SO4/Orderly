@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Orderly.ViewModels.RadialMenu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,17 +12,47 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Wpf.Ui.Controls;
 
 namespace Orderly.Views.RadialMenu
 {
     /// <summary>
     /// Interaction logic for RadialMenuView.xaml
     /// </summary>
-    public partial class RadialMenuView : Window
+    public partial class RadialMenuView : INavigableView<RadialMenuViewModel>
     {
-        public RadialMenuView()
+        public RadialMenuViewModel ViewModel { get; private set; }
+        public RadialMenuView(RadialMenuViewModel viewModel)
         {
+            ViewModel = viewModel;
+            DataContext = this;
             InitializeComponent();
+        }
+
+        public void CloseMenu()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                ViewModel.IsMenuOpen = false;
+                Thread.Sleep(350);
+                Dispatcher.Invoke(() =>
+                {
+                    Hide();
+                });
+            });
+        }
+
+        private void OnFocusLost(object sender, EventArgs e)
+        {
+            var window = (Window)sender;
+            window.Topmost = true;
+            CloseMenu();
+        }
+
+        private void Window_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var window = (Window)sender;
+            window.Topmost = true;
         }
     }
 }

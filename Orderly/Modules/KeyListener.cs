@@ -5,8 +5,6 @@ namespace Orderly.Modules
 {
     public static class KeyListener
     {
-        public static Action? KeyCombinationPressed;
-
         [STAThread]
         public static void InitializeHook()
         {
@@ -22,9 +20,16 @@ namespace Orderly.Modules
         {
             if((e.RawEvent.Mask & (SharpHook.Native.ModifierMask.LeftAlt | SharpHook.Native.ModifierMask.LeftCtrl)) == (SharpHook.Native.ModifierMask.LeftAlt | SharpHook.Native.ModifierMask.LeftCtrl) && e.Data.KeyCode == SharpHook.Native.KeyCode.VcP)
             {
+                
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    RadialMenuView menu = new();
+                    RadialMenuView menu = App.GetService<RadialMenuView>();
+                    menu.ViewModel.IsMenuOpen = true;
+                    double xPos = System.Windows.Forms.Cursor.Position.X - (menu.Width / 2);
+                    double yPos = e.RawEvent.Mouse.Y - (menu.Height / 2);
+                    yPos = yPos < 0 ? 0 : yPos;
+                    menu.Top = yPos;
+                    menu.Left = xPos;
                     menu.Show();
                 });
             }

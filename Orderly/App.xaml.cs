@@ -10,10 +10,12 @@ using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Services;
 using Orderly.ViewModels.Pages;
+using Orderly.ViewModels.RadialMenu;
 using Orderly.ViewModels.Windows;
 using Orderly.ViewModels.Wizard;
 using Orderly.Views.Dialogs;
 using Orderly.Views.Pages;
+using Orderly.Views.RadialMenu;
 using Orderly.Views.Windows;
 using Orderly.Views.Wizard;
 using System.IO;
@@ -64,6 +66,10 @@ namespace Orderly
                 //Wizard
                 services.AddSingleton<WizardMainWindow>();
                 services.AddSingleton<WizardMainWIndowViewModel>();
+
+                //Radial Menu
+                services.AddSingleton<RadialMenuView>();
+                services.AddSingleton<RadialMenuViewModel>();
 
                 //General
                 services.AddSingleton<DashboardPage>();

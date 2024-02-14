@@ -6,20 +6,38 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Orderly.Views.RadialMenu"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="RadialMenuView"
-    Width="800"
-    Height="450"
+    Width="350"
+    Height="350"
+    d:DataContext="{d:DesignInstance local:RadialMenuView,
+                                     IsDesignTimeCreatable=False}"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     AllowsTransparency="True"
     Background="Transparent"
+    Deactivated="OnFocusLost"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    PreviewLostKeyboardFocus="Window_PreviewLostKeyboardFocus"
+    ShowInTaskbar="False"
+    Topmost="True"
     WindowStyle="None"
     mc:Ignorable="d">
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding ViewModel.CloseMenuCommand}" />
+    </Window.InputBindings>
     <Grid>
-        <RadialMenu:RadialMenu IsOpen="True">
-            <RadialMenu:RadialMenuItem>
-                <TextBlock Text="ayyy" />
+        <RadialMenu:RadialMenu IsOpen="{Binding ViewModel.IsMenuOpen}">
+            <RadialMenu:RadialMenu.CentralItem>
+                <RadialMenu:RadialMenuCentralItem Command="{Binding ViewModel.CloseMenuCommand}">
+                    <TextBlock Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="Close" />
+                </RadialMenu:RadialMenuCentralItem>
+            </RadialMenu:RadialMenu.CentralItem>
+            <RadialMenu:RadialMenuItem Background="Red">
+                <TextBlock Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="ayyy" />
             </RadialMenu:RadialMenuItem>
-            <RadialMenu:RadialMenuItem>
-                <TextBlock Text="zamn" />
+            <RadialMenu:RadialMenuItem Background="Red">
+                <TextBlock Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="zamn" />
             </RadialMenu:RadialMenuItem>
         </RadialMenu:RadialMenu>
     </Grid>
