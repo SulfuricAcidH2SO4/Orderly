@@ -19,6 +19,8 @@ namespace Orderly.Modules
     public class ProgramConfiguration : IProgramConfiguration, INotifyPropertyChanged
     {
         private string absolutePassword = string.Empty;
+        private string passwordHint = string.Empty;
+        private string userName = string.Empty;
         private bool isDarkMode = true;
         private bool showMinimizeNotifaction = true;
         private bool startOnStartup = true;
@@ -32,6 +34,22 @@ namespace Orderly.Modules
             set
             {
                 SetProperty(ref absolutePassword, value);
+            }
+        }
+        public string PasswordHint
+        {
+            get => passwordHint;
+            set
+            {
+                SetProperty(ref passwordHint, value);
+            }
+        }
+        public string UserName
+        {
+            get => userName;
+            set
+            {
+                SetProperty(ref userName, value);
             }
         }
         public bool IsDarkMode

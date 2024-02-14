@@ -15,6 +15,8 @@ namespace Orderly.Interfaces
     public interface IProgramConfiguration
     {
         string AbsolutePassword { get; set; }
+        string PasswordHint { get; set; }
+        string UserName { get; set; }
         bool IsDarkMode {  get; set; }
         bool ShowMinimizeNotification { get; set; }
         bool StartOnStartUp {  get; set; }

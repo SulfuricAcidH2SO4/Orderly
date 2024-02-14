@@ -1,12 +1,289 @@
-﻿<Window x:Class="Orderly.Views.Wizard.WizardMainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Orderly.Views.Wizard"
-        mc:Ignorable="d"
-        Title="WizardMainWindow" Height="450" Width="800">
+﻿<ui:FluentWindow
+    x:Class="Orderly.Views.Wizard.WizardMainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Orderly.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:Orderly.Helpers"
+    xmlns:local="clr-namespace:Orderly.Views.Wizard"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="WizardMainWindow"
+    Width="450"
+    Height="650"
+    MinWidth="0"
+    MinHeight="0"
+    d:DataContext="{d:DesignInstance local:WizardMainWindow,
+                                     IsDesignTimeCreatable=False}"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <ui:FluentWindow.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </ui:FluentWindow.Resources>
     <Grid>
-        
+        <ui:TitleBar ShowMaximize="False" />
+        <Grid x:Name="view1" Visibility="{Binding ViewModel.ShowStep1, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Image VerticalAlignment="Top" Source="/Assets/WizardBg.png" />
+            <Button
+                Margin="0,425,0,0"
+                Padding="80,15"
+                HorizontalAlignment="Center"
+                Background="{DynamicResource ApplicationBackgroundBrush}"
+                Command="{Binding ViewModel.NextPageCommand}"
+                Content="Start" />
+            <StackPanel
+                Margin="0,25"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Grid>
+                    <Ellipse
+                        Width="25"
+                        Height="25"
+                        Margin="5,0"
+                        Fill="{DynamicResource ApplicationBackgroundBrush}" />
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="5,0"
+                        Fill="#ff8146" />
+                </Grid>
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="{DynamicResource ApplicationBackgroundBrush}" />
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="{DynamicResource ApplicationBackgroundBrush}" />
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="{DynamicResource ApplicationBackgroundBrush}" />
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="view2" Visibility="{Binding ViewModel.ShowStep2, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Margin="30,50">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    FontFamily="/Resources/#Mont DEMO"
+                    FontSize="30"
+                    Text="First off... how should we call you?"
+                    TextWrapping="Wrap" />
+                <ui:TextBox
+                    Grid.Row="1"
+                    Height="40"
+                    Margin="0,50"
+                    VerticalAlignment="Top"
+                    PlaceholderText="John Doe"
+                    Text="{Binding ViewModel.Config.UserName, Mode=TwoWay}" />
+            </Grid>
+            <Button
+                Margin="0,425,0,0"
+                Padding="80,15"
+                HorizontalAlignment="Center"
+                Background="#ff8146"
+                Command="{Binding ViewModel.NextPageCommand}"
+                Content="Next" />
+            <StackPanel
+                Margin="0,25"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
+                <Grid>
+                    <Ellipse
+                        Width="25"
+                        Height="25"
+                        Margin="5,0"
+                        Fill="#ff8146" />
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="5,0"
+                        Fill="{DynamicResource ApplicationBackgroundBrush}" />
+                </Grid>
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
+
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="view3" Visibility="{Binding ViewModel.ShowStep3, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Margin="30,50">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    FontFamily="/Resources/#Mont DEMO"
+                    FontSize="30"
+                    Text="Then, set up your master password ."
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="0,20"
+                    FontFamily="/Resources/#Louis George Cafe"
+                    FontSize="15"
+                    TextWrapping="Wrap">
+                    <Run>Watch out, this password is the one you</Run>
+                    <Run FontSize="20" FontWeight="Bold">MUST</Run>
+                    <Run>remember every time. Losing this means you'll lose access to all your credentials!</Run>
+                </TextBlock>
+                <ui:PasswordBox
+                    Grid.Row="2"
+                    Height="40"
+                    Margin="0,50,0,10"
+                    VerticalAlignment="Top"
+                    helpers:PasswordHelper.Attach="True"
+                    helpers:PasswordHelper.Password="{Binding ViewModel.Pass1, Mode=TwoWay}"
+                    PlaceholderText="Password..." />
+                <ui:PasswordBox
+                    Grid.Row="3"
+                    Height="40"
+                    VerticalAlignment="Top"
+                    helpers:PasswordHelper.Attach="True"
+                    helpers:PasswordHelper.Password="{Binding ViewModel.Pass2, Mode=TwoWay}"
+                    PlaceholderText="Confirm password..." />
+                <TextBlock
+                    Grid.Row="4"
+                    Opacity=".5"
+                    Text="Your password must be longer than 6 characters, contain at least 1 special character (!, ?...) and at least 1 digit"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Grid.Row="5"
+                    Foreground="Red"
+                    Text="{Binding ViewModel.ErrorMessage}" />
+            </Grid>
+            <Button
+                Margin="0,425,0,0"
+                Padding="80,15"
+                HorizontalAlignment="Center"
+                Background="#ff8146"
+                Command="{Binding ViewModel.NextPageCommand}"
+                Content="Next" />
+            <StackPanel
+                Margin="0,25"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
+                <Grid>
+                    <Ellipse
+                        Width="25"
+                        Height="25"
+                        Margin="5,0"
+                        Fill="#ff8146" />
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="5,0"
+                        Fill="{DynamicResource ApplicationBackgroundBrush}" />
+                </Grid>
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
+
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="view4" Visibility="{Binding ViewModel.ShowStep4, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Margin="30,50">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    FontFamily="/Resources/#Mont DEMO"
+                    FontSize="30"
+                    TextWrapping="Wrap">
+                    <Run>Lastly, set up a hint in case you DO forget it</Run>
+                    <Run FontFamily="Seg" FontSize="12">(even though we told you to not to... (ಠ_ಠ))</Run>
+                </TextBlock>
+                <ui:TextBox
+                    Grid.Row="1"
+                    Margin="0,50"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    PlaceholderText="Awesome hint..."
+                    Text="{Binding ViewModel.Config.PasswordHint, Mode=TwoWay}"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Visible" />
+            </Grid>
+            <Button
+                Margin="0,425,0,0"
+                Padding="80,15"
+                HorizontalAlignment="Center"
+                Background="#ff8146"
+                Command="{Binding ViewModel.NextPageCommand}"
+                Content="Finish" />
+            <StackPanel
+                Margin="0,25"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
+
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
+                <Grid>
+                    <Ellipse
+                        Width="25"
+                        Height="25"
+                        Margin="5,0"
+                        Fill="#ff8146" />
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="5,0"
+                        Fill="{DynamicResource ApplicationBackgroundBrush}" />
+                </Grid>
+
+            </StackPanel>
+        </Grid>
     </Grid>
-</Window>
+</ui:FluentWindow>

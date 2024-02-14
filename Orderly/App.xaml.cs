@@ -64,7 +64,7 @@ namespace Orderly
                 //Wizard
                 services.AddSingleton<WizardMainWindow>();
                 services.AddSingleton<WizardMainWIndowViewModel>();
-                
+
                 //General
                 services.AddSingleton<DashboardPage>();
                 services.AddSingleton<DashboardViewModel>();
@@ -119,10 +119,8 @@ namespace Orderly
             }
 
             DatabaseContext db = new();
-            if (!db.Categories.Any())
-            {
-                db.Categories.Add(new()
-                {
+            if (!db.Categories.Any()) {
+                db.Categories.Add(new() {
                     Name = "General",
                 });
                 db.SaveChanges();
@@ -133,6 +131,8 @@ namespace Orderly
 
             sc.Close(TimeSpan.FromSeconds(.5));
 
+            if (CheckWizardLaunch()) return;
+
             if (config.StartMinimized) {
                 TaskbarIcon tb = (TaskbarIcon)FindResource("TaskBarIcon");
                 tb.Visibility = Visibility.Visible;
@@ -141,6 +141,16 @@ namespace Orderly
             else {
                 window.ShowWindow();
             }
+        }
+
+        private bool CheckWizardLaunch()
+        {
+            if (!string.IsNullOrEmpty(config.AbsolutePassword)) return false;
+
+            WizardMainWindow wizardWindow = GetService<WizardMainWindow>();
+            wizardWindow.ShowDialog();
+            MainWindow.Show();
+            return true;
         }
     }
 }

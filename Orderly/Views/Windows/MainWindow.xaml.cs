@@ -90,8 +90,10 @@ namespace Orderly.Views.Windows
             if (Configuration.CloseButtonClosesApp) {
                 Application.Current.Shutdown();
             }
-            e.Cancel = true;
-            ShowTaskbarIcon();
+            else {
+                e.Cancel = true;
+                ShowTaskbarIcon();
+            }
         }
 
         private void ShowTaskbarIcon()
@@ -104,6 +106,7 @@ namespace Orderly.Views.Windows
             if (Configuration.ShowMinimizeNotification) {
                 new ToastContentBuilder()
                     .AddText("Orderly has been minimized!")
+                    .AddAttributionText("You can find it again in your system tray!")
                     .Show();
             }
         }
