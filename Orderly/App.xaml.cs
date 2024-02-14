@@ -113,6 +113,7 @@ namespace Orderly
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            KeyListener.InitializeHook();
             SplashScreen sc = new("/Assets/SplashScreen.png");
             if (!config.StartMinimized) {
                 sc.Show(false);
