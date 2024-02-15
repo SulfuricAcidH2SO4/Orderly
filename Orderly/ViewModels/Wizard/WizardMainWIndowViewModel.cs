@@ -28,8 +28,6 @@ namespace Orderly.ViewModels.Wizard
         [ObservableProperty]
         private bool showStep5 = false;
         [ObservableProperty]
-        private bool showStep6 = false;
-        [ObservableProperty]
         private string pass1 = string.Empty;
         [ObservableProperty]
         private string pass2 = string.Empty;
@@ -65,15 +63,16 @@ namespace Orderly.ViewModels.Wizard
                 }
 
                 Config.AbsolutePassword = EncryptionHelper.HashPassword(Pass1);
+                ErrorMessage = string.Empty;
             }
-            if(currentStep == 5) {
+            if(currentStep == 4) {
                 Config.Save();
                 Vault v = App.GetService<Vault>();
                 v.PasswordEncryptionKey = EncryptionHelper.HashPassword(Config.AbsolutePassword).Substring(0, 24);
                 MainWindow window = (MainWindow)App.GetService<INavigationWindow>();
                 window.Show();
                 WizardMainWindow wizardWindow = App.GetService<WizardMainWindow>();
-                wizardWindow.Close();
+                wizardWindow.CLoseWizard();
             }
             currentStep++;
             ShowStep1 = currentStep == 0;
@@ -81,7 +80,6 @@ namespace Orderly.ViewModels.Wizard
             ShowStep3 = currentStep == 2;
             ShowStep4 = currentStep == 3;
             ShowStep5 = currentStep == 4;
-            ShowStep6 = currentStep == 5;
         }
         [RelayCommand]
         private void MoveToPage(string page)
@@ -92,7 +90,6 @@ namespace Orderly.ViewModels.Wizard
             ShowStep3 = currentStep == 2;
             ShowStep4 = currentStep == 3;
             ShowStep5 = currentStep == 4;
-            ShowStep6 = currentStep == 5;
         }
     }
 }

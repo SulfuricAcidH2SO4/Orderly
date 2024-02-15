@@ -21,6 +21,7 @@
     <None Remove="Assets\SplashScreen.png" />
     <None Remove="Assets\WizardBg.png" />
     <None Remove="DaVault\DaVault.json" />
+    <None Remove="Resources\LouiseGeorge.ttf" />
     <None Remove="Resources\Mont.otf" />
   </ItemGroup>
 
@@ -50,8 +51,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\SplashScreen.png" />
+    <Resource Include="Assets\SplashScreen.png"/>
     <Resource Include="Assets\WizardBg.png" />
+    <Resource Include="Resources\LouiseGeorge.ttf" />
     <Resource Include="Resources\Mont.otf" />
     <EmbeddedResource Include="DaVault\DaVault.json" />
   </ItemGroup>

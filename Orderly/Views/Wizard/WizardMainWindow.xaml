@@ -15,6 +15,7 @@
     MinHeight="0"
     d:DataContext="{d:DesignInstance local:WizardMainWindow,
                                      IsDesignTimeCreatable=False}"
+    Closing="OnWizardClosing"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -34,7 +35,8 @@
                 HorizontalAlignment="Center"
                 Background="{DynamicResource ApplicationBackgroundBrush}"
                 Command="{Binding ViewModel.NextPageCommand}"
-                Content="Start" />
+                Content="Start"
+                Cursor="Hand" />
             <StackPanel
                 Margin="0,25"
                 HorizontalAlignment="Center"
@@ -52,11 +54,6 @@
                         Margin="5,0"
                         Fill="#ff8146" />
                 </Grid>
-                <Ellipse
-                    Width="15"
-                    Height="15"
-                    Margin="5,0"
-                    Fill="{DynamicResource ApplicationBackgroundBrush}" />
                 <Ellipse
                     Width="15"
                     Height="15"
@@ -104,7 +101,8 @@
                 HorizontalAlignment="Center"
                 Background="#ff8146"
                 Command="{Binding ViewModel.NextPageCommand}"
-                Content="Next" />
+                Content="Next"
+                Cursor="Hand" />
             <StackPanel
                 Margin="0,25"
                 HorizontalAlignment="Center"
@@ -145,7 +143,11 @@
                     Height="15"
                     Margin="5,0"
                     Fill="#ff8146" />
-
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
             </StackPanel>
         </Grid>
         <Grid x:Name="view3" Visibility="{Binding ViewModel.ShowStep3, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -204,7 +206,8 @@
                 HorizontalAlignment="Center"
                 Background="#ff8146"
                 Command="{Binding ViewModel.NextPageCommand}"
-                Content="Next" />
+                Content="Next"
+                Cursor="Hand" />
             <StackPanel
                 Margin="0,25"
                 HorizontalAlignment="Center"
@@ -253,7 +256,11 @@
                     Height="15"
                     Margin="5,0"
                     Fill="#ff8146" />
-
+                <Ellipse
+                    Width="15"
+                    Height="15"
+                    Margin="5,0"
+                    Fill="#ff8146" />
             </StackPanel>
         </Grid>
         <Grid x:Name="view4" Visibility="{Binding ViewModel.ShowStep4, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -285,7 +292,8 @@
                 HorizontalAlignment="Center"
                 Background="#ff8146"
                 Command="{Binding ViewModel.NextPageCommand}"
-                Content="Finish" />
+                Content="Next"
+                Cursor="Hand" />
             <StackPanel
                 Margin="0,25"
                 HorizontalAlignment="Center"
@@ -350,21 +358,21 @@
             </StackPanel>
         </Grid>
         <Grid x:Name="view5" Visibility="{Binding ViewModel.ShowStep5, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid Margin="30,50">
+            <Grid Height="500" Margin="30,0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <TextBlock
+                    Margin="0,-25,0,0"
+                    VerticalAlignment="Top"
                     FontFamily="/Resources/#Mont DEMO"
                     FontSize="30"
                     TextWrapping="Wrap">
                     <Run>How would you like to render your app?</Run>
                 </TextBlock>
-                <Grid
-                    Grid.Row="1"
-                    Margin="0,50,0,100"
-                    ShowGridLines="True">
+                <Grid Grid.Row="1" Margin="0,50,0,100">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition />
@@ -377,9 +385,42 @@
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
+                    <Border
+                        Grid.RowSpan="5"
+                        Grid.Column="1"
+                        Background="White"
+                        Opacity=".12">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=rbSoftware, Path=IsChecked}" Value="false">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
+                    <Border
+                        Grid.RowSpan="5"
+                        Grid.Column="2"
+                        Background="White"
+                        Opacity=".12">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=rbHardware, Path=IsChecked}" Value="false">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                    </Border>
                     <TextBlock
                         Grid.Column="1"
                         Margin="10,5"
+                        HorizontalAlignment="Center"
                         FontFamily="/Resources/#Mont DEMO"
                         Foreground="#ff8146"
                         Text="Software rendering"
@@ -387,6 +428,7 @@
                     <TextBlock
                         Grid.Column="2"
                         Margin="10,5"
+                        HorizontalAlignment="Center"
                         VerticalAlignment="Bottom"
                         FontFamily="/Resources/#Mont DEMO"
                         Foreground="#ff8146"
@@ -400,8 +442,8 @@
                         Text="Memory usage" />
                     <StackPanel
                         Grid.Row="1"
-                        Grid.Column="1"
-                        Margin="10,5"
+                        Grid.Column="2"
+                        Margin="15,5"
                         Orientation="Horizontal">
                         <TextBlock
                             Margin="0,0,5,0"
@@ -416,8 +458,8 @@
                     </StackPanel>
                     <StackPanel
                         Grid.Row="1"
-                        Grid.Column="2"
-                        Margin="10,5"
+                        Grid.Column="1"
+                        Margin="15,5"
                         Orientation="Horizontal">
                         <TextBlock
                             Margin="0,0,5,0"
@@ -439,8 +481,8 @@
                         Text="CPU usage" />
                     <StackPanel
                         Grid.Row="2"
-                        Grid.Column="1"
-                        Margin="10,5"
+                        Grid.Column="2"
+                        Margin="15,5"
                         Orientation="Horizontal">
                         <TextBlock
                             Margin="0,0,5,0"
@@ -455,8 +497,8 @@
                     </StackPanel>
                     <StackPanel
                         Grid.Row="2"
-                        Grid.Column="2"
-                        Margin="10,5"
+                        Grid.Column="1"
+                        Margin="15,5"
                         Orientation="Horizontal">
                         <TextBlock
                             Margin="0,0,5,0"
@@ -479,7 +521,7 @@
                     <StackPanel
                         Grid.Row="3"
                         Grid.Column="1"
-                        Margin="10,5"
+                        Margin="15,5"
                         Orientation="Horizontal">
                         <TextBlock
                             Margin="0,0,5,0"
@@ -496,7 +538,7 @@
                     <StackPanel
                         Grid.Row="3"
                         Grid.Column="2"
-                        Margin="10,5"
+                        Margin="15,5"
                         Orientation="Horizontal">
                         <TextBlock
                             Margin="0,0,5,0"
@@ -509,6 +551,35 @@
                             FontStyle="Italic"
                             Text="Smooth" />
                     </StackPanel>
+                    <RadioButton
+                        x:Name="rbSoftware"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        Content="Select"
+                        GroupName="renderingMode"
+                        IsChecked="True" />
+                    <RadioButton
+                        x:Name="rbHardware"
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        Content="Select"
+                        GroupName="renderingMode"
+                        IsChecked="{Binding ViewModel.Config.UseHardwareRendering, Mode=TwoWay}" />
+                    <Border
+                        Grid.RowSpan="5"
+                        Grid.Column="0"
+                        Width="2"
+                        HorizontalAlignment="Right"
+                        Background="White" />
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Height="2"
+                        VerticalAlignment="Top"
+                        Background="White" />
                 </Grid>
             </Grid>
             <Button
@@ -517,7 +588,8 @@
                 HorizontalAlignment="Center"
                 Background="#ff8146"
                 Command="{Binding ViewModel.NextPageCommand}"
-                Content="Finish" />
+                Content="Finish"
+                Cursor="Hand" />
             <StackPanel
                 Margin="0,25"
                 HorizontalAlignment="Center"
@@ -587,7 +659,6 @@
                         Margin="5,0"
                         Fill="{DynamicResource ApplicationBackgroundBrush}" />
                 </Grid>
-
 
             </StackPanel>
         </Grid>

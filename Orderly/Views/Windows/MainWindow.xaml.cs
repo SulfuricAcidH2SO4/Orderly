@@ -89,6 +89,7 @@ namespace Orderly.Views.Windows
         {
             if (Configuration.CloseButtonClosesApp) {
                 Application.Current.Shutdown();
+                return;
             }
             else {
                 e.Cancel = true;

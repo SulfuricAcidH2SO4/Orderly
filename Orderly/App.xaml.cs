@@ -120,7 +120,7 @@ namespace Orderly
         protected override void OnStartup(StartupEventArgs e)
         {
             KeyListener.InitializeHook();
-            RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
+            RenderOptions.ProcessRenderMode = config.UseHardwareRendering ? System.Windows.Interop.RenderMode.Default : System.Windows.Interop.RenderMode.SoftwareOnly;
             SplashScreen sc = new("/Assets/SplashScreen.png");
             if (!config.StartMinimized) {
                 sc.Show(false);
@@ -139,7 +139,11 @@ namespace Orderly
 
             sc.Close(TimeSpan.FromSeconds(.5));
 
-            if (CheckWizardLaunch()) return;
+            if (CheckWizardLaunch())
+            {
+                RenderOptions.ProcessRenderMode = config.UseHardwareRendering ? System.Windows.Interop.RenderMode.Default : System.Windows.Interop.RenderMode.SoftwareOnly;
+                MainWindow.Show();
+            }
 
             if (config.StartMinimized) {
                 TaskbarIcon tb = (TaskbarIcon)FindResource("TaskBarIcon");
@@ -156,8 +160,11 @@ namespace Orderly
             if (!string.IsNullOrEmpty(config.AbsolutePassword)) return false;
 
             WizardMainWindow wizardWindow = GetService<WizardMainWindow>();
-            wizardWindow.ShowDialog();
-            MainWindow.Show();
+            if (wizardWindow.ShowDialog() == false)
+            {
+                Shutdown();
+                return true;
+            }
             return true;
         }
     }
