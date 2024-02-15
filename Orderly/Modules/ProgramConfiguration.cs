@@ -26,6 +26,7 @@ namespace Orderly.Modules
         private bool startOnStartup = true;
         private bool startMinimized = false;
         private bool closeButtonClosesApp = false;
+        private bool useHardwareRendering = false;
         private FilteringOptions filteringOptions = new();
         
         public string AbsolutePassword
@@ -92,6 +93,14 @@ namespace Orderly.Modules
             set
             {
                 SetProperty(ref closeButtonClosesApp, value);
+            }
+        }
+        public bool UseHardwareRendering
+        {
+            get => useHardwareRendering;
+            set
+            {
+                SetProperty(ref useHardwareRendering, value);
             }
         }
         public FilteringOptions FilteringOptions

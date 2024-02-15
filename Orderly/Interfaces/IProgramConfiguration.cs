@@ -22,6 +22,7 @@ namespace Orderly.Interfaces
         bool StartOnStartUp {  get; set; }
         bool StartMinimized { get; set; }
         bool CloseButtonClosesApp { get; set; }  
+        bool UseHardwareRendering { get; set; }
         FilteringOptions FilteringOptions { get; set; }
 
         void Save();

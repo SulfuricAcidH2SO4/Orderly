@@ -120,6 +120,7 @@ namespace Orderly
         protected override void OnStartup(StartupEventArgs e)
         {
             KeyListener.InitializeHook();
+            RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
             SplashScreen sc = new("/Assets/SplashScreen.png");
             if (!config.StartMinimized) {
                 sc.Show(false);
