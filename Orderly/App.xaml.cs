@@ -33,7 +33,7 @@ namespace Orderly
         static ProgramConfiguration config;
         private static readonly IHost _host = Host
             .CreateDefaultBuilder()
-            .ConfigureAppConfiguration(c => { c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)); })
+            .ConfigureAppConfiguration(c => { c.SetBasePath(AppDomain.CurrentDomain.BaseDirectory); })
             .ConfigureServices((context, services) => {
                 services.AddHostedService<ApplicationHostService>();
 
