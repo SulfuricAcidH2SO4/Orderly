@@ -2,6 +2,7 @@
     x:Class="Orderly.Views.RadialMenu.RadialMenuView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
     xmlns:RadialMenu="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Orderly.Views.RadialMenu"
@@ -23,21 +24,113 @@
     Topmost="True"
     WindowStyle="None"
     mc:Ignorable="d">
+    <Window.Resources>
+        <Style
+            x:Key="RadialMenuItemCustomStyle"
+            BasedOn="{StaticResource {x:Type Controls:RadialMenuItem}}"
+            TargetType="Controls:RadialMenuItem">
+
+            <Setter Property="Background" Value="{DynamicResource ApplicationBackgroundBrush}" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="InnerRadius" Value="40" />
+            <Setter Property="OuterRadius" Value="150" />
+            <Setter Property="ContentRadius" Value="85" />
+
+            <Setter Property="EdgeBackground" Value="#ff8b26" />
+            <Setter Property="EdgePadding" Value="7" />
+            <Setter Property="EdgeInnerRadius" Value="130" />
+            <Setter Property="EdgeOuterRadius" Value="145" />
+
+            <Setter Property="ArrowBackground" Value="{DynamicResource ApplicationBackgroundBrush}" />
+            <Setter Property="ArrowRadius" Value="138" />
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="EdgeBackground.Color"
+                                    From="#ff8b26"
+                                    To="#e0791f"
+                                    Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="EdgeBackground.Color"
+                                    From="#e0791f"
+                                    To="#ff8b26"
+                                    Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="EdgeBackground.Color"
+                                    From="#e0791f"
+                                    To="#bd5a03"
+                                    Duration="0:0:0.05" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="EdgeBackground.Color"
+                                    From="#e0791f"
+                                    To="#e0791f"
+                                    Duration="0:0:0.05" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+    </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding ViewModel.CloseMenuCommand}" />
     </Window.InputBindings>
     <Grid>
         <RadialMenu:RadialMenu IsOpen="{Binding ViewModel.IsMenuOpen}">
             <RadialMenu:RadialMenu.CentralItem>
-                <RadialMenu:RadialMenuCentralItem Command="{Binding ViewModel.CloseMenuCommand}">
-                    <TextBlock Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="Close" />
+                <RadialMenu:RadialMenuCentralItem Background="{DynamicResource ApplicationBackgroundBrush}" Command="{Binding ViewModel.CloseMenuCommand}">
+                    <ui:SymbolIcon Foreground="White" Symbol="Dismiss24" />
                 </RadialMenu:RadialMenuCentralItem>
             </RadialMenu:RadialMenu.CentralItem>
-            <RadialMenu:RadialMenuItem Background="Red">
-                <TextBlock Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="ayyy" />
+            <RadialMenu:RadialMenuItem Style="{StaticResource RadialMenuItemCustomStyle}">
+                <StackPanel>
+                    <ui:SymbolIcon
+                        FontSize="30"
+                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                        Symbol="ShieldLock20" />
+                    <ui:TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                        Text="Use credential"
+                        TextWrapping="Wrap" />
+                </StackPanel>
             </RadialMenu:RadialMenuItem>
-            <RadialMenu:RadialMenuItem Background="Red">
-                <TextBlock Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="zamn" />
+            <RadialMenu:RadialMenuItem Style="{StaticResource RadialMenuItemCustomStyle}">
+                <StackPanel>
+                    <ui:SymbolIcon
+                        FontSize="30"
+                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                        Symbol="Add16" />
+                    <ui:TextBlock
+                        HorizontalAlignment="Center"
+                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                        Text="Add new" />
+                </StackPanel>
             </RadialMenu:RadialMenuItem>
         </RadialMenu:RadialMenu>
     </Grid>
