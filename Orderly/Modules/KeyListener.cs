@@ -1,39 +1,36 @@
 ﻿using Orderly.Views.RadialMenu;
-using SharpHook;
-using System.Windows.Media;
-using Wpf.Ui.Appearance;
+using Gma.System.MouseKeyHook;
+using System.Windows.Forms;
 
 namespace Orderly.Modules
 {
     public static class KeyListener
     {
-        [STAThread]
+        private static IKeyboardMouseEvents? hook;
+
         public static void InitializeHook()
         {
-            Task.Factory.StartNew(() =>
-            {
-                var hook = new TaskPoolGlobalHook();
-                hook.KeyPressed += OnKeyPressed;
-                hook.Run();
-            });
+            hook = Hook.GlobalEvents();
+            hook.KeyDown += OnKeyDown;
+            App.Current.Exit += OnAppExit;
         }
 
-        private static void OnKeyPressed(object? sender, KeyboardHookEventArgs e)
+        private static void OnAppExit(object sender, ExitEventArgs e)
         {
-            if((e.RawEvent.Mask & (SharpHook.Native.ModifierMask.LeftAlt | SharpHook.Native.ModifierMask.LeftCtrl)) == (SharpHook.Native.ModifierMask.LeftAlt | SharpHook.Native.ModifierMask.LeftCtrl) && e.Data.KeyCode == SharpHook.Native.KeyCode.VcP)
-            {
-                
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    RadialMenuView menu = App.GetService<RadialMenuView>();
-                    if (menu.IsVisible) return;
-                    double xPos = System.Windows.Forms.Cursor.Position.X - (menu.Width / 2);
-                    double yPos = System.Windows.Forms.Cursor.Position.Y - (menu.Height / 2);
-                    yPos = yPos < 0 ? 0 : yPos;
-                    menu.Top = yPos;
-                    menu.Left = xPos;
-                    menu.OpenMenu();
-                });
+            hook!.KeyDown -= OnKeyDown;
+        }
+
+        private static void OnKeyDown(object? sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyValue == (int)Keys.P && e.Control && e.Alt) {
+                RadialMenuView menu = App.GetService<RadialMenuView>();
+                if (menu.IsVisible) return;
+                double xPos = Cursor.Position.X - (menu.Width / 2);
+                double yPos = Cursor.Position.Y - (menu.Height / 2);
+                yPos = yPos < 0 ? 0 : yPos;
+                menu.Top = yPos;
+                menu.Left = xPos;
+                menu.OpenMenu();
             }
         }
     }
