@@ -7,6 +7,7 @@ using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Views.Dialogs;
+using Orderly.Views.Pages;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Controls.Primitives;
@@ -142,7 +143,12 @@ namespace Orderly.ViewModels.Pages
 
         public void OnNavigatedFrom()
         {
-            
+            Task.Factory.StartNew(() => {
+                Categories.Clear();
+                db.Dispose();
+                GC.Collect();
+                isInitialized = false;
+            });
         }
 
         public void OnNavigatedTo()

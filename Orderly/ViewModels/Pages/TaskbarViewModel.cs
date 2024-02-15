@@ -28,7 +28,6 @@ namespace Orderly.ViewModels.Pages
         public void CloseApp()
         {
             Application.Current.Shutdown();
-
             if (tb == null) tb = (TaskbarIcon)Application.Current.FindResource("TaskBarIcon");
             tb.TrayPopupResolved.IsOpen = false;
         }
