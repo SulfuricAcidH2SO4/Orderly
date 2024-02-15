@@ -77,5 +77,14 @@ namespace Orderly.ViewModels.Wizard
             ShowStep3 = currentStep == 2;
             ShowStep4 = currentStep == 3;
         }
+        [RelayCommand]
+        private void MoveToPage(string page)
+        {
+            currentStep = int.Parse(page);
+            ShowStep1 = currentStep == 0;
+            ShowStep2 = currentStep == 1;
+            ShowStep3 = currentStep == 2;
+            ShowStep4 = currentStep == 3;
+        }
     }
 }

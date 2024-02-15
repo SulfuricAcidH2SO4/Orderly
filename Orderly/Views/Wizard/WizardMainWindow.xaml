@@ -21,6 +21,9 @@
     <ui:FluentWindow.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </ui:FluentWindow.Resources>
+    <ui:FluentWindow.InputBindings>
+        <KeyBinding Key="Return" Command="{Binding ViewModel.NextPageCommand}" />
+    </ui:FluentWindow.InputBindings>
     <Grid>
         <ui:TitleBar ShowMaximize="False" />
         <Grid x:Name="view1" Visibility="{Binding ViewModel.ShowStep1, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -97,11 +100,19 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal">
-                <Ellipse
-                    Width="15"
-                    Height="15"
-                    Margin="5,0"
-                    Fill="#ff8146" />
+                <Button
+                    Padding="0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.MoveToPageCommand}"
+                    CommandParameter="0"
+                    Cursor="Hand">
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="5,0"
+                        Fill="#ff8146" />
+                </Button>
                 <Grid>
                     <Ellipse
                         Width="25"
@@ -189,16 +200,32 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal">
-                <Ellipse
-                    Width="15"
-                    Height="15"
-                    Margin="5,0"
-                    Fill="#ff8146" />
-                <Ellipse
-                    Width="15"
-                    Height="15"
-                    Margin="5,0"
-                    Fill="#ff8146" />
+                <Button
+                    Padding="0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.MoveToPageCommand}"
+                    CommandParameter="0"
+                    Cursor="Hand">
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="5,0"
+                        Fill="#ff8146" />
+                </Button>
+                <Button
+                    Padding="0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.MoveToPageCommand}"
+                    CommandParameter="1"
+                    Cursor="Hand">
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="5,0"
+                        Fill="#ff8146" />
+                </Button>
                 <Grid>
                     <Ellipse
                         Width="25"
@@ -254,22 +281,45 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal">
-                <Ellipse
-                    Width="15"
-                    Height="15"
-                    Margin="5,0"
-                    Fill="#ff8146" />
-
-                <Ellipse
-                    Width="15"
-                    Height="15"
-                    Margin="5,0"
-                    Fill="#ff8146" />
-                <Ellipse
-                    Width="15"
-                    Height="15"
-                    Margin="5,0"
-                    Fill="#ff8146" />
+                <Button
+                    Padding="0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.MoveToPageCommand}"
+                    CommandParameter="0"
+                    Cursor="Hand">
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="5,0"
+                        Fill="#ff8146" />
+                </Button>
+                <Button
+                    Padding="0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.MoveToPageCommand}"
+                    CommandParameter="1"
+                    Cursor="Hand">
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="5,0"
+                        Fill="#ff8146" />
+                </Button>
+                <Button
+                    Padding="0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.MoveToPageCommand}"
+                    CommandParameter="2"
+                    Cursor="Hand">
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="5,0"
+                        Fill="#ff8146" />
+                </Button>
                 <Grid>
                     <Ellipse
                         Width="25"
