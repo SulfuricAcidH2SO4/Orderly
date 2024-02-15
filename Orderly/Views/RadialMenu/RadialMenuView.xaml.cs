@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
@@ -31,6 +32,8 @@ namespace Orderly.Views.RadialMenu
 
         public void CloseMenu()
         {
+            Storyboard yourStoryboard = (Storyboard)Resources["FadeOutTextBox"];
+            yourStoryboard.Begin();
             Task.Factory.StartNew(() =>
             {
                 ViewModel.IsMenuOpen = false;
@@ -40,6 +43,15 @@ namespace Orderly.Views.RadialMenu
                     Hide();
                 });
             });
+        }
+
+        public void OpenMenu()
+        {
+            ViewModel.IsMenuOpen = true;
+            asBox.Opacity = 0;
+            Storyboard yourStoryboard = (Storyboard)Resources["FadeInTextBox"];
+            yourStoryboard.Begin();
+            Show();
         }
 
         private void OnFocusLost(object sender, EventArgs e)

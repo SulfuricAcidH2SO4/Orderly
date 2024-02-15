@@ -10,15 +10,13 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="RadialMenuView"
     Width="350"
-    Height="350"
+    Height="400"
     d:DataContext="{d:DesignInstance local:RadialMenuView,
                                      IsDesignTimeCreatable=False}"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
-    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     AllowsTransparency="True"
     Background="Transparent"
     Deactivated="OnFocusLost"
-    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     PreviewLostKeyboardFocus="Window_PreviewLostKeyboardFocus"
     ShowInTaskbar="False"
     Topmost="True"
@@ -96,15 +94,39 @@
             </Style.Triggers>
 
         </Style>
+        <Storyboard x:Key="FadeInTextBox">
+            <DoubleAnimation
+                Storyboard.TargetName="asBox"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:.2" />
+        </Storyboard>
+        <Storyboard x:Key="FadeOutTextBox">
+            <DoubleAnimation
+                Storyboard.TargetName="asBox"
+                Storyboard.TargetProperty="Opacity"
+                From="1"
+                To="0"
+                Duration="0:0:.2" />
+        </Storyboard>
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding ViewModel.CloseMenuCommand}" />
     </Window.InputBindings>
     <Grid>
-        <RadialMenu:RadialMenu IsOpen="{Binding ViewModel.IsMenuOpen}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <RadialMenu:RadialMenu
+            Width="350"
+            Height="350"
+            VerticalAlignment="Top"
+            IsOpen="{Binding ViewModel.IsMenuOpen}">
             <RadialMenu:RadialMenu.CentralItem>
                 <RadialMenu:RadialMenuCentralItem Background="{DynamicResource ApplicationBackgroundBrush}" Command="{Binding ViewModel.CloseMenuCommand}">
-                    <ui:SymbolIcon Foreground="White" Symbol="Dismiss24" />
+                    <ui:SymbolIcon Foreground="{DynamicResource TextFillColorPrimaryBrush}" Symbol="Dismiss24" />
                 </RadialMenu:RadialMenuCentralItem>
             </RadialMenu:RadialMenu.CentralItem>
             <RadialMenu:RadialMenuItem Style="{StaticResource RadialMenuItemCustomStyle}">
@@ -133,5 +155,12 @@
                 </StackPanel>
             </RadialMenu:RadialMenuItem>
         </RadialMenu:RadialMenu>
+        <Border
+            x:Name="asBox"
+            Grid.Row="1"
+            Background="{DynamicResource ApplicationBackgroundBrush}"
+            CornerRadius="5">
+            <ui:AutoSuggestBox VerticalAlignment="Bottom" />
+        </Border>
     </Grid>
 </Window>

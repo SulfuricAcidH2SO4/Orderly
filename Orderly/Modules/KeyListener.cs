@@ -26,13 +26,12 @@ namespace Orderly.Modules
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     RadialMenuView menu = App.GetService<RadialMenuView>();
-                    menu.ViewModel.IsMenuOpen = true;
                     double xPos = System.Windows.Forms.Cursor.Position.X - (menu.Width / 2);
                     double yPos = System.Windows.Forms.Cursor.Position.Y - (menu.Height / 2);
                     yPos = yPos < 0 ? 0 : yPos;
                     menu.Top = yPos;
                     menu.Left = xPos;
-                    menu.Show();
+                    menu.OpenMenu();
                 });
             }
         }
