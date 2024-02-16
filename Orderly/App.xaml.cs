@@ -119,6 +119,12 @@ namespace Orderly
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            bool isAlreadyRunning = System.Diagnostics.Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1;
+            if (isAlreadyRunning) {
+                Shutdown();
+                return;
+            }
+
             KeyListener.InitializeHook();
             RenderOptions.ProcessRenderMode = config.UseHardwareRendering ? System.Windows.Interop.RenderMode.Default : System.Windows.Interop.RenderMode.SoftwareOnly;
             SplashScreen sc = new("/Assets/SplashScreen.png");
