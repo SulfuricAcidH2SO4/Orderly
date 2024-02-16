@@ -111,6 +111,34 @@
                     </DockPanel>
                 </Border>
                 <Border
+                    Margin="0,5"
+                    Padding="15"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="5">
+                    <DockPanel VerticalAlignment="Center" LastChildFill="True">
+                        <ui:SymbolIcon Margin="0,0,5,0" Symbol="Keyboard12320" />
+                        <TextBlock VerticalAlignment="Center" Text="Change open menu keybind" />
+                        <StackPanel
+                            Width="230"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <TextBox
+                                Width="200"
+                                IsEnabled="False"
+                                Text="{Binding ViewModel.Configuration.InputOptions, Mode=OneWay}" />
+                            <Button
+                                x:Name="btnEdiInput"
+                                Padding="10"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Command="{Binding ViewModel.ChangeInpuKeybindCommand}"
+                                Cursor="Hand">
+                                <ui:SymbolIcon Symbol="Edit20" />
+                            </Button>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border
                     Height="50"
                     Margin="0,5"
                     Padding="15"

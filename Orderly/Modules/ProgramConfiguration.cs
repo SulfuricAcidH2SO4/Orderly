@@ -28,6 +28,7 @@ namespace Orderly.Modules
         private bool closeButtonClosesApp = false;
         private bool useHardwareRendering = false;
         private FilteringOptions filteringOptions = new();
+        private InputOptions inputOptions = new();
         
         public string AbsolutePassword
         {
@@ -111,7 +112,14 @@ namespace Orderly.Modules
                 SetProperty(ref filteringOptions, value);
             }
         }
-
+        public InputOptions InputOptions
+        {
+            get => inputOptions;
+            set
+            {
+                SetProperty(ref inputOptions, value);   
+            }
+        }
 
         public void Save()
         {

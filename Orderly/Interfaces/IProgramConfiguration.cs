@@ -24,6 +24,7 @@ namespace Orderly.Interfaces
         bool CloseButtonClosesApp { get; set; }  
         bool UseHardwareRendering { get; set; }
         FilteringOptions FilteringOptions { get; set; }
+        InputOptions InputOptions { get; set; }
 
         void Save();
         static ProgramConfiguration Load(Vault vault)

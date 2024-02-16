@@ -1,0 +1,77 @@
+﻿<ui:FluentWindow
+    x:Class="Orderly.Views.Dialogs.ChangeInputOptionsDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Orderly.Views.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Width="350"
+    Height="280"
+    MinHeight="0"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Closed="OnClosed"
+    ExtendsContentIntoTitleBar="True"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
+    WindowBackdropType="None"
+    WindowCornerPreference="Round"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <ui:FluentWindow.InputBindings>
+        <KeyBinding Key="Return" Command="{Binding ConfirmCommand}" />
+    </ui:FluentWindow.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Border Padding="25,25,25,10" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <ui:TextBlock
+                    Appearance="Primary"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Text="Input your keys" />
+                <ui:TextBox
+                    x:Name="tbInput"
+                    Grid.Row="1"
+                    Width="200"
+                    Margin="0,30"
+                    IsReadOnly="True"
+                    Text="Ctrl + Alt + P" />
+            </Grid>
+        </Border>
+        <Grid
+            Grid.Row="1"
+            Height="65"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*" />
+                <ColumnDefinition Width=".5*" />
+            </Grid.ColumnDefinitions>
+            <ui:Button
+                x:Name="btnConfirm"
+                Grid.Column="0"
+                Width="200"
+                Margin="10,0"
+                Appearance="Primary"
+                Click="OnConfirm"
+                Content="Confirm" />
+            <ui:Button
+                x:Name="btnCancel"
+                Grid.Column="1"
+                Width="200"
+                Margin="10,0"
+                Click="OnCancel"
+                Content="Cancel" />
+        </Grid>
+    </Grid>
+</ui:FluentWindow>

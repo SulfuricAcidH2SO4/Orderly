@@ -32,6 +32,14 @@ namespace Orderly.ViewModels.Pages
                 dialog.ShowDialog();
             }
         }
+        [RelayCommand]
+        private void ChangeInpuKeybind()
+        {
+            ChangeInputOptionsDialog dialog = new();
+            if(dialog.ShowDialog() == true) {
+                Configuration.InputOptions = dialog.InputOptions;
+            }
+        }
 
         public void OnNavigatedTo()
         {
