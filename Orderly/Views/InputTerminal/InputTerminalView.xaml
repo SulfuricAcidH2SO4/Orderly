@@ -99,8 +99,6 @@
                                                 x:Name="tbFavorite"
                                                 Background="Transparent"
                                                 BorderThickness="0"
-                                                Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ViewModel.UpdateCategoryCommand}"
-                                                CommandParameter="{Binding .}"
                                                 Cursor="Hand"
                                                 IsChecked="{Binding Pinned, Mode=TwoWay}">
                                                 <ToggleButton

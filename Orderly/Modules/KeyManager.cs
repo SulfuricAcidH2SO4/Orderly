@@ -13,16 +13,27 @@ namespace Orderly.Modules
 
         public static IKeyboardMouseEvents? Hook { get; private set; }
         public static bool PauseMenuListener { get; set; } = false;
+        public static bool PauseClickListener { get; set; } = false;    
 
         public static Point lastOpenedPoint;
         private static ProgramConfiguration? config;
+        private static InputTerminalView menu;
 
         public static void InitializeHook()
         {
             Hook = Gma.System.MouseKeyHook.Hook.GlobalEvents();
             Hook.KeyDown += OnKeyDown;
+            Hook.MouseDown += OnMouseDown;
             config = (ProgramConfiguration)App.GetService<IProgramConfiguration>();
+            menu = App.GetService<InputTerminalView>();
             App.Current.Exit += OnAppExit;
+        }
+
+        private static void OnMouseDown(object? sender, MouseEventArgs e)
+        {
+            if (!PauseClickListener && !menu.IsVisible) {
+                lastOpenedPoint = new Point(Cursor.Position.X, Cursor.Position.Y);
+            }
         }
 
         public static void SendTextAt(string text, Point point)
@@ -55,14 +66,12 @@ namespace Orderly.Modules
 
             if (correctInput) {
                 e.SuppressKeyPress = true;
-                InputTerminalView menu = App.GetService<InputTerminalView>();
                 if (menu.IsVisible) {
                     menu.CloseMenu();
                     return;
                 } 
                 double xPos = Cursor.Position.X;
                 double yPos = Cursor.Position.Y;
-                lastOpenedPoint = new Point(xPos, yPos);
                 yPos = yPos < 0 ? 0 : yPos;
                 yPos = yPos + menu.Height > SystemParameters.PrimaryScreenHeight ? SystemParameters.PrimaryScreenHeight - menu.Height : yPos;
                 menu.Top = yPos;
