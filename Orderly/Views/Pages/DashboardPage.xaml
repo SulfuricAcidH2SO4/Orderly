@@ -378,10 +378,46 @@
                                                                             Symbol="Delete12" />
                                                                     </Button>
                                                                     <ToggleButton
+                                                                        Margin="12,0,12,0"
                                                                         Background="Transparent"
                                                                         BorderThickness="0"
-                                                                        Cursor="Hand">
-                                                                        <ui:SymbolIcon Symbol="Pin12" />
+                                                                        Cursor="Hand"
+                                                                        IsChecked="{Binding Pinned, Mode=TwoWay}">
+                                                                        <ui:SymbolIcon Symbol="Pin12">
+                                                                            <ui:SymbolIcon.Style>
+                                                                                <Style TargetType="ui:SymbolIcon">
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Pinned}" Value="true">
+                                                                                            <Setter Property="Filled" Value="True" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </ui:SymbolIcon.Style>
+                                                                        </ui:SymbolIcon>
+                                                                        <ToggleButton.Style>
+                                                                            <Style TargetType="ToggleButton">
+                                                                                <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                                                                                <Setter Property="Template">
+                                                                                    <Setter.Value>
+                                                                                        <ControlTemplate TargetType="ToggleButton">
+                                                                                            <Grid x:Name="RootGrid" Background="Transparent">
+                                                                                                <ContentPresenter
+                                                                                                    x:Name="ContentPresenter"
+                                                                                                    HorizontalAlignment="Center"
+                                                                                                    VerticalAlignment="Center"
+                                                                                                    Content="{TemplateBinding Content}"
+                                                                                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                                                                            </Grid>
+                                                                                        </ControlTemplate>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                                <Style.Triggers>
+                                                                                    <DataTrigger Binding="{Binding Pinned}" Value="true">
+                                                                                        <Setter Property="Foreground" Value="Lime" />
+                                                                                    </DataTrigger>
+                                                                                </Style.Triggers>
+                                                                            </Style>
+                                                                        </ToggleButton.Style>
                                                                     </ToggleButton>
                                                                 </StackPanel>
                                                             </DockPanel>

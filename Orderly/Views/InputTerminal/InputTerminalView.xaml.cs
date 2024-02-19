@@ -43,6 +43,7 @@ namespace Orderly.Views.RadialMenu
 
         public void OpenMenu()
         {
+            ViewModel.UpdateCredentials();
             Show();
         }
 

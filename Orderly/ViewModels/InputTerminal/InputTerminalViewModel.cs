@@ -5,6 +5,7 @@ using Orderly.DaVault;
 using Orderly.Extensions;
 using Orderly.Helpers;
 using Orderly.Modules;
+using Orderly.ViewModels.Pages;
 using Orderly.Views.Dialogs;
 using Orderly.Views.RadialMenu;
 using System;
@@ -70,13 +71,13 @@ namespace Orderly.ViewModels.RadialMenu
                 Credentials.ForEach(x => x.IsVisibile = false);
 
                 Credentials.Where(c => c.ServiceName.ToLower().Contains(name.ToLower()) || c.Username.ToLower().Contains(name.ToLower()))
-                            .ForEach(x => x.IsVisibile = true );
+                            .ForEach(x => x.IsVisibile = true);
 
                 OrderPinnedTop();
             });
         }
 
-        private void OrderPinnedTop()
+        public void OrderPinnedTop()
         {
             var topCredentials = Credentials.Where(x => x.Pinned).ToList();
             var normalCredentials = Credentials.Where(x => !x.Pinned).ToList();
@@ -84,6 +85,40 @@ namespace Orderly.ViewModels.RadialMenu
             Credentials.Clear();
             Credentials.AddRange(topCredentials);
             Credentials.AddRange(normalCredentials);
+        }
+
+        public void UpdateCredentials()
+        {
+            Task.Factory.StartNew(() => {
+                db = new();
+                Credentials.Clear();
+                Credentials.AddRange(db.Credentials.Include(c => c.Category).ToList());
+                Credentials.ForEach(x => x.PropertyChanged += OnCredentialPropertyChanged);
+                OrderPinnedTop();
+            });
+        }
+
+        private void OnCredentialPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Task.Factory.StartNew(() => {
+                if (sender is Credential cr) {
+                    if (e.PropertyName == nameof(cr.Pinned)) {
+                        OrderPinnedTop();
+                        db = new();
+                        db.Credentials.Update(cr);
+                        db.SaveChanges();
+
+                        DashboardViewModel dbvm = App.GetService<DashboardViewModel>();
+                        foreach (var category in dbvm.Categories) {
+                            Credential c = category.Credentials!.FirstOrDefault(x => x.Id == cr.Id)!;
+                            if (c == null) continue;
+
+                            c.Pinned = cr.Pinned;
+                            return;
+                        }
+                    }
+                }
+            });
         }
     }
 }

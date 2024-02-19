@@ -10,6 +10,7 @@ using Orderly.Views.Dialogs;
 using Orderly.Views.Pages;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Net;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Wpf.Ui.Controls;
@@ -102,11 +103,13 @@ namespace Orderly.ViewModels.Pages
             cred.Category = CredentialCategory;
             CredentialCategory.Credentials!.Add(cred);
             CollectionViewSource.GetDefaultView(CredentialCategory.Credentials).Refresh();
+            cred.PropertyChanged += OnCredentialPropertyChanged;
         }
 
         [RelayCommand]
         public void RemoveCredentials(Credential credential)
         {
+            credential.PropertyChanged -= OnCredentialPropertyChanged;
             PasswordConfirmDialog dialog = new();
             if (dialog.ShowDialog() == false) return;
 
@@ -164,9 +167,23 @@ namespace Orderly.ViewModels.Pages
 
             foreach (var category in Categories) {
                 category.PropertyChanged += OnCategoryPropertyChanged;
+                foreach(var credential in category.Credentials) {
+                    credential.PropertyChanged += OnCredentialPropertyChanged;
+                }
             }
             config.FilteringOptions.PropertyChanged += OnFilteringOptionChanged;
             SortList();
+        }
+
+        private void OnCredentialPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(sender is Credential cr) {
+                if (e.PropertyName == nameof(cr.Pinned)) {
+                    db = new();
+                    db.Credentials.Update(cr);
+                    db.SaveChanges();
+                }
+            }
         }
 
         private void OnFilteringOptionChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
