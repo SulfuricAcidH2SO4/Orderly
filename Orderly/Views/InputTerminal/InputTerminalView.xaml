@@ -19,6 +19,7 @@
     Background="Transparent"
     Deactivated="OnFocusLost"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Loaded="Window_Loaded"
     PreviewLostKeyboardFocus="Window_PreviewLostKeyboardFocus"
     ShowInTaskbar="False"
     Topmost="True"
@@ -43,6 +44,7 @@
             Background="{DynamicResource ApplicationBackgroundBrush}"
             CornerRadius="5">
             <ui:TextBox
+                x:Name="tbInput"
                 VerticalAlignment="Top"
                 IconPlacement="Right"
                 PlaceholderText="Service or username..."

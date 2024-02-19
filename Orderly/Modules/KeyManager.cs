@@ -45,17 +45,21 @@ namespace Orderly.Modules
             Hook.Dispose();
         }
 
-        private static void OnKeyDown(object? sender, System.Windows.Forms.KeyEventArgs e)
+        private static void OnKeyDown(object? sender, KeyEventArgs e)
         {
             if (PauseMenuListener) return;
-            bool correctInput = e.KeyCode == config.InputOptions.KeyCode
+            bool correctInput = e.KeyCode == config!.InputOptions.KeyCode
                                 && e.Control == config.InputOptions.UseCtrl
                                 && e.Alt == config.InputOptions.UseAlt
                                 && e.Shift == config.InputOptions.UseShift;
 
             if (correctInput) {
+                e.SuppressKeyPress = true;
                 InputTerminalView menu = App.GetService<InputTerminalView>();
-                if (menu.IsVisible) return;
+                if (menu.IsVisible) {
+                    menu.CloseMenu();
+                    return;
+                } 
                 double xPos = Cursor.Position.X;
                 double yPos = Cursor.Position.Y;
                 lastOpenedPoint = new Point(xPos, yPos);

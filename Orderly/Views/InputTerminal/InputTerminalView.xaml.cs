@@ -1,4 +1,6 @@
-﻿using Orderly.ViewModels.RadialMenu;
+﻿using Orderly.Interfaces;
+using Orderly.Modules;
+using Orderly.ViewModels.RadialMenu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +26,13 @@ namespace Orderly.Views.RadialMenu
     public partial class InputTerminalView : INavigableView<InputTerminalViewModel>
     {
         public InputTerminalViewModel ViewModel { get; private set; }
-        public InputTerminalView(InputTerminalViewModel viewModel)
+
+        private ProgramConfiguration config;
+        public InputTerminalView(InputTerminalViewModel viewModel, IProgramConfiguration config)
         {
             ViewModel = viewModel;
             DataContext = this;
+            this.config = (ProgramConfiguration?)config;
             InitializeComponent();
         }
 
@@ -57,6 +62,12 @@ namespace Orderly.Views.RadialMenu
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             ViewModel.FilterCredentials(((TextBox)sender).Text);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Focus();
+            tbInput.Focus();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Orderly.Helpers;
+﻿using Orderly.Extensions;
+using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Views.Windows;
@@ -56,6 +57,9 @@ namespace Orderly.Views.Dialogs
             
 
             if(hashPassword == Config.AbsolutePassword) {
+                if(cbRemember.IsChecked == true) {
+                    SessionControl.SavedPassword = hashPassword;
+                }
                 DialogResult = true;
                 Close();
             }
@@ -66,7 +70,17 @@ namespace Orderly.Views.Dialogs
 
         private void FluentWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            
             pbPassword.Focus();
+        }
+
+        private void FluentWindow_ContentRendered(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(SessionControl.SavedPassword) && SessionControl.SavedPassword == Config.AbsolutePassword) {
+                DialogResult = true;
+                Close();
+                return;
+            }
         }
     }
 }
