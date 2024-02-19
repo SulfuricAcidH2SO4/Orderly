@@ -51,7 +51,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\SplashScreen.png"/>
+    <Resource Include="Assets\SplashScreen.png" />
     <Resource Include="Assets\WizardBg.png" />
     <Resource Include="Resources\LouiseGeorge.ttf" />
     <Resource Include="Resources\Mont.otf" />

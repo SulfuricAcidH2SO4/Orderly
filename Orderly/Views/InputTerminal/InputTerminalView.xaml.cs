@@ -14,16 +14,17 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
+using TextBox = Wpf.Ui.Controls.TextBox;
 
 namespace Orderly.Views.RadialMenu
 {
     /// <summary>
     /// Interaction logic for RadialMenuView.xaml
     /// </summary>
-    public partial class RadialMenuView : INavigableView<RadialMenuViewModel>
+    public partial class InputTerminalView : INavigableView<InputTerminalViewModel>
     {
-        public RadialMenuViewModel ViewModel { get; private set; }
-        public RadialMenuView(RadialMenuViewModel viewModel)
+        public InputTerminalViewModel ViewModel { get; private set; }
+        public InputTerminalView(InputTerminalViewModel viewModel)
         {
             ViewModel = viewModel;
             DataContext = this;
@@ -32,25 +33,11 @@ namespace Orderly.Views.RadialMenu
 
         public void CloseMenu()
         {
-            Storyboard yourStoryboard = (Storyboard)Resources["FadeOutTextBox"];
-            yourStoryboard.Begin();
-            Task.Factory.StartNew(() =>
-            {
-                ViewModel.IsMenuOpen = false;
-                Thread.Sleep(350);
-                Dispatcher.Invoke(() =>
-                {
-                    Hide();
-                });
-            });
+            Hide();
         }
 
         public void OpenMenu()
         {
-            ViewModel.IsMenuOpen = true;
-            asBox.Opacity = 0;
-            Storyboard yourStoryboard = (Storyboard)Resources["FadeInTextBox"];
-            yourStoryboard.Begin();
             Show();
         }
 
@@ -65,6 +52,11 @@ namespace Orderly.Views.RadialMenu
         {
             var window = (Window)sender;
             window.Topmost = true;
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            ViewModel.FilterCredentials(((TextBox)sender).Text);
         }
     }
 }

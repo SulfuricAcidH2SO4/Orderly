@@ -1,0 +1,148 @@
+﻿<Window
+    x:Class="Orderly.Views.RadialMenu.InputTerminalView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
+    xmlns:RadialMenu="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
+    xmlns:converters="clr-namespace:Orderly.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Orderly.Views.RadialMenu"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="RadialMenuView"
+    Width="350"
+    Height="400"
+    d:DataContext="{d:DesignInstance local:InputTerminalView,
+                                     IsDesignTimeCreatable=False}"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    AllowsTransparency="True"
+    Background="Transparent"
+    Deactivated="OnFocusLost"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    PreviewLostKeyboardFocus="Window_PreviewLostKeyboardFocus"
+    ShowInTaskbar="False"
+    Topmost="True"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <converters:StringToBrushConverter x:Key="StringToBrushConverter" />
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding ViewModel.CloseMenuCommand}" />
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Border
+            x:Name="asBox"
+            Grid.Row="0"
+            Height="35"
+            VerticalAlignment="Top"
+            Background="{DynamicResource ApplicationBackgroundBrush}"
+            CornerRadius="5">
+            <ui:TextBox
+                VerticalAlignment="Top"
+                IconPlacement="Right"
+                PlaceholderText="Service or username..."
+                TextChanged="OnTextChanged"
+                TextSearch.TextPath="ServiceName">
+                <ui:TextBox.Icon>
+                    <ui:SymbolIcon Symbol="Search12" />
+                </ui:TextBox.Icon>
+            </ui:TextBox>
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="0,5"
+            Background="{DynamicResource ApplicationBackgroundBrush}"
+            CornerRadius="5">
+            <ui:DynamicScrollViewer>
+                <ItemsControl ItemsSource="{Binding ViewModel.Credentials}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="5,2.5"
+                                Padding="10"
+                                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsVisibile}" Value="false">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <Border
+                                            Width="50"
+                                            Height="5"
+                                            Margin="0,0,0,3"
+                                            HorizontalAlignment="Left"
+                                            Background="{Binding Category.FlairColor, Converter={StaticResource StringToBrushConverter}}"
+                                            CornerRadius="2"
+                                            ToolTipService.InitialShowDelay="0"
+                                            ToolTipService.ToolTip="{Binding Category.Name}" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding ServiceName}" />
+                                            <ToggleButton
+                                                x:Name="tbFavorite"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ViewModel.UpdateCategoryCommand}"
+                                                CommandParameter="{Binding .}"
+                                                Cursor="Hand"
+                                                IsChecked="{Binding Pinned, Mode=TwoWay}">
+                                                <ui:SymbolIcon Symbol="Pin12">
+                                                    <ui:SymbolIcon.Style>
+                                                        <Style TargetType="ui:SymbolIcon">
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="Filled" Value="False" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsFavorite}" Value="true">
+                                                                    <Setter Property="Foreground" Value="#ffd663" />
+                                                                    <Setter Property="Filled" Value="True" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ui:SymbolIcon.Style>
+                                                </ui:SymbolIcon>
+                                            </ToggleButton>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        Orientation="Horizontal">
+                                        <ui:Button
+                                            Background="{DynamicResource SystemAccentColorPrimaryBrush}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ViewModel.ProcessUsernameCommand}"
+                                            CommandParameter="{Binding Username}"
+                                            CornerRadius="0">
+                                            <ui:SymbolIcon Symbol="Person12" />
+                                        </ui:Button>
+                                        <ui:Button
+                                            Background="{DynamicResource SystemAccentColorPrimaryBrush}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ViewModel.ProcessPasswordCommand}"
+                                            CommandParameter="{Binding Password}"
+                                            CornerRadius="0">
+                                            <ui:SymbolIcon Symbol="Key20" />
+                                        </ui:Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ui:DynamicScrollViewer>
+        </Border>
+    </Grid>
+</Window>

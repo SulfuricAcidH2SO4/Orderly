@@ -68,8 +68,8 @@ namespace Orderly
                 services.AddSingleton<WizardMainWIndowViewModel>();
 
                 //Radial Menu
-                services.AddSingleton<RadialMenuView>();
-                services.AddSingleton<RadialMenuViewModel>();
+                services.AddSingleton<InputTerminalView>();
+                services.AddSingleton<InputTerminalViewModel>();
 
                 //General
                 services.AddSingleton<DashboardPage>();
@@ -125,7 +125,7 @@ namespace Orderly
                 return;
             }
 
-            KeyListener.InitializeHook();
+            KeyManager.InitializeHook();
             RenderOptions.ProcessRenderMode = config.UseHardwareRendering ? System.Windows.Interop.RenderMode.Default : System.Windows.Interop.RenderMode.SoftwareOnly;
             SplashScreen sc = new("/Assets/SplashScreen.png");
             if (!config.StartMinimized) {

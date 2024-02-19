@@ -2,15 +2,20 @@
 using Gma.System.MouseKeyHook;
 using System.Windows.Forms;
 using Orderly.Interfaces;
+using System.Runtime.InteropServices;
 
 namespace Orderly.Modules
 {
-    public static class KeyListener
+    public static class KeyManager
     {
+        [DllImport("user32.dll")]
+        private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, IntPtr dwExtraInfo);
+
         public static IKeyboardMouseEvents? Hook { get; private set; }
         public static bool PauseMenuListener { get; set; } = false;
 
-        private static ProgramConfiguration config;
+        public static Point lastOpenedPoint;
+        private static ProgramConfiguration? config;
 
         public static void InitializeHook()
         {
@@ -20,9 +25,24 @@ namespace Orderly.Modules
             App.Current.Exit += OnAppExit;
         }
 
+        public static void SendTextAt(string text, Point point)
+        {
+            if (Control.IsKeyLocked(Keys.CapsLock)) {
+                const int KEYEVENTF_EXTENDEDKEY = 0x1;
+                const int KEYEVENTF_KEYUP = 0x2;
+                keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY, (nint)(UIntPtr)0);
+                keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,
+                (nint)(UIntPtr)0);
+            }
+            MouseAction.ClickAtPosition(point.X, point.Y);
+            SendKeys.SendWait(text);
+            SendKeys.Flush();
+        }
+
         private static void OnAppExit(object sender, ExitEventArgs e)
         {
             Hook!.KeyDown -= OnKeyDown;
+            Hook.Dispose();
         }
 
         private static void OnKeyDown(object? sender, System.Windows.Forms.KeyEventArgs e)
@@ -34,15 +54,18 @@ namespace Orderly.Modules
                                 && e.Shift == config.InputOptions.UseShift;
 
             if (correctInput) {
-                RadialMenuView menu = App.GetService<RadialMenuView>();
+                InputTerminalView menu = App.GetService<InputTerminalView>();
                 if (menu.IsVisible) return;
-                double xPos = Cursor.Position.X - (menu.Width / 2);
-                double yPos = Cursor.Position.Y - (menu.Height / 2);
+                double xPos = Cursor.Position.X;
+                double yPos = Cursor.Position.Y;
+                lastOpenedPoint = new Point(xPos, yPos);
                 yPos = yPos < 0 ? 0 : yPos;
+                yPos = yPos + menu.Height > SystemParameters.PrimaryScreenHeight ? SystemParameters.PrimaryScreenHeight - menu.Height : yPos;
                 menu.Top = yPos;
                 menu.Left = xPos;
                 menu.OpenMenu();
             }
         }
+
     }
 }

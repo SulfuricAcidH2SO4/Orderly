@@ -30,8 +30,8 @@ namespace Orderly.Views.Dialogs
             Owner = MainWindow.Instance;
             DataContext = this;
             InitializeComponent();
-            KeyListener.PauseMenuListener = true;
-            KeyListener.Hook!.KeyDown += OnKeyDown;
+            KeyManager.PauseMenuListener = true;
+            KeyManager.Hook!.KeyDown += OnKeyDown;
         }
 
         private void OnKeyDown(object? sender, System.Windows.Forms.KeyEventArgs e)
@@ -57,8 +57,8 @@ namespace Orderly.Views.Dialogs
 
         private void OnClosed(object sender, EventArgs e)
         {
-            KeyListener.Hook!.KeyDown -= OnKeyDown;
-            KeyListener.PauseMenuListener = false;
+            KeyManager.Hook!.KeyDown -= OnKeyDown;
+            KeyManager.PauseMenuListener = false;
         }
     }
 }

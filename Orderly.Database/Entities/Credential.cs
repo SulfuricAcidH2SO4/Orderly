@@ -18,6 +18,7 @@ namespace Orderly.Database.Entities
         private bool isEditing = false;
         private string additionDate = string.Empty;
         private string lastEditDate = string.Empty;
+        private bool isVisible = true;
 
         private Category? category;
 
@@ -72,7 +73,7 @@ namespace Orderly.Database.Entities
                 SetProperty(ref lastEditDate, value);
             }
         }
-
+       
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
         public Category? Category
@@ -91,6 +92,15 @@ namespace Orderly.Database.Entities
             set
             {
                 SetProperty(ref isEditing, value); 
+            }
+        }
+        [NotMapped]
+        public bool IsVisibile
+        {
+            get => isVisible;
+            set
+            {
+                SetProperty(ref isVisible, value);
             }
         }
     }
