@@ -33,7 +33,6 @@ namespace Orderly.Views.Dialogs
         public PasswordConfirmDialog()
         {
             KeyManager.PauseClickListener = true;
-            Owner = MainWindow.Instance;
             ConfirmCommand = new RelayCommand(Confirm);
             DataContext = this;
             Config = (ProgramConfiguration)App.GetService<IProgramConfiguration>();
@@ -46,7 +45,6 @@ namespace Orderly.Views.Dialogs
         private void OnCancelClick(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
-            KeyManager.PauseClickListener = false;
             Close();
         }
 
@@ -63,7 +61,6 @@ namespace Orderly.Views.Dialogs
                     SessionControl.SavedPassword = hashPassword;
                 }
                 DialogResult = true;
-                KeyManager.PauseClickListener = false;
                 Close();
             }
             else {
@@ -84,6 +81,11 @@ namespace Orderly.Views.Dialogs
                 Close();
                 return;
             }
+        }
+
+        private void FluentWindow_Closed(object sender, EventArgs e)
+        {
+            KeyManager.PauseClickListener = false;
         }
     }
 }
