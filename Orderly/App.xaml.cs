@@ -124,8 +124,6 @@ namespace Orderly
                 Shutdown();
                 return;
             }
-
-            KeyManager.InitializeHook();
             RenderOptions.ProcessRenderMode = config.UseHardwareRendering ? System.Windows.Interop.RenderMode.Default : System.Windows.Interop.RenderMode.SoftwareOnly;
             SplashScreen sc = new("/Assets/SplashScreen.png");
             if (!config.StartMinimized) {
@@ -159,6 +157,7 @@ namespace Orderly
             else {
                 window.ShowWindow();
             }
+            KeyManager.InitializeHook();
         }
 
         private bool CheckWizardLaunch()
