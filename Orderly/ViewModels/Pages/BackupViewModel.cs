@@ -69,6 +69,13 @@ namespace Orderly.ViewModels.Pages
             Config.BackupRoutines.Remove(SelectedRoutine);
             Config.Save();
         }
+
+        [RelayCommand]
+        public void DoBackup()
+        {
+            if (SelectedRoutine == null) return;
+            SelectedRoutine.Backup(out string error);
+        }
         
         [RelayCommand]
         public void PickLocalPath()

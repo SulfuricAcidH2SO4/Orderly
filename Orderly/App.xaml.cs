@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Orderly.Backups;
 using Orderly.Database;
 using Orderly.Database.Entities;
 using Orderly.DaVault;
@@ -160,6 +161,7 @@ namespace Orderly
             else {
                 window.ShowWindow();
             }
+            BackupWorker.CheckBackups();
             KeyManager.InitializeHook();
         }
 

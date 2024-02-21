@@ -396,6 +396,7 @@
                                                     <ui:Button
                                                         HorizontalAlignment="Stretch"
                                                         Appearance="Primary"
+                                                        Command="{Binding ViewModel.DoBackupCommand}"
                                                         Content="Backup now" />
                                                     <ui:Button
                                                         Margin="0,10,0,0"
