@@ -38,12 +38,27 @@
                             VerticalAlignment="Bottom"
                             FontSize="20"
                             Text="Backup routines" />
-                        <ui:Button
-                            HorizontalAlignment="Right"
-                            Appearance="Primary"
-                            Command="{Binding ViewModel.OpenFlyoutCommand}">
-                            <ui:SymbolIcon Symbol="Add12" />
-                        </ui:Button>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <ui:Button
+                                Margin="10,0"
+                                Appearance="Success"
+                                Command="{Binding ViewModel.ApplyRoutinesCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="5,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="15"
+                                        Symbol="Save16" />
+                                    <TextBlock VerticalAlignment="Center" Text="Apply routines" />
+                                </StackPanel>
+                            </ui:Button>
+                            <ui:Button
+                                HorizontalAlignment="Right"
+                                Appearance="Primary"
+                                Command="{Binding ViewModel.OpenFlyoutCommand}">
+                                <ui:SymbolIcon Symbol="Add12" />
+                            </ui:Button>
+                        </StackPanel>
                         <ui:Flyout
                             x:Name="addFlyout"
                             Margin="0,0,180,0"
@@ -87,7 +102,7 @@
                                             Margin="10,0"
                                             HorizontalAlignment="Left"
                                             VerticalAlignment="Center"
-                                            Text="mega" />
+                                            Text="Mega" />
                                     </DockPanel>
                                 </ui:Button>
                                 <ui:Button
@@ -182,7 +197,7 @@
                                     <Style TargetType="StackPanel">
                                         <Setter Property="Visibility" Value="Collapsed" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ViewModel.Routines.Count}" Value="0">
+                                            <DataTrigger Binding="{Binding ViewModel.Config.BackupRoutines.Count}" Value="0">
                                                 <Setter Property="Visibility" Value="Visible" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -312,6 +327,35 @@
                                                                 Margin="10,0,0,0"
                                                                 VerticalAlignment="Center"
                                                                 Text="Days" />
+                                                        </Grid>
+                                                    </Border>
+                                                    <Border
+                                                        Height="70"
+                                                        Margin="0,5"
+                                                        Padding="15"
+                                                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                        CornerRadius="5">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto" />
+                                                                <ColumnDefinition Width="auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <ui:SymbolIcon
+                                                                Margin="0,0,5,0"
+                                                                VerticalAlignment="Center"
+                                                                Symbol="NumberRow16" />
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                VerticalAlignment="Center"
+                                                                Text="Maximum backups" />
+                                                            <ui:NumberBox
+                                                                Grid.Column="2"
+                                                                Width="150"
+                                                                Margin="30,0,0,0"
+                                                                HorizontalAlignment="Right"
+                                                                Text="{Binding ViewModel.SelectedRoutine.MaxBackupsNumber, Mode=TwoWay}" />
                                                         </Grid>
                                                     </Border>
                                                 </StackPanel>

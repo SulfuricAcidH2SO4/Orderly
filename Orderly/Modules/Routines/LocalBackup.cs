@@ -12,9 +12,11 @@ namespace Orderly.Modules.Routines
         [ObservableProperty]
         private DateTime lastBackupDate;
         [ObservableProperty]
-        private int backupFrequency;
+        private int backupFrequency = 14;
         [ObservableProperty]
         private string path = "C:\\Orderly_Backups\\";
+        [ObservableProperty]
+        private int maxBackupsNumber = 50;
         
 
         public bool Backup(out string errorMessage)

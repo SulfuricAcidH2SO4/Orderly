@@ -2,6 +2,7 @@
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Modules.Routines;
+using Orderly.Views.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,13 @@ namespace Orderly.ViewModels.Pages
 
         public BackupViewModel(IProgramConfiguration config)
         {
-            this.config = (ProgramConfiguration?)config!;
+            Config = (ProgramConfiguration?)config!;
+        }
+
+        [RelayCommand]
+        public void ApplyRoutines()
+        {
+            Config.Save();
         }
 
         [RelayCommand]
@@ -57,7 +64,10 @@ namespace Orderly.ViewModels.Pages
         public void RemoveRoutine()
         {
             if (SelectedRoutine == null) return;
+            if (new ConfirmDialog("Are you sure you want to delete this backup routine?\nThis action cannot be reverted.").ShowDialog() == false) return;
+            if(new PasswordConfirmDialog().ShowDialog() == false) return;
             Config.BackupRoutines.Remove(SelectedRoutine);
+            Config.Save();
         }
         
         [RelayCommand]
