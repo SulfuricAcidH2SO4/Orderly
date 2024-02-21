@@ -12,7 +12,7 @@ namespace Orderly.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value?.GetType() ?? Binding.DoNothing;
+            return value?.GetType() ?? null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

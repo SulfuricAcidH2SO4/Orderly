@@ -25,6 +25,7 @@ namespace Orderly.Interfaces
         bool UseHardwareRendering { get; set; }
         FilteringOptions FilteringOptions { get; set; }
         InputOptions InputOptions { get; set; }
+        ExtendedObservableCollection<IBackupRoutine> BackupRoutines { get; set; }
 
         void Save();
         static ProgramConfiguration Load(Vault vault)
@@ -36,7 +37,9 @@ namespace Orderly.Interfaces
             }
             string encryptedFile = File.ReadAllText("CoreConfig.ordcf");
             string decryptedFile = EncryptionHelper.DecryptString(encryptedFile, vault.ConfigEncryptionKey);
-            return JsonConvert.DeserializeObject<ProgramConfiguration>(decryptedFile)!;
+            return JsonConvert.DeserializeObject<ProgramConfiguration>(decryptedFile, new JsonSerializerSettings() {
+                TypeNameHandling = TypeNameHandling.Objects
+            })!;
         }
     }
 }

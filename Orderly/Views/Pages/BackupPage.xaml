@@ -140,7 +140,7 @@
                             <ListBox
                                 x:Name="icItems"
                                 Grid.Row="1"
-                                ItemsSource="{Binding ViewModel.Routines}"
+                                ItemsSource="{Binding ViewModel.Config.BackupRoutines}"
                                 SelectedItem="{Binding ViewModel.SelectedRoutine}"
                                 SelectionMode="Single">
                                 <ListBox.ItemTemplate>
@@ -215,6 +215,13 @@
                     <ContentControl.Style>
                         <Style TargetType="ContentControl">
                             <Style.Triggers>
+                                <DataTrigger Binding="{Binding ViewModel.SelectedRoutine, Converter={StaticResource DataTypeConverter}}" Value="{x:Null}">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <ContentControl />
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
                                 <DataTrigger Binding="{Binding ViewModel.SelectedRoutine, Converter={StaticResource DataTypeConverter}}" Value="{x:Type routines:LocalBackup}">
                                     <Setter Property="Content">
                                         <Setter.Value>
@@ -324,7 +331,7 @@
                                                         <Style TargetType="StackPanel">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding ViewModel.Routines.Count}" Value="0">
+                                                                <DataTrigger Binding="{Binding ViewModel.Config.BackupRoutines.Count}" Value="0">
                                                                     <Setter Property="Visibility" Value="Visible" />
                                                                 </DataTrigger>
                                                             </Style.Triggers>
@@ -350,6 +357,7 @@
                                                         Margin="0,10,0,0"
                                                         HorizontalAlignment="Stretch"
                                                         Appearance="Danger"
+                                                        Command="{Binding ViewModel.RemoveRoutineCommand}"
                                                         Content="Delete backup routine" />
                                                 </StackPanel>
                                             </Grid>

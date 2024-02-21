@@ -14,12 +14,10 @@ namespace Orderly.ViewModels.Pages
 {
     public partial class BackupViewModel : ViewModelBase, INavigationAware
     {
+        [ObservableProperty]
         ProgramConfiguration config;
-
         [ObservableProperty]
         private bool isFlyoutOpen = false;
-        [ObservableProperty]
-        private ExtendedObservableCollection<IBackupRoutine> routines = new();
         [ObservableProperty]
         private IBackupRoutine? selectedRoutine;
 
@@ -48,11 +46,18 @@ namespace Orderly.ViewModels.Pages
             switch (type) {
                 case "local":
                     LocalBackup local = new();
-                    Routines.Add(local);
+                    Config.BackupRoutines.Add(local);
                     break;
             }
 
             IsFlyoutOpen = false;
+        }
+
+        [RelayCommand]
+        public void RemoveRoutine()
+        {
+            if (SelectedRoutine == null) return;
+            Config.BackupRoutines.Remove(SelectedRoutine);
         }
         
         [RelayCommand]

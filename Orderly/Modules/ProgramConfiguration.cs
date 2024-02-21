@@ -29,6 +29,7 @@ namespace Orderly.Modules
         private bool useHardwareRendering = false;
         private FilteringOptions filteringOptions = new();
         private InputOptions inputOptions = new();
+        private ExtendedObservableCollection<IBackupRoutine> backupRoutines = new();
         
         public string AbsolutePassword
         {
@@ -120,17 +121,30 @@ namespace Orderly.Modules
                 SetProperty(ref inputOptions, value);   
             }
         }
+        public ExtendedObservableCollection<IBackupRoutine> BackupRoutines
+        {
+            get => backupRoutines;
+            set
+            {
+                SetProperty(ref backupRoutines, value);
+            }
+        }
 
         public void Save()
         {
-            string serializedString = JsonConvert.SerializeObject(this, Formatting.Indented);
+            string serializedString = JsonConvert.SerializeObject(this, new JsonSerializerSettings() {
+                TypeNameHandling = TypeNameHandling.Objects, Formatting = Formatting.Indented
+            });
             string encryptedFile = EncryptionHelper.EncryptString(serializedString, App.GetService<Vault>().ConfigEncryptionKey);
             File.WriteAllText("CoreConfig.ordcf", encryptedFile);
         }
 
         public void Save(Vault vault)
         {
-            string serializedString = JsonConvert.SerializeObject(this, Formatting.Indented);
+            string serializedString = JsonConvert.SerializeObject(this, new JsonSerializerSettings() {
+                TypeNameHandling = TypeNameHandling.Objects,
+                Formatting = Formatting.Indented
+            });
             string encryptedFile = EncryptionHelper.EncryptString(serializedString, vault.ConfigEncryptionKey);
             File.WriteAllText("CoreConfig.ordcf", encryptedFile);
         }
