@@ -96,9 +96,9 @@
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem
                     Content="Backups"
-                    IsEnabled="False"
                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                    TargetPageTag="backup">
+                    TargetPageTag="backup"
+                    TargetPageType="{x:Type views:BackupPage}">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="DatabaseLink24" />
                     </ui:NavigationViewItem.Icon>

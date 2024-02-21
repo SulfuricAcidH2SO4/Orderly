@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <None Remove="Assets\Banner.png" />
+    <None Remove="Assets\Icons\drive128.png" />
+    <None Remove="Assets\Icons\mega128.png" />
     <None Remove="Assets\Logo_1024.png" />
     <None Remove="Assets\Logo_128.png" />
     <None Remove="Assets\Logo_512.png" />
@@ -23,6 +25,10 @@
     <None Remove="DaVault\DaVault.json" />
     <None Remove="Resources\LouiseGeorge.ttf" />
     <None Remove="Resources\Mont.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Icons\mega128.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +48,7 @@
 
   <ItemGroup>
     <Resource Include="Assets\Banner.png" />
+    <Resource Include="Assets\Icons\drive128.png" />
     <Resource Include="Assets\Logo_1024.png" />
     <Resource Include="Assets\Logo_128.png" />
     <Resource Include="Assets\Logo_512.png" />

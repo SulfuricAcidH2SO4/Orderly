@@ -1,0 +1,366 @@
+﻿<UserControl
+    x:Class="Orderly.Views.Pages.BackupPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Orderly.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:face="clr-namespace:Orderly.EE"
+    xmlns:local="clr-namespace:Orderly.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:routines="clr-namespace:Orderly.Modules.Routines"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    d:DataContext="{d:DesignInstance local:BackupPage,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:DataTypeConverter x:Key="DataTypeConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Margin="0,0,0,10">
+                        <ui:TextBlock
+                            VerticalAlignment="Bottom"
+                            FontSize="20"
+                            Text="Backup routines" />
+                        <ui:Button
+                            HorizontalAlignment="Right"
+                            Appearance="Primary"
+                            Command="{Binding ViewModel.OpenFlyoutCommand}">
+                            <ui:SymbolIcon Symbol="Add12" />
+                        </ui:Button>
+                        <ui:Flyout
+                            x:Name="addFlyout"
+                            Margin="0,0,180,0"
+                            Padding="0"
+                            HorizontalAlignment="Right"
+                            IsOpen="{Binding ViewModel.IsFlyoutOpen, Mode=TwoWay}"
+                            Placement="Bottom">
+                            <ItemsControl>
+                                <ui:Button
+                                    Width="200"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Command="{Binding ViewModel.AddRoutineCommand}"
+                                    CommandParameter="google">
+                                    <DockPanel>
+                                        <Image
+                                            Width="25"
+                                            Height="25"
+                                            HorizontalAlignment="Left"
+                                            Source="/Assets/Icons/drive128.png" />
+                                        <TextBlock
+                                            Margin="10,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Text="Google Drive" />
+                                    </DockPanel>
+                                </ui:Button>
+                                <ui:Button
+                                    Width="200"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Command="{Binding ViewModel.AddRoutineCommand}"
+                                    CommandParameter="Mega">
+                                    <DockPanel>
+                                        <Image
+                                            Width="25"
+                                            Height="25"
+                                            HorizontalAlignment="Left"
+                                            Source="/Assets/Icons/mega128.png" />
+                                        <TextBlock
+                                            Margin="10,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Text="mega" />
+                                    </DockPanel>
+                                </ui:Button>
+                                <ui:Button
+                                    Width="200"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Command="{Binding ViewModel.AddRoutineCommand}"
+                                    CommandParameter="local">
+                                    <DockPanel>
+                                        <ui:SymbolIcon
+                                            Width="25"
+                                            Height="25"
+                                            FontSize="25"
+                                            Symbol="HardDrive16" />
+                                        <TextBlock
+                                            Margin="10,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Text="Local Folder" />
+                                    </DockPanel>
+                                </ui:Button>
+                                <ui:Button
+                                    Width="200"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Command="{Binding ViewModel.AddRoutineCommand}"
+                                    CommandParameter="ftp">
+                                    <DockPanel>
+                                        <ui:SymbolIcon
+                                            Width="25"
+                                            Height="25"
+                                            FontSize="25"
+                                            Symbol="Server16" />
+                                        <TextBlock
+                                            Margin="10,0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Text="FTP Server" />
+                                    </DockPanel>
+                                </ui:Button>
+                            </ItemsControl>
+                        </ui:Flyout>
+                    </Grid>
+                    <Border
+                        Grid.Row="1"
+                        Margin="0,0,0,20"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="10">
+                        <Grid>
+                            <ListBox
+                                x:Name="icItems"
+                                Grid.Row="1"
+                                ItemsSource="{Binding ViewModel.Routines}"
+                                SelectedItem="{Binding ViewModel.SelectedRoutine}"
+                                SelectionMode="Single">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentControl>
+                                            <ContentControl.Style>
+                                                <Style TargetType="ContentControl">
+                                                    <Setter Property="Content">
+                                                        <Setter.Value>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <ui:SymbolIcon FontSize="25" Symbol="HardDrive16" />
+                                                                <TextBlock
+                                                                    Margin="5,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="Local Backup" />
+                                                                <TextBlock
+                                                                    VerticalAlignment="Center"
+                                                                    FontStyle="Italic"
+                                                                    Opacity=".5"
+                                                                    Text="{Binding Path}" />
+                                                            </StackPanel>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Converter={StaticResource DataTypeConverter}}" Value="{x:Type routines:LocalBackup}" />
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <StackPanel
+                                Grid.Row="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Opacity=".5">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ViewModel.Routines.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="50"
+                                    FontWeight="Heavy"
+                                    Text="{Binding Path=(face:EEManager.Face), Mode=TwoWay}" />
+                                <TextBlock
+                                    Margin="0,10,0,0"
+                                    HorizontalAlignment="Center"
+                                    Text="Seems like there are no backup routines!" />
+                                <TextBlock HorizontalAlignment="Center" Text="Let's add some!" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+            <GridSplitter
+                Grid.Column="1"
+                Width="5"
+                Margin="50,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+            <Grid Grid.Column="2">
+                <ContentControl>
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ViewModel.SelectedRoutine, Converter={StaticResource DataTypeConverter}}" Value="{x:Type routines:LocalBackup}">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto" />
+                                                    <RowDefinition Height="auto" />
+                                                    <RowDefinition />
+                                                    <RowDefinition Height="auto" />
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:TextBlock
+                                                        Appearance="Primary"
+                                                        FontSize="20"
+                                                        Text="Local Backup" />
+                                                    <TextBlock
+                                                        Margin="10,0"
+                                                        VerticalAlignment="Bottom"
+                                                        FontStyle="Italic"
+                                                        Opacity=".5"
+                                                        Text="{Binding ViewModel.SelectedRoutine.LastBackupDate, StringFormat={}(Last backup: {0})}" />
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1">
+                                                    <Border
+                                                        Height="70"
+                                                        Margin="0,5"
+                                                        Padding="15"
+                                                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                        CornerRadius="5">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto" />
+                                                                <ColumnDefinition Width="auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <ui:SymbolIcon
+                                                                Margin="0,0,5,0"
+                                                                VerticalAlignment="Center"
+                                                                Symbol="Folder16" />
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                VerticalAlignment="Center"
+                                                                Text="Folder location" />
+                                                            <ui:TextBox
+                                                                Grid.Column="2"
+                                                                Margin="30,0,0,0"
+                                                                Text="{Binding ViewModel.SelectedRoutine.Path, Mode=TwoWay}" />
+                                                            <Button
+                                                                Grid.Column="3"
+                                                                Background="Transparent"
+                                                                BorderThickness="0"
+                                                                Command="{Binding ViewModel.PickLocalPathCommand}"
+                                                                Cursor="Hand">
+                                                                <ui:SymbolIcon Symbol="Folder16" />
+                                                            </Button>
+                                                        </Grid>
+                                                    </Border>
+                                                    <Border
+                                                        Height="70"
+                                                        Margin="0,5"
+                                                        Padding="15"
+                                                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                        CornerRadius="5">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto" />
+                                                                <ColumnDefinition Width="auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <ui:SymbolIcon
+                                                                Margin="0,0,5,0"
+                                                                VerticalAlignment="Center"
+                                                                Symbol="CalendarLtr12" />
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                VerticalAlignment="Center"
+                                                                Text="Backup frequency" />
+                                                            <ui:NumberBox
+                                                                Grid.Column="2"
+                                                                Width="150"
+                                                                Margin="30,0,0,0"
+                                                                HorizontalAlignment="Right"
+                                                                Text="{Binding ViewModel.SelectedRoutine.BackupFrequency, Mode=TwoWay}" />
+                                                            <TextBlock
+                                                                Grid.Column="3"
+                                                                Margin="10,0,0,0"
+                                                                VerticalAlignment="Center"
+                                                                Text="Days" />
+                                                        </Grid>
+                                                    </Border>
+                                                </StackPanel>
+                                                <Border
+                                                    Grid.Row="2"
+                                                    Margin="0,5,0,0"
+                                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                    CornerRadius="5">
+                                                    <ItemsControl />
+                                                </Border>
+                                                <StackPanel
+                                                    Grid.Row="2"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Opacity=".5">
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ViewModel.Routines.Count}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        FontSize="50"
+                                                        FontWeight="Heavy"
+                                                        Text="{Binding Path=(face:EEManager.Face), Mode=TwoWay}" />
+                                                    <TextBlock
+                                                        Margin="0,10,0,0"
+                                                        HorizontalAlignment="Center"
+                                                        Text="Seems like there aren't any backups yet!" />
+                                                    <TextBlock HorizontalAlignment="Center" Text="Let's make one!" />
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="3" Margin="0,20">
+                                                    <ui:Button
+                                                        HorizontalAlignment="Stretch"
+                                                        Appearance="Primary"
+                                                        Content="Backup now" />
+                                                    <ui:Button
+                                                        Margin="0,10,0,0"
+                                                        HorizontalAlignment="Stretch"
+                                                        Appearance="Danger"
+                                                        Content="Delete backup routine" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -72,11 +72,14 @@ namespace Orderly
                 services.AddSingleton<InputTerminalViewModel>();
 
                 //General
+                services.AddSingleton<BackupPage>();
+                services.AddSingleton<BackupViewModel>();
                 services.AddSingleton<DashboardPage>();
                 services.AddSingleton<DashboardViewModel>();
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();
                 services.AddSingleton<AboutView>();
+
             }).Build();
 
         /// <summary>
