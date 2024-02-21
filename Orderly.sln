@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orderly", "Orderly\Orderly.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orderly.Database", "Orderly.Database\Orderly.Database.csproj", "{7AEFC0A9-C187-407F-BE09-ECB3D7B37AB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadialMenu", "RadialMenu\RadialMenu.csproj", "{3D5DD1E3-E9C8-4DAF-A46A-0CCF872F2618}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{7AEFC0A9-C187-407F-BE09-ECB3D7B37AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AEFC0A9-C187-407F-BE09-ECB3D7B37AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AEFC0A9-C187-407F-BE09-ECB3D7B37AB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D5DD1E3-E9C8-4DAF-A46A-0CCF872F2618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D5DD1E3-E9C8-4DAF-A46A-0CCF872F2618}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D5DD1E3-E9C8-4DAF-A46A-0CCF872F2618}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D5DD1E3-E9C8-4DAF-A46A-0CCF872F2618}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
