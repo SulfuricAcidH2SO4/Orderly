@@ -9,6 +9,7 @@ using Orderly.DaVault;
 using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Modules;
+using Orderly.Modules.Notifications;
 using Orderly.Services;
 using Orderly.ViewModels.Pages;
 using Orderly.ViewModels.RadialMenu;
@@ -52,6 +53,8 @@ namespace Orderly
                 services.AddSingleton<IThemeService, ThemeService>();
 
                 services.AddSingleton<ISnackbarService, SnackbarService>();
+                services.AddSingleton<NotificationService>();
+
 
                 // TaskBar manipulation
                 services.AddSingleton<ITaskBarService, TaskBarService>();
@@ -82,6 +85,8 @@ namespace Orderly
                 services.AddSingleton<SettingsPage>();
                 services.AddSingleton<SettingsViewModel>();
                 services.AddSingleton<AboutView>();
+                services.AddSingleton<NotificationView>();
+                services.AddSingleton<NotificationViewModel>();
 
             }).Build();
 

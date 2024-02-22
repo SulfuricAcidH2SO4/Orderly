@@ -8,6 +8,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json.Linq;
 using Orderly.Interfaces;
 using Orderly.Modules;
+using Orderly.Modules.Notifications;
 using Orderly.ViewModels.Pages;
 using Orderly.ViewModels.Windows;
 using Orderly.Views.Pages;
@@ -28,7 +29,8 @@ namespace Orderly.Views.Windows
             IPageService pageService,
             IProgramConfiguration config,
             INavigationService navigationService,
-            ISnackbarService snackBarService
+            ISnackbarService snackBarService,
+            NotificationService notificationService
         )
         {
             ViewModel = viewModel;
@@ -45,6 +47,7 @@ namespace Orderly.Views.Windows
 
             navigationService.SetNavigationControl(RootNavigation);
             snackBarService.SetSnackbarPresenter(SnackbarPresenter);
+            notificationService.SetContentControl(NotificationViewControl);
         }
 
         #region INavigationWindow methods

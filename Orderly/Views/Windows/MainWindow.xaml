@@ -62,6 +62,49 @@
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
+                        <Grid Margin="10,0">
+
+                            <ToggleButton
+                                x:Name="tbNotifications"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand">
+                                <ui:SymbolIcon Symbol="Alert48" />
+                            </ToggleButton>
+                            <Border
+                                Width="15"
+                                Height="15"
+                                Margin="15,0,0,15"
+                                CornerRadius="50"
+                                IsHitTestVisible="False"
+                                Visibility="Visible">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="#0694d1" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ViewModel.NotificationService.UnreadNotifications}" Value="0">
+                                                <Setter Property="Background" Value="Gray" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ViewModel.NotificationService.UnreadNotifications}" />
+                            </Border>
+                            <ui:Flyout
+                                Padding="0"
+                                IsOpen="{Binding ElementName=tbNotifications, Path=IsChecked, Mode=TwoWay}"
+                                Placement="Bottom">
+                                <Border
+                                    Width="300"
+                                    Height="300"
+                                    Background="{DynamicResource ApplicationBackgroundBrush}">
+                                    <ContentControl x:Name="NotificationViewControl" />
+                                </Border>
+                            </ui:Flyout>
+                        </Grid>
                         <ui:SymbolIcon Symbol="Person12" />
                         <TextBlock
                             Margin="5,0,0,0"
