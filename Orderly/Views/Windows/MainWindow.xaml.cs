@@ -27,7 +27,8 @@ namespace Orderly.Views.Windows
             MainWindowViewModel viewModel,
             IPageService pageService,
             IProgramConfiguration config,
-            INavigationService navigationService
+            INavigationService navigationService,
+            ISnackbarService snackBarService
         )
         {
             ViewModel = viewModel;
@@ -43,6 +44,7 @@ namespace Orderly.Views.Windows
             SetPageService(pageService);
 
             navigationService.SetNavigationControl(RootNavigation);
+            snackBarService.SetSnackbarPresenter(SnackbarPresenter);
         }
 
         #region INavigationWindow methods

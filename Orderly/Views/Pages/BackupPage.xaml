@@ -180,7 +180,7 @@
                                                         </Setter.Value>
                                                     </Setter>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Converter={StaticResource DataTypeConverter}}" Value="{x:Type routines:LocalBackup}" />
+                                                        <DataTrigger Binding="{Binding Converter={StaticResource DataTypeConverter}}" Value="{x:Type routines:LocalBackupRoutine}" />
                                                     </Style.Triggers>
                                                 </Style>
                                             </ContentControl.Style>
@@ -237,7 +237,7 @@
                                         </Setter.Value>
                                     </Setter>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding ViewModel.SelectedRoutine, Converter={StaticResource DataTypeConverter}}" Value="{x:Type routines:LocalBackup}">
+                                <DataTrigger Binding="{Binding ViewModel.SelectedRoutine, Converter={StaticResource DataTypeConverter}}" Value="{x:Type routines:LocalBackupRoutine}">
                                     <Setter Property="Content">
                                         <Setter.Value>
                                             <Grid>
@@ -364,7 +364,50 @@
                                                     Margin="0,5,0,0"
                                                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                                                     CornerRadius="5">
-                                                    <ItemsControl />
+                                                    <ScrollViewer>
+                                                        <ItemsControl ItemsSource="{Binding ViewModel.BackupsInFolderList}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border
+                                                                        Margin="5,5"
+                                                                        Padding="15"
+                                                                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                                        CornerRadius="5">
+                                                                        <Grid>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition />
+                                                                                <ColumnDefinition Width="auto" />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <StackPanel>
+                                                                                <TextBlock Text="{Binding BackupDate}" />
+                                                                                <TextBlock
+                                                                                    FontStyle="Italic"
+                                                                                    Opacity=".5"
+                                                                                    Text="{Binding BackupPath, StringFormat={}({0})}" />
+                                                                            </StackPanel>
+                                                                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                                                <ui:Button
+                                                                                    Margin="10,0"
+                                                                                    ToolTipService.InitialShowDelay="0"
+                                                                                    ToolTipService.ToolTip="Restore to this backup">
+                                                                                    <ui:SymbolIcon Symbol="ArrowReset20" />
+                                                                                </ui:Button>
+                                                                                <ui:Button
+                                                                                    Appearance="Danger"
+                                                                                    Command="{Binding ViewModel.DeleteBackupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                                    CommandParameter="{Binding}"
+                                                                                    ToolTipService.InitialShowDelay="0"
+                                                                                    ToolTipService.ToolTip="Delete this backup">
+                                                                                    <ui:SymbolIcon Symbol="Delete12" />
+                                                                                </ui:Button>
+                                                                            </StackPanel>
+                                                                        </Grid>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </ScrollViewer>
+
                                                 </Border>
                                                 <StackPanel
                                                     Grid.Row="2"
@@ -373,9 +416,9 @@
                                                     Opacity=".5">
                                                     <StackPanel.Style>
                                                         <Style TargetType="StackPanel">
-                                                            <Setter Property="Visibility" Value="Visible" />
+                                                            <Setter Property="Visibility" Value="Collapsed" />
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding ViewModel.Config.BackupRoutines.Count}" Value="0">
+                                                                <DataTrigger Binding="{Binding ViewModel.BackupsInFolderList.Count}" Value="0">
                                                                     <Setter Property="Visibility" Value="Visible" />
                                                                 </DataTrigger>
                                                             </Style.Triggers>
@@ -408,6 +451,7 @@
                                             </Grid>
                                         </Setter.Value>
                                     </Setter>
+
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

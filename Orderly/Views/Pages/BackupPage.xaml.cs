@@ -30,5 +30,10 @@ namespace Orderly.Views.Pages
             DataContext = this;
             InitializeComponent();
         }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

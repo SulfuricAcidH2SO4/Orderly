@@ -51,6 +51,8 @@ namespace Orderly
                 // Theme manipulation
                 services.AddSingleton<IThemeService, ThemeService>();
 
+                services.AddSingleton<ISnackbarService, SnackbarService>();
+
                 // TaskBar manipulation
                 services.AddSingleton<ITaskBarService, TaskBarService>();
 

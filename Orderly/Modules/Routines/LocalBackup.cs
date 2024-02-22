@@ -1,4 +1,5 @@
 ﻿using Orderly.Interfaces;
+using Orderly.Models.Backup;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Orderly.Modules.Routines
 {
-    public partial class LocalBackup : ObservableObject, IBackupRoutine
+    public partial class LocalBackupRoutine : ObservableObject, IBackupRoutine
     {
         [ObservableProperty]
         private DateTime lastBackupDate;
@@ -28,6 +29,26 @@ namespace Orderly.Modules.Routines
             LastBackupDate = DateTime.Now;
             App.GetService<IProgramConfiguration>().Save();
             return true;
+        }
+
+        public bool Delete(IBackup backup, out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            if(backup is not LocalBackup lb) {
+                errorMessage = "Wrong backup type";
+                return false;
+            }
+
+            try {
+                File.Delete(lb.BackupPath);
+            }
+            catch { }
+            return true;
+        }
+
+        public bool Restore(IBackup backup, out string errorMessage)
+        {
+            throw new NotImplementedException();
         }
     }
 }
