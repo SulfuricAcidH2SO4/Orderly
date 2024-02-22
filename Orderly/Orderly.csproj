@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\Icons\mega128.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Google.Apis.Drive.v3" Version="1.66.0.3309" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
@@ -50,6 +46,7 @@
   <ItemGroup>
     <Resource Include="Assets\Banner.png" />
     <Resource Include="Assets\Icons\drive128.png" />
+    <Resource Include="Assets\Icons\mega128.png" />
     <Resource Include="Assets\Logo_1024.png" />
     <Resource Include="Assets\Logo_128.png" />
     <Resource Include="Assets\Logo_512.png" />

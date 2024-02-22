@@ -4,6 +4,7 @@ using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.ViewModels;
+using Orderly.ViewModels.Pages;
 using Orderly.Views.Windows;
 using System;
 using System.Collections.Generic;
@@ -86,6 +87,9 @@ namespace Orderly.Views.Dialogs
                 db.Credentials.Update(credential);
             }
             db.SaveChanges();
+            App.GetService<Vault>().PasswordEncryptionKey = newKey;
+            //App.GetService<DashboardViewModel>().Initalize();
+
             config.Save();
         }
     }

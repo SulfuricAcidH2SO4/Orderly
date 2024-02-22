@@ -159,7 +159,7 @@ namespace Orderly.ViewModels.Pages
             if (!isInitialized) Initalize();
         }
 
-        private void Initalize()
+        public void Initalize()
         {
             isInitialized = true;
             db = new();
