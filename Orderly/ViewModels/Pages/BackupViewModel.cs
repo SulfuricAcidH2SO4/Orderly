@@ -93,6 +93,12 @@ namespace Orderly.ViewModels.Pages
                     LocalBackupRoutine local = new();
                     Config.BackupRoutines.Add(local);
                     break;
+                case "google":
+                    GoogleDriveRoutine gdrive = new();
+                    gdrive.Authenticate();
+                    gdrive.Backup(out string error);
+                    Config.BackupRoutines.Add(gdrive);
+                    break;
             }
 
             IsFlyoutOpen = false;

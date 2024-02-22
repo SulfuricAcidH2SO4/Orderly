@@ -14,6 +14,8 @@ namespace Orderly.DaVault
     {
         public string ConfigEncryptionKey { get; set; } = string.Empty;
         public string PasswordEncryptionKey { get; set; } = string.Empty;
+        public string DriveClientId { get; set; } = string.Empty;
+        public string DriveClientSecret { get; set; } = string.Empty;
 
         public static Vault Initialize()
         {
