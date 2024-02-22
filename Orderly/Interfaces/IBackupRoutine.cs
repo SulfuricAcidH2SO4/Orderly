@@ -11,6 +11,7 @@ namespace Orderly.Interfaces
     {
         DateTime LastBackupDate { get; set; }
         int BackupFrequency {  get; set; }
+        int MaxBackupsNumber { get; set; }
         bool Backup(out string errorMessage);
         bool Restore(IBackup backup, out string errorMessage);
         bool Delete(IBackup backup, out string errorMessage);

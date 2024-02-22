@@ -23,9 +23,10 @@ namespace Orderly.ViewModels.Pages
 
         [ObservableProperty]
         ProgramConfiguration config;
-
         [ObservableProperty]
         private bool isFlyoutOpen = false;
+        [ObservableProperty]
+        private bool isGoogleLoading = false;
 
         public IBackupRoutine? SelectedRoutine
         {
@@ -53,6 +54,17 @@ namespace Orderly.ViewModels.Pages
                     catch {
                         BackupsInFolderList.Clear();
                     }
+                }
+                else if(value is GoogleDriveRoutine gd && gd.IsAuthenticated) {
+                    IsGoogleLoading = true;
+                    Task.Factory.StartNew(() => {
+                        try {
+                            gd.ReloadBackups();
+                        }
+                        finally {
+                            IsGoogleLoading = false;
+                        }
+                    });
                 }
             }
         }
@@ -95,8 +107,6 @@ namespace Orderly.ViewModels.Pages
                     break;
                 case "google":
                     GoogleDriveRoutine gdrive = new();
-                    gdrive.Authenticate();
-                    gdrive.Backup(out string error);
                     Config.BackupRoutines.Add(gdrive);
                     break;
             }
@@ -153,6 +163,22 @@ namespace Orderly.ViewModels.Pages
                     BackupsInFolderList.Remove(lb);
                 }
             }
+        }
+
+        [RelayCommand]
+        public void AuthGoogle()
+        {
+            IsGoogleLoading = true;
+            Task.Factory.StartNew(() => {
+                try {
+                    if (((GoogleDriveRoutine)SelectedRoutine!).Authenticate()) {
+                        ((GoogleDriveRoutine)SelectedRoutine).Backup(out _);
+                    }
+                }
+                finally {
+                    IsGoogleLoading = false;
+                }
+            });
         }
     }
 }

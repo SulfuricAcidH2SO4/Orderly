@@ -2,10 +2,14 @@
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using Newtonsoft.Json;
 using Orderly.DaVault;
+using Orderly.Helpers;
 using Orderly.Interfaces;
+using Orderly.Models.Backups;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,20 +19,35 @@ namespace Orderly.Modules.Routines
 {
     public partial class GoogleDriveRoutine : ObservableObject, IBackupRoutine
     {
+        public ExtendedObservableCollection<GoogleDriveBackup> Backups { get; set; } = new();
+
+        private bool isAuthenticated = false;
+
+        [JsonIgnore]
+        public bool IsAuthenticated
+        {
+            get => isAuthenticated;
+            set
+            {
+                SetProperty(ref isAuthenticated, value);
+            }
+        }
+
         [ObservableProperty]
         private DateTime lastBackupDate;
         [ObservableProperty]
         private int backupFrequency;
         [ObservableProperty]
-        private string email = string.Empty;
+        private int maxBackupsNumber = 50;
         [ObservableProperty]
-        private bool isAuthenticated = false;
+        private string user = string.Empty;
         [ObservableProperty]
         private string folderName = "Orderly_Backups";
 
         private DriveService? service;
+        private UserCredential? credential;
 
-        public void Authenticate()
+        public bool Authenticate()
         {
             Vault v = App.GetService<Vault>();  
             string[] scopes = new string[] { DriveService.Scope.DriveAppdata,
@@ -36,7 +55,7 @@ namespace Orderly.Modules.Routines
 
             var clientId = v.DriveClientId;
             var clientSecret = v.DriveClientSecret;
-
+            
             var credential = GoogleWebAuthorizationBroker.AuthorizeAsync(new ClientSecrets {
                                                                             ClientId = clientId,
                                                                             ClientSecret = clientSecret
@@ -45,15 +64,25 @@ namespace Orderly.Modules.Routines
                                                                         Environment.UserName,
                                                                         CancellationToken.None,
                                                                         new FileDataStore("Orderly")).Result;
+
             service = new DriveService(new BaseClientService.Initializer() {
                 HttpClientInitializer = credential,
                 ApplicationName = "Orderly",
             });
             service.HttpClient.Timeout = TimeSpan.FromMinutes(10);
+            IsAuthenticated = true;
+
+            var aboutRequest = service.About.Get();
+            aboutRequest.Fields = "user(emailAddress)";
+            var about = aboutRequest.Execute();
+            User = about.User.EmailAddress;
+            ReloadBackups();
+            return true;
         }
 
         public bool Backup(out string errorMessage)
         {
+            if (!IsAuthenticated) Authenticate();
             errorMessage = string.Empty;
             UploadFile(Path.GetFullPath("CoreDB.ordb"), $"Backup DB for orderly. Date: {DateTime.Now}");
             return true;
@@ -69,10 +98,34 @@ namespace Orderly.Modules.Routines
             throw new NotImplementedException();
         }
 
+        public void ReloadBackups()
+        {
+            if (!IsAuthenticated) Authenticate();
+            Backups.Clear();
+            string folderId = GetFolderId(FolderName);
+
+            string query = $"'{folderId}' in parents";
+
+            var request = service.Files.List();
+            request.Q = query;
+            var result = request.Execute();
+
+            foreach ( var backup in result.Files.ToList()) {
+                string dateString = backup.Name.Replace("CoreDB", string.Empty).Replace(".ordb", string.Empty);
+                DateTime.TryParseExact(dateString, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
+                Backups.Add(new() {
+                    BackupDate = parsedDate,
+                    BackupName = backup.Name,
+                });
+                if(parsedDate > LastBackupDate) LastBackupDate = parsedDate;
+            }
+
+        }
+
         private bool UploadFile(string filePath, string description)
         {
-            if (service == null) Authenticate();
-            string fileName = Path.GetFileName(filePath);
+            if (!IsAuthenticated) Authenticate();
+            string fileName = $"CoreDB{DateTime.Now.ToString("dd.MM.yyyy")}.ordb";
 
             string folderId = GetFolderId(FolderName);
 
