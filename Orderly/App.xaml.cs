@@ -141,6 +141,8 @@ namespace Orderly
                 sc.Show(false);
             }
 
+            CheckBackupRestore();
+
             DatabaseContext db = new();
             if (!db.Categories.Any()) {
                 db.Categories.Add(new() {
@@ -190,6 +192,11 @@ namespace Orderly
                 return true;
             }
             return true;
+        }
+
+        private void CheckBackupRestore()
+        {
+            BackupWorker.CheckBackupRestore();
         }
     }
 }

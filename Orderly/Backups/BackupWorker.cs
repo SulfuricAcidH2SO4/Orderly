@@ -5,6 +5,7 @@ using Orderly.Modules.Notifications;
 using Orderly.Modules.Routines;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,14 @@ namespace Orderly.Backups
 
             foreach (var routine in config.BackupRoutines) {
                 routine.Backup(out _);
+            }
+        }
+
+        public static void CheckBackupRestore()
+        {
+            if (File.Exists("CoreDB.ordb.new")) {
+                File.Move("CoreDB.ordb", "CoreDB.ordb.old", true);
+                File.Move("CoreDB.ordb.new", "CoreDB.ordb");
             }
         }
     }

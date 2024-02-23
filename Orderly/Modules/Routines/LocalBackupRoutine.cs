@@ -58,16 +58,7 @@ namespace Orderly.Modules.Routines
             errorMessage = string.Empty;
             try {
                 LocalBackup bp = (LocalBackup)backup;
-                string backupFileName = bp.BackupPath;
-
-                ProcessStartInfo startInfo = new ProcessStartInfo {
-                    FileName = "Orderly.Dog.exe",
-                    Arguments = $"restore CoreDb.ordb {backupFileName}",
-                    UseShellExecute = false
-                };
-                Process.Start(startInfo);
-                App.Current.Shutdown();
-
+                File.Copy(bp.BackupPath, "CoreDB.ordb.new");
                 return true;
             }
             catch (Exception e){
