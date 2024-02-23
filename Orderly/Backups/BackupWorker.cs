@@ -1,5 +1,6 @@
 ﻿using Orderly.Interfaces;
 using Orderly.Modules;
+using Orderly.Modules.Routines;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Orderly.Backups
                 while (true) {
                     foreach (var routine in config.BackupRoutines) {
                         DateTime nextRoutineTime = routine.LastBackupDate.AddDays(routine.BackupFrequency);
+                        if (routine is GoogleDriveRoutine rt) rt.Authenticate();
                         if (nextRoutineTime > DateTime.Now) continue;
                         routine.Backup(out string error);
                     }
