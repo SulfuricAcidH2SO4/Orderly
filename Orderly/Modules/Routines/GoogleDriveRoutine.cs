@@ -37,7 +37,7 @@ namespace Orderly.Modules.Routines
         [ObservableProperty]
         private DateTime lastBackupDate;
         [ObservableProperty]
-        private int backupFrequency;
+        private int backupFrequency = 14;
         [ObservableProperty]
         private int maxBackupsNumber = 50;
         [ObservableProperty]
