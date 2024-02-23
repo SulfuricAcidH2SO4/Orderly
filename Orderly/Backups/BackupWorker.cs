@@ -1,5 +1,6 @@
 ﻿using Orderly.Interfaces;
 using Orderly.Modules;
+using Orderly.Modules.Notifications;
 using Orderly.Modules.Routines;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,14 @@ namespace Orderly.Backups
                 while (true) {
                     foreach (var routine in config.BackupRoutines) {
                         DateTime nextRoutineTime = routine.LastBackupDate.AddDays(routine.BackupFrequency);
-                        if (routine is GoogleDriveRoutine rt) rt.Authenticate();
+                        if (routine is GoogleDriveRoutine rt) {
+                            if(!rt.Authenticate()) {
+                                App.GetService<NotificationService>().Add(new() {
+                                    Header = "Error authenticating in your Google Drive routine",
+                                    Body = "Could not authenticate in one of your Google Drive backup routines. Please log in again."
+                                });
+                            }
+                        }
                         if (nextRoutineTime > DateTime.Now) continue;
                         routine.Backup(out string error);
                     }

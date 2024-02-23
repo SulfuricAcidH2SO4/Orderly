@@ -6,23 +6,25 @@ using System.Threading.Tasks;
 
 namespace Orderly.ViewModels
 {
-    public class ViewModelBase : ObservableObject
+    public partial class ViewModelBase : ObservableObject
     {
-        public bool IsLoading { get; set; } = false;
-        public string LoadingMessage = string.Empty;
+        [ObservableProperty]
+        private bool isLoading;
+        [ObservableProperty]
+        public string loadingMessage = string.Empty;
 
         protected void RunCommand(Action commandAction)
         {
-            try {
-                IsLoading = true;
-                Task.Factory.StartNew(() => {
+            Task.Factory.StartNew(() => {
+                try {
+                    IsLoading = true;
                     commandAction.Invoke();
-                });
-            }
-            catch {
-                throw;
-            }
-            finally { IsLoading = false; }
+                }
+                catch {
+                    throw;
+                }
+                finally { IsLoading = false; }
+            });
         }
     }
 }

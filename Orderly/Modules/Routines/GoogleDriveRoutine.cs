@@ -56,29 +56,33 @@ namespace Orderly.Modules.Routines
 
             var clientId = v.DriveClientId;
             var clientSecret = v.DriveClientSecret;
-            
-            var credential = GoogleWebAuthorizationBroker.AuthorizeAsync(new ClientSecrets {
-                                                                            ClientId = clientId,
-                                                                            ClientSecret = clientSecret
-                                                                        },
+            try {
+                var credential = GoogleWebAuthorizationBroker.AuthorizeAsync(new ClientSecrets {
+                    ClientId = clientId,
+                    ClientSecret = clientSecret
+                },
                                                                         scopes,
                                                                         Environment.UserName,
                                                                         CancellationToken.None,
                                                                         new FileDataStore("Orderly")).Result;
 
-            service = new DriveService(new BaseClientService.Initializer() {
-                HttpClientInitializer = credential,
-                ApplicationName = "Orderly",
-            });
-            service.HttpClient.Timeout = TimeSpan.FromMinutes(10);
-            IsAuthenticated = true;
+                service = new DriveService(new BaseClientService.Initializer() {
+                    HttpClientInitializer = credential,
+                    ApplicationName = "Orderly",
+                });
+                service.HttpClient.Timeout = TimeSpan.FromMinutes(10);
+                IsAuthenticated = true;
 
-            var aboutRequest = service.About.Get();
-            aboutRequest.Fields = "user(emailAddress)";
-            var about = aboutRequest.Execute();
-            User = about.User.EmailAddress;
-            ReloadBackups();
-            return true;
+                var aboutRequest = service.About.Get();
+                aboutRequest.Fields = "user(emailAddress)";
+                var about = aboutRequest.Execute();
+                User = about.User.EmailAddress;
+                ReloadBackups();
+                return true;
+            }
+            catch (Exception ex) {
+                return false;
+            }
         }
 
         public bool Backup(out string errorMessage)
