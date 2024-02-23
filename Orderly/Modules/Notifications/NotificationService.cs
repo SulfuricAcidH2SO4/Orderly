@@ -1,8 +1,10 @@
-﻿using Orderly.Helpers;
+﻿using Newtonsoft.Json;
+using Orderly.Helpers;
 using Orderly.Models.Notifications;
 using Orderly.Views.Pages;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +18,22 @@ namespace Orderly.Modules.Notifications
         public ExtendedObservableCollection<UserNotification> Notifications { get; set; } = new();
         [ObservableProperty]
         int unreadNotifications;
+        [ObservableProperty]
+        bool isOpen;
 
+        public void Initialize()
+        {
+            if (File.Exists("Notis.ord")) {
+                NotificationService sv = JsonConvert.DeserializeObject<NotificationService>(File.ReadAllText("Notis.ord"))!;
+                Notifications.Clear();
+                Notifications.AddRange(sv.Notifications);
+                UpdateNotifications();
+            }
+        }
+        public void Save()
+        {
+            File.WriteAllText("Notis.ord", JsonConvert.SerializeObject(this));
+        }
         public void Add(UserNotification notification)
         {
             Notifications.Add(notification);
@@ -34,6 +51,7 @@ namespace Orderly.Modules.Notifications
         }
         public void UpdateNotifications()
         {
+            Save();
             UnreadNotifications = Notifications.Where(x => !x.IsRead).Count();
         }
         public void MarkAsRead(UserNotification notification)

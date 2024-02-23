@@ -47,6 +47,7 @@ namespace Orderly.Views.Windows
 
             navigationService.SetNavigationControl(RootNavigation);
             snackBarService.SetSnackbarPresenter(SnackbarPresenter);
+            notificationService.Initialize();
             notificationService.SetContentControl(NotificationViewControl);
         }
 

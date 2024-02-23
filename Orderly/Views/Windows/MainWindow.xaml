@@ -63,12 +63,12 @@
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
                         <Grid Margin="10,0">
-
                             <ToggleButton
                                 x:Name="tbNotifications"
                                 Background="Transparent"
                                 BorderThickness="0"
-                                Cursor="Hand">
+                                Cursor="Hand"
+                                IsChecked="{Binding ViewModel.NotificationService.IsOpen, Mode=TwoWay}">
                                 <ui:SymbolIcon Symbol="Alert48" />
                             </ToggleButton>
                             <Border
@@ -94,7 +94,7 @@
                             </Border>
                             <ui:Flyout
                                 Padding="0"
-                                IsOpen="{Binding ElementName=tbNotifications, Path=IsChecked, Mode=TwoWay}"
+                                IsOpen="{Binding ViewModel.NotificationService.IsOpen, Mode=TwoWay}"
                                 Placement="Bottom">
                                 <Border
                                     Width="300"

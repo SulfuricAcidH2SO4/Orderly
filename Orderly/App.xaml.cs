@@ -156,6 +156,13 @@ namespace Orderly
 
             if (CheckWizardLaunch())
             {
+                GetService<NotificationService>().Add(new() {
+                    Header = "Welcome to Orderly!",
+                    Body = $"Hi {GetService<IProgramConfiguration>().UserName}, welcome to orderly!\n" +
+                    $"Let's start by making yourself familiar with the layout. The project is still in development " +
+                    $"so for any bug report or suggestion please head to the GitHub repository.\n" +
+                    $"Thanks again for being here!"
+                });
                 RenderOptions.ProcessRenderMode = config.UseHardwareRendering ? System.Windows.Interop.RenderMode.Default : System.Windows.Interop.RenderMode.SoftwareOnly;
                 MainWindow.Show();
             }
