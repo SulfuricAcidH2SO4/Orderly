@@ -152,6 +152,12 @@ namespace Orderly.ViewModels.Pages
         }
 
         [RelayCommand]
+        public void RestoreBackup(IBackup backup)
+        {
+            SelectedRoutine?.Restore(backup, out _);
+        }
+
+        [RelayCommand]
         public void AuthGoogle()
         {
             RunCommand(() => {

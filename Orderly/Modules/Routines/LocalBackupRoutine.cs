@@ -4,6 +4,7 @@ using Orderly.Interfaces;
 using Orderly.Models.Backup;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -54,7 +55,25 @@ namespace Orderly.Modules.Routines
 
         public bool Restore(IBackup backup, out string errorMessage)
         {
-            throw new NotImplementedException();
+            errorMessage = string.Empty;
+            try {
+                LocalBackup bp = (LocalBackup)backup;
+                string backupFileName = bp.BackupPath;
+
+                ProcessStartInfo startInfo = new ProcessStartInfo {
+                    FileName = "Orderly.Dog.exe",
+                    Arguments = $"restore CoreDb.ordb {backupFileName}",
+                    UseShellExecute = false
+                };
+                Process.Start(startInfo);
+                App.Current.Shutdown();
+
+                return true;
+            }
+            catch (Exception e){
+                errorMessage = $"Error restoring localbackup {(backup as LocalBackup).BackupPath}: {e.Message}";
+                return false;
+            }
         }
 
         public void ReloadBackups()

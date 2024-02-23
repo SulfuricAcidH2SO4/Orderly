@@ -411,6 +411,8 @@
                                                                             <StackPanel Grid.Column="1" Orientation="Horizontal">
                                                                                 <ui:Button
                                                                                     Margin="10,0"
+                                                                                    Command="{Binding ViewModel.RestoreBackupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                                    CommandParameter="{Binding}"
                                                                                     ToolTipService.InitialShowDelay="0"
                                                                                     ToolTipService.ToolTip="Restore to this backup">
                                                                                     <ui:SymbolIcon Symbol="ArrowReset20" />
