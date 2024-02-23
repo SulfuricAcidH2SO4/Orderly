@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Orderly.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:Orderly.Models.Notifications"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     d:DataContext="{d:DesignInstance local:NotificationView,
                                      IsDesignTimeCreatable=False}"
@@ -33,11 +34,95 @@
                     VerticalAlignment="Bottom"
                     Background="#f58b2f"
                     CornerRadius="2" />
+                <ui:Button
+                    HorizontalAlignment="Right"
+                    Command="{Binding ViewModel.DismissAllCommand}"
+                    Content="Disimiss all" />
+                <ScrollViewer Grid.Row="1">
+                    <ItemsControl Margin="0,5,0,0" ItemsSource="{Binding ViewModel.NotificationService.Notifications}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="models:UserNotification">
+                                <Border
+                                    Margin="0,10"
+                                    Padding="10"
+                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                    CornerRadius="5">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="BorderBrush" Value="#ff813d" />
+                                            <Setter Property="BorderThickness" Value="1" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsRead}" Value="true">
+                                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                                    <Setter Property="BorderThickness" Value="1" />
+                                                    <Setter Property="Opacity" Value=".6" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <ui:TextBlock
+                                            Margin="0,0,80,0"
+                                            Appearance="Primary"
+                                            FontStyle="Italic"
+                                            FontWeight="SemiBold"
+                                            Text="{Binding Header}"
+                                            TextWrapping="Wrap" />
+                                        <ui:TextBlock
+                                            Grid.Row="1"
+                                            Appearance="Primary"
+                                            Text="{Binding Body}"
+                                            TextWrapping="Wrap" />
+                                        <StackPanel
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Orientation="Horizontal">
+                                            <Button
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.MarkAsReadCommand}"
+                                                CommandParameter="{Binding}"
+                                                Cursor="Hand"
+                                                ToolTipService.InitialShowDelay="0"
+                                                ToolTipService.ToolTip="Mark as read">
+                                                <ui:SymbolIcon Symbol="Eye12" />
+                                            </Button>
+                                            <Button
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.DeleteNotificationCommand}"
+                                                CommandParameter="{Binding}"
+                                                Cursor="Hand"
+                                                ToolTipService.InitialShowDelay="0"
+                                                ToolTipService.ToolTip="Delete">
+                                                <ui:SymbolIcon Symbol="Delete12" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
                 <StackPanel
                     Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Opacity=".5">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ViewModel.NotificationService.Notifications.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
                     <TextBlock Text="There aren't any new notifications. Nice." />
                 </StackPanel>
             </Grid>

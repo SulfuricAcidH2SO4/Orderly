@@ -30,11 +30,16 @@ namespace Orderly.Modules.Notifications
         public void Clear()
         {
             Notifications.Clear();
-
+            UpdateNotifications();
         }
         public void UpdateNotifications()
         {
             UnreadNotifications = Notifications.Where(x => !x.IsRead).Count();
+        }
+        public void MarkAsRead(UserNotification notification)
+        {
+            notification.IsRead = true;
+            UpdateNotifications();
         }
         public void SetContentControl(ContentControl contentControl)
         {

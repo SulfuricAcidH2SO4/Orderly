@@ -75,15 +75,14 @@
                                 Width="15"
                                 Height="15"
                                 Margin="15,0,0,15"
+                                Background="#0694d1"
                                 CornerRadius="50"
-                                IsHitTestVisible="False"
-                                Visibility="Visible">
+                                IsHitTestVisible="False">
                                 <Border.Style>
                                     <Style TargetType="Border">
-                                        <Setter Property="Background" Value="#0694d1" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding ViewModel.NotificationService.UnreadNotifications}" Value="0">
-                                                <Setter Property="Background" Value="Gray" />
+                                                <Setter Property="Visibility" Value="Hidden" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
