@@ -127,17 +127,21 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void DoBackup()
         {
-            if (SelectedRoutine == null) return;
-            SelectedRoutine.Backup(out string error);
-            SelectedRoutine = SelectedRoutine;
-            App.GetService<ISnackbarService>().Show(
-                    "You did it!",
-                    "Backup created successfully!",
-                    ControlAppearance.Success,
-                    new SymbolIcon(SymbolRegular.Check20),
-                    TimeSpan.FromSeconds(2)
-                    
-        );
+            RunCommand(() => {
+                if (SelectedRoutine == null) return;
+                SelectedRoutine.Backup(out string error);
+                SelectedRoutine = SelectedRoutine;
+                App.Current.Dispatcher.Invoke(() => {
+                    App.GetService<ISnackbarService>().Show(
+                        "You did it!",
+                        "Backup created successfully!",
+                        ControlAppearance.Success,
+                        new SymbolIcon(SymbolRegular.Check20),
+                        TimeSpan.FromSeconds(2)
+
+                );
+                });
+            });
         }
         
         [RelayCommand]
@@ -158,11 +162,16 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void DeleteBackup(IBackup backup)
         {
-            if(backup is LocalBackup lb) {
-                if(((LocalBackupRoutine)SelectedRoutine!).Delete(backup, out string error)) {
-                    BackupsInFolderList.Remove(lb);
+            RunCommand(() => {
+                if (backup is LocalBackup lb) {
+                    if (((LocalBackupRoutine)SelectedRoutine!).Delete(backup, out string error)) {
+                        BackupsInFolderList.Remove(lb);
+                    }
                 }
-            }
+                else {
+                    SelectedRoutine?.Delete(backup, out _);
+                }
+            });
         }
 
         [RelayCommand]

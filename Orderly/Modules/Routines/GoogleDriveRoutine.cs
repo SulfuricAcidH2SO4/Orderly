@@ -19,6 +19,7 @@ namespace Orderly.Modules.Routines
 {
     public partial class GoogleDriveRoutine : ObservableObject, IBackupRoutine
     {
+        [JsonIgnore]
         public ExtendedObservableCollection<GoogleDriveBackup> Backups { get; set; } = new();
 
         private bool isAuthenticated = false;
@@ -89,8 +90,17 @@ namespace Orderly.Modules.Routines
         }
 
         public bool Delete(IBackup backup, out string errorMessage)
-        {
-            throw new NotImplementedException();
+        { 
+            errorMessage = string.Empty;
+            try {
+                Backups.Remove((GoogleDriveBackup)backup);
+                var result = service?.Files.Delete((backup as GoogleDriveBackup)!.FileId).Execute();
+                return true;
+            }
+            catch (Exception e) {
+                errorMessage = $"Error deleting file from Google Drive: {e.Message}";
+                return false;
+            }
         }
 
         public bool Restore(IBackup backup, out string errorMessage)
@@ -114,6 +124,7 @@ namespace Orderly.Modules.Routines
                 string dateString = backup.Name.Replace("CoreDB", string.Empty).Replace(".ordb", string.Empty);
                 DateTime.TryParseExact(dateString, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
                 Backups.Add(new() {
+                    FileId = backup.Id,
                     BackupDate = parsedDate,
                     BackupName = backup.Name,
                 });

@@ -194,10 +194,11 @@
                                                                             Source="/Assets/Icons/drive128.png" />
                                                                         <TextBlock VerticalAlignment="Center" Text="Google Drive" />
                                                                         <TextBlock
+                                                                            Margin="5,0"
                                                                             VerticalAlignment="Center"
                                                                             FontStyle="Italic"
                                                                             Opacity=".5"
-                                                                            Text="{Binding Path}" />
+                                                                            Text="{Binding User, StringFormat={}({0})}" />
                                                                     </StackPanel>
                                                                 </Setter.Value>
                                                             </Setter>
@@ -247,6 +248,7 @@
                 VerticalAlignment="Stretch"
                 Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
             <Grid Grid.Column="2">
+                <ui:ProgressRing IsIndeterminate="True" Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <ContentControl>
                     <ContentControl.Style>
                         <Style TargetType="ContentControl">

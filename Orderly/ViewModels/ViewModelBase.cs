@@ -10,5 +10,19 @@ namespace Orderly.ViewModels
     {
         public bool IsLoading { get; set; } = false;
         public string LoadingMessage = string.Empty;
+
+        protected void RunCommand(Action commandAction)
+        {
+            try {
+                IsLoading = true;
+                Task.Factory.StartNew(() => {
+                    commandAction.Invoke();
+                });
+            }
+            catch {
+                throw;
+            }
+            finally { IsLoading = false; }
+        }
     }
 }
