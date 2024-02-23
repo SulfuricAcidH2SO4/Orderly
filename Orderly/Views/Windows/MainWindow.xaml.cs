@@ -48,14 +48,6 @@ namespace Orderly.Views.Windows
             navigationService.SetNavigationControl(RootNavigation);
             snackBarService.SetSnackbarPresenter(SnackbarPresenter);
             notificationService.SetContentControl(NotificationViewControl);
-
-            Task.Factory.StartNew(() => {
-                Thread.Sleep(5000);
-                notificationService.Add(new() {
-                    Header = "Header",
-                    Body = "Body or content",
-                });
-            });
         }
 
         #region INavigationWindow methods
