@@ -1,4 +1,5 @@
-﻿using Orderly.Models.Backup;
+﻿using Orderly.Helpers;
+using Orderly.Models.Backup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,11 @@ namespace Orderly.Interfaces
         DateTime LastBackupDate { get; set; }
         int BackupFrequency {  get; set; }
         int MaxBackupsNumber { get; set; }
+        ExtendedObservableCollection<IBackup> Backups { get; set; }  
+
         bool Backup(out string errorMessage);
         bool Restore(IBackup backup, out string errorMessage);
         bool Delete(IBackup backup, out string errorMessage);
+        void ReloadBackups();
     }
 }

@@ -388,7 +388,7 @@
                                                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                                                     CornerRadius="5">
                                                     <ScrollViewer>
-                                                        <ItemsControl ItemsSource="{Binding ViewModel.BackupsInFolderList}">
+                                                        <ItemsControl ItemsSource="{Binding ViewModel.SelectedRoutine.Backups}">
                                                             <ItemsControl.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <Border
@@ -441,7 +441,7 @@
                                                         <Style TargetType="StackPanel">
                                                             <Setter Property="Visibility" Value="Collapsed" />
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding ViewModel.BackupsInFolderList.Count}" Value="0">
+                                                                <DataTrigger Binding="{Binding ViewModel.SelectedRoutine.Backups.Count}" Value="0">
                                                                     <Setter Property="Visibility" Value="Visible" />
                                                                 </DataTrigger>
                                                             </Style.Triggers>
@@ -694,10 +694,6 @@
                                                                 <TextBlock Text="Log In" />
                                                             </StackPanel>
                                                         </Button>
-                                                        <ui:ProgressRing
-                                                            Margin="0,300,0,0"
-                                                            IsIndeterminate="True"
-                                                            Visibility="{Binding ViewModel.IsGoogleLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
                                                     </Grid>
                                                 </Border>
                                             </Grid>

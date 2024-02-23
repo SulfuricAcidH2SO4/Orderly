@@ -1,4 +1,5 @@
-﻿using Orderly.Interfaces;
+﻿using Orderly.Extensions;
+using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Modules.Notifications;
 using Orderly.Modules.Routines;
@@ -37,6 +38,22 @@ namespace Orderly.Backups
             });
         }
 
+        public static void ClearAllBackups()
+        {
+            ProgramConfiguration config = (ProgramConfiguration)App.GetService<IProgramConfiguration>();
+            
+            foreach(var routine in config.BackupRoutines) {
+                routine.Backups.ToList().ForEach(x => routine.Delete(x, out _));
+            }
+        }
 
+        public static void RunAllBackups()
+        {
+            ProgramConfiguration config = (ProgramConfiguration)App.GetService<IProgramConfiguration>();
+
+            foreach (var routine in config.BackupRoutines) {
+                routine.Backup(out _);
+            }
+        }
     }
 }

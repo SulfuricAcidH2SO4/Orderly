@@ -96,10 +96,7 @@
                                 Padding="0"
                                 IsOpen="{Binding ViewModel.NotificationService.IsOpen, Mode=TwoWay}"
                                 Placement="Bottom">
-                                <Border
-                                    Width="300"
-                                    Height="300"
-                                    Background="{DynamicResource ApplicationBackgroundBrush}">
+                                <Border Width="300" Height="300">
                                     <ContentControl x:Name="NotificationViewControl" />
                                 </Border>
                             </ui:Flyout>

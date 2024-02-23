@@ -1,7 +1,10 @@
-﻿using Orderly.Interfaces;
+﻿using Newtonsoft.Json;
+using Orderly.Helpers;
+using Orderly.Interfaces;
 using Orderly.Models.Backup;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +14,8 @@ namespace Orderly.Modules.Routines
 {
     public partial class LocalBackupRoutine : ObservableObject, IBackupRoutine
     {
+        [JsonIgnore]
+        public ExtendedObservableCollection<IBackup> Backups { get; set; } = new();
         [ObservableProperty]
         private DateTime lastBackupDate;
         [ObservableProperty]
@@ -19,8 +24,7 @@ namespace Orderly.Modules.Routines
         private string path = "C:\\Orderly_Backups\\";
         [ObservableProperty]
         private int maxBackupsNumber = 50;
-        
-
+    
         public bool Backup(out string errorMessage)
         {
             if(!Directory.Exists(Path)) Directory.CreateDirectory(Path);
@@ -28,6 +32,7 @@ namespace Orderly.Modules.Routines
             errorMessage = string.Empty;    
             LastBackupDate = DateTime.Now;
             App.GetService<IProgramConfiguration>().Save();
+            ReloadBackups();
             return true;
         }
 
@@ -41,6 +46,7 @@ namespace Orderly.Modules.Routines
 
             try {
                 File.Delete(lb.BackupPath);
+                ReloadBackups();
             }
             catch { }
             return true;
@@ -49,6 +55,23 @@ namespace Orderly.Modules.Routines
         public bool Restore(IBackup backup, out string errorMessage)
         {
             throw new NotImplementedException();
+        }
+
+        public void ReloadBackups()
+        {
+            var filesInFolder = Directory.EnumerateFiles(Path);
+            Backups.Clear();
+            foreach (var backup in filesInFolder.Where(x => x.Contains("CoreDB") && x.EndsWith(".ordb"))) {
+                LocalBackup bp = new() {
+                    BackupPath = backup
+                };
+
+                string dateString = System.IO.Path.GetFileName(backup).Replace("CoreDB", string.Empty).Replace(".ordb", string.Empty);
+
+                DateTime.TryParseExact(dateString, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
+                bp.BackupDate = parsedDate;
+                Backups.Add(bp);
+            }
         }
     }
 }

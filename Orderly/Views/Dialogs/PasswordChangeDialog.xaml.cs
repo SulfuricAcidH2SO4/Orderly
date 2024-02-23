@@ -1,4 +1,5 @@
-﻿using Orderly.Database;
+﻿using Orderly.Backups;
+using Orderly.Database;
 using Orderly.DaVault;
 using Orderly.Helpers;
 using Orderly.Interfaces;
@@ -66,6 +67,11 @@ namespace Orderly.Views.Dialogs
 
             config.AbsolutePassword = EncryptionHelper.HashPassword(pass1);
             UpdatePassword();
+            bool runNewBackup = cbBackup.IsChecked!.Value;
+            Task.Factory.StartNew(() => {
+                BackupWorker.ClearAllBackups();
+                if(runNewBackup) BackupWorker.RunAllBackups();
+            });
             Close();
         }
 

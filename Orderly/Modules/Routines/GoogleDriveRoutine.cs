@@ -20,7 +20,7 @@ namespace Orderly.Modules.Routines
     public partial class GoogleDriveRoutine : ObservableObject, IBackupRoutine
     {
         [JsonIgnore]
-        public ExtendedObservableCollection<GoogleDriveBackup> Backups { get; set; } = new();
+        public ExtendedObservableCollection<IBackup> Backups { get; set; } = new();
 
         private bool isAuthenticated = false;
 
@@ -127,7 +127,7 @@ namespace Orderly.Modules.Routines
             foreach ( var backup in result.Files.ToList()) {
                 string dateString = backup.Name.Replace("CoreDB", string.Empty).Replace(".ordb", string.Empty);
                 DateTime.TryParseExact(dateString, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
-                Backups.Add(new() {
+                Backups.Add(new GoogleDriveBackup() {
                     FileId = backup.Id,
                     BackupDate = parsedDate,
                     BackupName = backup.Name,

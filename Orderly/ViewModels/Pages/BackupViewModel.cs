@@ -25,8 +25,6 @@ namespace Orderly.ViewModels.Pages
         ProgramConfiguration config;
         [ObservableProperty]
         private bool isFlyoutOpen = false;
-        [ObservableProperty]
-        private bool isGoogleLoading = false;
 
         public IBackupRoutine? SelectedRoutine
         {
@@ -35,35 +33,13 @@ namespace Orderly.ViewModels.Pages
             {
                 SetProperty(ref selectedRoutine, value);
                 if(value is LocalBackupRoutine lb) {
-                    try {
-                        var filesInFolder = Directory.EnumerateFiles(lb.Path);
-                        BackupsInFolderList.Clear();
-                        foreach (var backup in filesInFolder.Where(x => x.Contains("CoreDB") && x.EndsWith(".ordb")))
-                        {
-                            LocalBackup bp = new() {
-                                BackupPath = backup
-                            };
-
-                            string dateString = Path.GetFileName(backup).Replace("CoreDB", string.Empty).Replace(".ordb", string.Empty);
-
-                            DateTime.TryParseExact(dateString, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
-                            bp.BackupDate = parsedDate;
-                            BackupsInFolderList.Add(bp);
-                        }
-                    }
-                    catch {
-                        BackupsInFolderList.Clear();
-                    }
+                    RunCommand(() => {
+                        lb.ReloadBackups();
+                    });
                 }
                 else if(value is GoogleDriveRoutine gd && gd.IsAuthenticated) {
-                    IsGoogleLoading = true;
-                    Task.Factory.StartNew(() => {
-                        try {
-                            gd.ReloadBackups();
-                        }
-                        finally {
-                            IsGoogleLoading = false;
-                        }
+                    RunCommand(() => {
+                        gd.ReloadBackups();
                     });
                 }
             }
@@ -162,6 +138,7 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void DeleteBackup(IBackup backup)
         {
+            if (new PasswordConfirmDialog().ShowDialog() == false) return;
             RunCommand(() => {
                 if (backup is LocalBackup lb) {
                     if (((LocalBackupRoutine)SelectedRoutine!).Delete(backup, out string error)) {
@@ -177,16 +154,8 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void AuthGoogle()
         {
-            IsGoogleLoading = true;
-            Task.Factory.StartNew(() => {
-                try {
-                    if (((GoogleDriveRoutine)SelectedRoutine!).Authenticate()) {
-                        ((GoogleDriveRoutine)SelectedRoutine).Backup(out _);
-                    }
-                }
-                finally {
-                    IsGoogleLoading = false;
-                }
+            RunCommand(() => {
+                ((GoogleDriveRoutine)SelectedRoutine!).Authenticate();
             });
         }
     }
