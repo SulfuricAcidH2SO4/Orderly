@@ -64,7 +64,19 @@ namespace Orderly.Modules.Routines
 
         public bool Delete(IBackup backup)
         {
-            throw new NotImplementedException();
+            using (FtpClient client = new(Server, Username, Password)) {
+                try {
+                    client.DeleteFile(((FtpBackup)backup).BackupPath);
+                    Status = RoutineStatus.Ok;
+                    ReloadBackups();
+                    return true;
+                }
+                catch (Exception ex) {
+                    StatusMessage = ex.Message;
+                    Status = RoutineStatus.Error;
+                    return false;
+                }
+            }
         }
 
         public void ReloadBackups()
