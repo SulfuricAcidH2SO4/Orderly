@@ -143,7 +143,7 @@ namespace Orderly
 
             CheckBackupRestore();
 
-            DatabaseContext db = new();
+            using DatabaseContext db = new();
             if (!db.Categories.Any()) {
                 db.Categories.Add(new() {
                     Name = "General",

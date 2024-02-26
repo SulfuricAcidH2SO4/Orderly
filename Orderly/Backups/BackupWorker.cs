@@ -1,4 +1,5 @@
-﻿using Orderly.Extensions;
+﻿using Orderly.Database;
+using Orderly.Extensions;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Modules.Notifications;
@@ -14,7 +15,7 @@ namespace Orderly.Backups
 {
     public static class BackupWorker
     {
-        private static int backupCheckFrequency = 60000;
+        private static int backupCheckFrequency = 36000000;
 
         public static void CheckBackups()
         {
@@ -60,6 +61,9 @@ namespace Orderly.Backups
         public static void CheckBackupRestore()
         {
             if (File.Exists("CoreDB.ordb.new")) {
+                using DatabaseContext db = new();
+                db.EnsureClosed();
+                db.Dispose();
                 File.Move("CoreDB.ordb", "CoreDB.ordb.old", true);
                 File.Move("CoreDB.ordb.new", "CoreDB.ordb");
             }

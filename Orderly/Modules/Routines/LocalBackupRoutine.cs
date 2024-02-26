@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Orderly.Database;
 using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Models.Backup;
@@ -29,6 +30,9 @@ namespace Orderly.Modules.Routines
         public bool Backup(out string errorMessage)
         {
             if(!Directory.Exists(Path)) Directory.CreateDirectory(Path);
+            using DatabaseContext db = new();
+            db.SaveChanges();
+            db.EnsureClosed();
             File.Copy("CoreDB.ordb", System.IO.Path.Combine(Path, $"CoreDB{DateTime.Now.ToString("dd.MM.yyyy")}.ordb"), true);
             errorMessage = string.Empty;    
             LastBackupDate = DateTime.Now;

@@ -86,7 +86,7 @@ namespace Orderly.Views.Dialogs
             string oldKey = App.GetService<Vault>().PasswordEncryptionKey;
             string newKey = EncryptionHelper.HashPassword(config.AbsolutePassword).Substring(0, 24);
 
-            DatabaseContext db = new();
+            using DatabaseContext db = new();
             foreach (var credential in db.Credentials) {
                 string plainPassword = EncryptionHelper.DecryptString(credential.Password, oldKey);
                 credential.Password = EncryptionHelper.EncryptString(plainPassword, newKey);

@@ -23,11 +23,9 @@ namespace Orderly.ViewModels.RadialMenu
         [ObservableProperty]
         private ExtendedObservableCollection<Credential> credentials = new();
 
-        DatabaseContext? db;
-
         public InputTerminalViewModel()
         {
-            db = new();
+            using DatabaseContext db = new();
             Credentials.AddRange(db.Credentials.Include(c => c.Category).ToList());
         }
 
@@ -90,7 +88,7 @@ namespace Orderly.ViewModels.RadialMenu
         public void UpdateCredentials()
         {
             Task.Factory.StartNew(() => {
-                db = new();
+                using DatabaseContext db = new();
                 Credentials.Clear();
                 Credentials.AddRange(db.Credentials.Include(c => c.Category).ToList());
                 Credentials.ForEach(x => x.PropertyChanged += OnCredentialPropertyChanged);
@@ -104,7 +102,7 @@ namespace Orderly.ViewModels.RadialMenu
                 if (sender is Credential cr) {
                     if (e.PropertyName == nameof(cr.Pinned)) {
                         OrderPinnedTop();
-                        db = new();
+                        using DatabaseContext db = new();
                         db.Credentials.Update(cr);
                         db.SaveChanges();
 

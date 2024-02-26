@@ -20,7 +20,6 @@ namespace Orderly.ViewModels.Pages
     public partial class DashboardViewModel : ViewModelBase, INavigationAware
     {
         bool isInitialized;
-        DatabaseContext db;
 
         [ObservableProperty]
         ProgramConfiguration config;
@@ -47,7 +46,7 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void UpdateCategory(Category category)
         {
-            db = new();
+            using DatabaseContext db = new();
             category.LastEditDate = DateTime.Now.ToString();
             if (db.Categories.Update(category).Entity == null) {
                 //Failed to update
@@ -58,7 +57,7 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void AddCategory()
         {
-            db = new();
+            using DatabaseContext db = new();
             Category addedCategory = db.Categories.Add(new() {
                 Name = "New Category",
                 AdditionDate = DateTime.Now.ToString(),
@@ -79,7 +78,7 @@ namespace Orderly.ViewModels.Pages
             PasswordConfirmDialog pdialog = new();
             if (category.Credentials!.Count != 0 && pdialog.ShowDialog() == false) return;
 
-            db = new();
+            using DatabaseContext db = new();
             db.Categories.Remove(category);
             db.SaveChanges();
             Categories.Remove(category);
@@ -88,7 +87,7 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void AddCredentials(Category CredentialCategory)
         {
-            db = new();
+            using DatabaseContext db = new();
             Credential cr = new() {
                 CategoryId = CredentialCategory.Id,
                 ServiceName = string.Empty,
@@ -114,7 +113,7 @@ namespace Orderly.ViewModels.Pages
             if (dialog.ShowDialog() == false) return;
 
             Category categoryToUpdate = Categories.First(x => x == credential.Category);
-            db = new();
+            using DatabaseContext db = new();
             db.Credentials.Remove(credential);
             db.SaveChanges();
             CollectionViewSource.GetDefaultView(categoryToUpdate.Credentials).Refresh();
@@ -139,7 +138,7 @@ namespace Orderly.ViewModels.Pages
             credential.LastEditDate = DateTime.Now.ToString();
             Vault v = App.GetService<Vault>();
             credential.Password = EncryptionHelper.EncryptString(credential.Password, v.PasswordEncryptionKey);
-            db = new();
+            using DatabaseContext db = new();
             db.Credentials.Update(credential);
             db.SaveChanges();
         }
@@ -148,7 +147,6 @@ namespace Orderly.ViewModels.Pages
         {
             Task.Factory.StartNew(() => {
                 Categories.Clear();
-                db.Dispose();
                 GC.Collect();
                 isInitialized = false;
             });
@@ -162,7 +160,7 @@ namespace Orderly.ViewModels.Pages
         public void Initalize()
         {
             isInitialized = true;
-            db = new();
+            using DatabaseContext db = new();
             Categories.AddRange(db.Categories.Include(x => x.Credentials));
 
             foreach (var category in Categories) {
@@ -179,7 +177,7 @@ namespace Orderly.ViewModels.Pages
         {
             if(sender is Credential cr) {
                 if (e.PropertyName == nameof(cr.Pinned)) {
-                    db = new();
+                    using DatabaseContext db = new();
                     db.Credentials.Update(cr);
                     db.SaveChanges();
                 }

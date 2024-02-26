@@ -18,6 +18,7 @@ namespace Orderly.Database
         {
             Database.EnsureCreated();
             Database.Migrate();
+            
         }
 
         public DatabaseContext(string dbName)
@@ -30,8 +31,15 @@ namespace Orderly.Database
         {
             optionsBuilder.UseSqlite(new SqliteConnectionStringBuilder() {
                 DataSource = DbName,
+                Pooling = false,
                 Mode = SqliteOpenMode.ReadWriteCreate
             }.ConnectionString);
+        }
+
+        public void EnsureClosed()
+        {
+            Database.CloseConnection();
+            GC.Collect();
         }
     }
 }
