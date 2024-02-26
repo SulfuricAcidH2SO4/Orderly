@@ -59,7 +59,19 @@ namespace Orderly.Modules.Routines
 
         public bool Restore(IBackup backup)
         {
-            throw new NotImplementedException();
+            using (FtpClient client = new(Server, Username, Password)) {
+                try {
+                    client.Connect();
+                    client.DownloadFile("CoreDB.ordb.new", ((FtpBackup)backup).BackupPath, FtpLocalExists.Overwrite);
+                    Status = RoutineStatus.Ok;
+                    return true;
+                }
+                catch (Exception ex) {
+                    StatusMessage = ex.Message;
+                    Status = RoutineStatus.Error;
+                    return false;
+                }
+            }
         }
 
         public bool Delete(IBackup backup)
