@@ -82,8 +82,8 @@ namespace Orderly.ViewModels.Pages
                     Config.BackupRoutines.Add(local);
                     break;
                 case "google":
-                    GoogleDriveRoutine gdrive = new();
-                    Config.BackupRoutines.Add(gdrive);
+                    //GoogleDriveRoutine gdrive = new();
+                    //Config.BackupRoutines.Add(gdrive);
                     break;
             }
 
@@ -154,7 +154,10 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void RestoreBackup(IBackup backup)
         {
+            if (new ConfirmDialog("Are you sure want to restore this backup?\nYou will need to restart orderly").ShowDialog() == false) return;
             SelectedRoutine?.Restore(backup, out _);
+            App.Current.Shutdown();
+            System.Windows.Forms.Application.Restart();
         }
 
         [RelayCommand]

@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Download;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
@@ -12,8 +13,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace Orderly.Modules.Routines
 {
@@ -52,6 +56,8 @@ namespace Orderly.Modules.Routines
         {
             Vault v = App.GetService<Vault>();  
             string[] scopes = new string[] { DriveService.Scope.DriveAppdata,
+                                             DriveService.Scope.DriveMetadata,
+                                             DriveService.Scope.Drive,
                                              DriveService.Scope.DriveFile};
 
             var clientId = v.DriveClientId;
@@ -61,10 +67,10 @@ namespace Orderly.Modules.Routines
                     ClientId = clientId,
                     ClientSecret = clientSecret
                 },
-                                                                        scopes,
-                                                                        Environment.UserName,
-                                                                        CancellationToken.None,
-                                                                        new FileDataStore("Orderly")).Result;
+                    scopes,
+                    Environment.UserName,
+                    CancellationToken.None,
+                    new FileDataStore("Orderly")).Result;
 
                 service = new DriveService(new BaseClientService.Initializer() {
                     HttpClientInitializer = credential,
@@ -109,7 +115,16 @@ namespace Orderly.Modules.Routines
 
         public bool Restore(IBackup backup, out string errorMessage)
         {
-            throw new NotImplementedException();
+            errorMessage = string.Empty;
+            try {
+                GoogleDriveBackup bp = (GoogleDriveBackup)backup;
+                DownloadFileAsync(bp.FileId, "CoreDB.ordb.new").Wait();
+            }
+            catch (Exception ex) {
+                errorMessage = ex.Message;
+                return false;
+            }
+            return true;
         }
 
         public void ReloadBackups()
@@ -194,6 +209,64 @@ namespace Orderly.Modules.Routines
                 var createFolderRequest = service.Files.Create(folderMetadata);
                 var createdFolder = createFolderRequest.Execute();
                 return createdFolder.Id;
+            }
+        }
+
+        private async Task DownloadFileAsync(string fileId, string destinationPath)
+        {
+            var request = service?.Files.Get(fileId);
+            request.Fields = "id,webContentLink";
+            var stream = new MemoryStream();
+
+            SnackbarService snackBarService = (SnackbarService)App.GetService<ISnackbarService>();
+            request.MediaDownloader.ProgressChanged += (IDownloadProgress progress) =>
+            {
+                switch (progress.Status) {
+                    case DownloadStatus.Downloading: {
+                            break;
+                        }
+                    case DownloadStatus.Completed: {
+                            App.Current.Dispatcher.Invoke(() => {
+                                snackBarService.Show("Success", "Your backup is downloaded",
+                               Wpf.Ui.Controls.ControlAppearance.Success,
+                               new SymbolIcon(SymbolRegular.Checkmark12),
+                               TimeSpan.FromSeconds(1));
+                            });
+                            break;
+                        }
+                    case DownloadStatus.Failed: {
+                            App.Current.Dispatcher.Invoke(() => {
+                                snackBarService.Show("Error", $"Failed to download your file ({progress.Exception})",
+                             Wpf.Ui.Controls.ControlAppearance.Danger,
+                             new SymbolIcon(SymbolRegular.Dismiss12),
+                             TimeSpan.FromSeconds(1));
+                            });
+                            break;
+                        }
+                }
+            };
+            App.Current.Dispatcher.Invoke(() => {
+                snackBarService.Show("Downloading...", "Your backup is being downloaded...",
+                Wpf.Ui.Controls.ControlAppearance.Caution,
+                new SymbolIcon(SymbolRegular.ArrowDownload16),
+                TimeSpan.FromSeconds(1));
+            });
+
+            var file = request.Execute();
+
+            using (HttpClient client = new HttpClient()) {
+                HttpResponseMessage response = await client.GetAsync(file.WebContentLink);
+
+                if (response.IsSuccessStatusCode) {
+                    byte[] fileContent = await response.Content.ReadAsByteArrayAsync();
+
+                    System.IO.File.WriteAllBytes(destinationPath, fileContent);
+                }
+            }
+
+            using (var fileStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.Write)) {
+                stream.Seek(0, SeekOrigin.Begin);
+                stream.CopyTo(fileStream);
             }
         }
 
