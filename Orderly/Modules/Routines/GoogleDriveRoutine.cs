@@ -99,7 +99,7 @@ namespace Orderly.Modules.Routines
         public bool Backup()
         {
             if (!IsAuthenticated) Authenticate();
-            UploadFile(Path.GetFullPath("CoreDB.ordb"), $"Backup DB for orderly. Date: {DateTime.Now}");
+            UploadFile(Path.GetFullPath(Constants.DbName), $"Backup DB for orderly. Date: {DateTime.Now}");
             return true;
         }
 
@@ -119,7 +119,7 @@ namespace Orderly.Modules.Routines
         {
             try {
                 GoogleDriveBackup bp = (GoogleDriveBackup)backup;
-                DownloadFileAsync(bp.FileId, "CoreDB.ordb.new").Wait();
+                DownloadFileAsync(bp.FileId, $"{Constants.DbName}.new").Wait();
             }
             catch (Exception ex) {
                 return false;

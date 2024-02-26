@@ -30,12 +30,12 @@ namespace Orderly.Interfaces
         void Save();
         static ProgramConfiguration Load(Vault vault)
         {
-            if (!File.Exists("CoreConfig.ordcf"))
+            if (!File.Exists(Constants.ConfigFileName))
             {
                 ProgramConfiguration config = new();
                 config.Save(vault);
             }
-            string encryptedFile = File.ReadAllText("CoreConfig.ordcf");
+            string encryptedFile = File.ReadAllText(Constants.ConfigFileName);
             string decryptedFile = EncryptionHelper.DecryptString(encryptedFile, vault.ConfigEncryptionKey);
             return JsonConvert.DeserializeObject<ProgramConfiguration>(decryptedFile, new JsonSerializerSettings() {
                 TypeNameHandling = TypeNameHandling.Objects

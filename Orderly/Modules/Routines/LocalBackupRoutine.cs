@@ -38,7 +38,7 @@ namespace Orderly.Modules.Routines
             using DatabaseContext db = new();
             db.SaveChanges();
             db.EnsureClosed();
-            File.Copy("CoreDB.ordb", System.IO.Path.Combine(Path, $"CoreDB{DateTime.Now.ToString("dd.MM.yyyy.HH.mm.ss")}.ordb"), true);
+            File.Copy(Constants.DbName, System.IO.Path.Combine(Path, $"CoreDB{DateTime.Now.ToString("dd.MM.yyyy.HH.mm.ss")}.ordb"), true);
             LastBackupDate = DateTime.Now;
             App.GetService<IProgramConfiguration>().Save();
             ReloadBackups();
@@ -63,7 +63,7 @@ namespace Orderly.Modules.Routines
         {
             try {
                 LocalBackup bp = (LocalBackup)backup;
-                File.Copy(bp.BackupPath, "CoreDB.ordb.new");
+                File.Copy(bp.BackupPath, $"{Constants.DbName}.new");
                 return true;
             }
             catch (Exception e){

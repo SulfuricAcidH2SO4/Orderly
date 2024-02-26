@@ -136,7 +136,7 @@ namespace Orderly.Modules
                 TypeNameHandling = TypeNameHandling.Objects, Formatting = Formatting.Indented
             });
             string encryptedFile = EncryptionHelper.EncryptString(serializedString, App.GetService<Vault>().ConfigEncryptionKey);
-            File.WriteAllText("CoreConfig.ordcf", encryptedFile);
+            File.WriteAllText(Constants.ConfigFileName, encryptedFile);
         }
 
         public void Save(Vault vault)
@@ -146,7 +146,7 @@ namespace Orderly.Modules
                 Formatting = Formatting.Indented
             });
             string encryptedFile = EncryptionHelper.EncryptString(serializedString, vault.ConfigEncryptionKey);
-            File.WriteAllText("CoreConfig.ordcf", encryptedFile);
+            File.WriteAllText(Constants.ConfigFileName, encryptedFile);
         }
 
         #region Property Changed

@@ -45,7 +45,7 @@ namespace Orderly.Modules.Routines
                         client.CreateDirectory(Path);
                     }
 
-                    client.UploadFile("CoreDB.ordb", System.IO.Path.Combine(Path, $"CoreDB{DateTime.Now.ToString("dd.MM.yyyy.HH.mm.ss")}.ordb"));
+                    client.UploadFile(Constants.DbName, System.IO.Path.Combine(Path, $"CoreDB{DateTime.Now.ToString("dd.MM.yyyy.HH.mm.ss")}.ordb"));
                     Status = RoutineStatus.Ok;
                     return true;
                 }
@@ -62,7 +62,7 @@ namespace Orderly.Modules.Routines
             using (FtpClient client = new(Server, Username, Password)) {
                 try {
                     client.Connect();
-                    client.DownloadFile("CoreDB.ordb.new", ((FtpBackup)backup).BackupPath, FtpLocalExists.Overwrite);
+                    client.DownloadFile($"{Constants.DbName}.new", ((FtpBackup)backup).BackupPath, FtpLocalExists.Overwrite);
                     Status = RoutineStatus.Ok;
                     return true;
                 }

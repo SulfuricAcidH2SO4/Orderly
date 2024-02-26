@@ -1,6 +1,7 @@
 ﻿using Orderly.Database;
 using Orderly.Extensions;
 using Orderly.Interfaces;
+using Orderly.Models;
 using Orderly.Modules;
 using Orderly.Modules.Notifications;
 using Orderly.Modules.Routines;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -60,12 +62,12 @@ namespace Orderly.Backups
 
         public static void CheckBackupRestore()
         {
-            if (File.Exists("CoreDB.ordb.new")) {
+            if (File.Exists($"{Constants.DbName}.new")) {
                 using DatabaseContext db = new();
                 db.EnsureClosed();
                 db.Dispose();
-                File.Move("CoreDB.ordb", "CoreDB.ordb.old", true);
-                File.Move("CoreDB.ordb.new", "CoreDB.ordb");
+                File.Move(Constants.DbName, $"{Constants.DbName}.old", true);
+                File.Move($"{Constants.DbName}.new", Constants.DbName);
             }
         }
     }
