@@ -33,7 +33,7 @@ namespace Orderly.Backups
                             }
                         }
                         if (nextRoutineTime > DateTime.Now) continue;
-                        routine.Backup(out string error);
+                        routine.Backup();
                     }
                     Thread.Sleep(backupCheckFrequency);
                 }
@@ -45,7 +45,7 @@ namespace Orderly.Backups
             ProgramConfiguration config = (ProgramConfiguration)App.GetService<IProgramConfiguration>();
             
             foreach(var routine in config.BackupRoutines) {
-                routine.Backups.ToList().ForEach(x => routine.Delete(x, out _));
+                routine.Backups.ToList().ForEach(x => routine.Delete(x));
             }
         }
 
@@ -54,7 +54,7 @@ namespace Orderly.Backups
             ProgramConfiguration config = (ProgramConfiguration)App.GetService<IProgramConfiguration>();
 
             foreach (var routine in config.BackupRoutines) {
-                routine.Backup(out _);
+                routine.Backup();
             }
         }
 

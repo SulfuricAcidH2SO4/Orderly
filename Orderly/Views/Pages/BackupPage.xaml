@@ -7,6 +7,7 @@
     xmlns:face="clr-namespace:Orderly.EE"
     xmlns:local="clr-namespace:Orderly.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:passwordhelper="clr-namespace:Orderly.Helpers"
     xmlns:routines="clr-namespace:Orderly.Modules.Routines"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     d:DataContext="{d:DesignInstance local:BackupPage,
@@ -51,7 +52,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="15"
                                         Symbol="Save16" />
-                                    <TextBlock VerticalAlignment="Center" Text="Apply routines" />
+                                    <TextBlock VerticalAlignment="Center" Text="Save routines" />
                                 </StackPanel>
                             </ui:Button>
                             <ui:Button
@@ -200,6 +201,45 @@
                                                                             Opacity=".5"
                                                                             Text="{Binding User, StringFormat={}({0})}" />
                                                                     </StackPanel>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Converter={StaticResource DataTypeConverter}}" Value="{x:Type routines:FtpRoutine}">
+                                                            <Setter Property="Content">
+                                                                <Setter.Value>
+                                                                    <DockPanel>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <ui:SymbolIcon FontSize="25" Symbol="Server16" />
+                                                                            <TextBlock
+                                                                                Margin="5,0"
+                                                                                VerticalAlignment="Center"
+                                                                                Text="FTP Server" />
+                                                                            <TextBlock
+                                                                                VerticalAlignment="Center"
+                                                                                FontStyle="Italic"
+                                                                                Opacity=".5"
+                                                                                Text="{Binding Server}" />
+                                                                        </StackPanel>
+                                                                        <ui:SymbolIcon
+                                                                            HorizontalAlignment="Right"
+                                                                            Filled="True"
+                                                                            FontSize="25"
+                                                                            Foreground="#ce0000"
+                                                                            Symbol="ErrorCircle12"
+                                                                            ToolTipService.InitialShowDelay="0">
+                                                                            <ui:SymbolIcon.Style>
+                                                                                <Style TargetType="ui:SymbolIcon">
+                                                                                    <Setter Property="Visibility" Value="Hidden" />
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Status}" Value="Error">
+                                                                                            <Setter Property="Visibility" Value="Visible" />
+                                                                                            <Setter Property="ToolTipService.ToolTip" Value="{Binding StatusMessage}" />
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </ui:SymbolIcon.Style>
+                                                                        </ui:SymbolIcon>
+                                                                    </DockPanel>
                                                                 </Setter.Value>
                                                             </Setter>
                                                         </DataTrigger>
@@ -700,6 +740,283 @@
                                                         </Button>
                                                     </Grid>
                                                 </Border>
+                                            </Grid>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ViewModel.SelectedRoutine, Converter={StaticResource DataTypeConverter}}" Value="{x:Type routines:FtpRoutine}">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto" />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition Height="auto" />
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:TextBlock
+                                                        Appearance="Primary"
+                                                        FontSize="20"
+                                                        Text="Local Backup" />
+                                                    <TextBlock
+                                                        Margin="10,0"
+                                                        VerticalAlignment="Bottom"
+                                                        FontStyle="Italic"
+                                                        Opacity=".5"
+                                                        Text="{Binding ViewModel.SelectedRoutine.LastBackupDate, StringFormat={}(Last backup: {0})}" />
+                                                </StackPanel>
+                                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                                                    <StackPanel Grid.Row="1">
+                                                        <Border
+                                                            Height="70"
+                                                            Margin="0,5"
+                                                            Padding="15"
+                                                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                            CornerRadius="5">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto" />
+                                                                    <ColumnDefinition Width="100" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <ui:SymbolIcon
+                                                                    Margin="0,0,5,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Symbol="Server16" />
+                                                                <TextBlock
+                                                                    Grid.Column="1"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="FTP Server" />
+                                                                <ui:TextBox
+                                                                    Grid.Column="2"
+                                                                    Margin="30,0,0,0"
+                                                                    Text="{Binding ViewModel.SelectedRoutine.Server, Mode=TwoWay}" />
+
+                                                            </Grid>
+                                                        </Border>
+                                                        <Border
+                                                            Height="70"
+                                                            Margin="0,5"
+                                                            Padding="15"
+                                                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                            CornerRadius="5">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto" />
+                                                                    <ColumnDefinition Width="100" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <ui:SymbolIcon
+                                                                    Margin="0,0,5,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Symbol="Person12" />
+                                                                <TextBlock
+                                                                    Grid.Column="1"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="Username" />
+                                                                <ui:TextBox
+                                                                    Grid.Column="2"
+                                                                    Margin="30,0,0,0"
+                                                                    Text="{Binding ViewModel.SelectedRoutine.Username, Mode=TwoWay}" />
+
+                                                            </Grid>
+                                                        </Border>
+                                                        <Border
+                                                            Height="70"
+                                                            Margin="0,5"
+                                                            Padding="15"
+                                                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                            CornerRadius="5">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto" />
+                                                                    <ColumnDefinition Width="100" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <ui:SymbolIcon
+                                                                    Margin="0,0,5,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Symbol="Key16" />
+                                                                <TextBlock
+                                                                    Grid.Column="1"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="Password" />
+                                                                <ui:PasswordBox
+                                                                    Grid.Column="2"
+                                                                    Margin="30,0,0,0"
+                                                                    passwordhelper:PasswordHelper.Attach="True"
+                                                                    passwordhelper:PasswordHelper.Password="{Binding ViewModel.SelectedRoutine.Password, Mode=TwoWay}" />
+
+                                                            </Grid>
+                                                        </Border>
+
+                                                        <ui:Button
+                                                            HorizontalAlignment="Stretch"
+                                                            Appearance="Success"
+                                                            Command="{Binding ViewModel.ReloadListCommand}">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <ui:SymbolIcon Symbol="PlugConnected24" />
+                                                                <TextBlock Margin="10,0" Text="Connect" />
+                                                            </StackPanel>
+                                                        </ui:Button>
+                                                        <Separator Margin="0,10" HorizontalAlignment="Stretch" />
+                                                        <Border
+                                                            Height="70"
+                                                            Margin="0,5"
+                                                            Padding="15"
+                                                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                            CornerRadius="5">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto" />
+                                                                    <ColumnDefinition Width="auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <ui:SymbolIcon
+                                                                    Margin="0,0,5,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Symbol="CalendarLtr12" />
+                                                                <TextBlock
+                                                                    Grid.Column="1"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="Backup frequency" />
+                                                                <ui:NumberBox
+                                                                    Grid.Column="2"
+                                                                    Width="150"
+                                                                    Margin="30,0,0,0"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{Binding ViewModel.SelectedRoutine.BackupFrequency, Mode=TwoWay}" />
+                                                                <TextBlock
+                                                                    Grid.Column="3"
+                                                                    Margin="10,0,0,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="Days" />
+                                                            </Grid>
+                                                        </Border>
+                                                        <Border
+                                                            Height="70"
+                                                            Margin="0,5"
+                                                            Padding="15"
+                                                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                            CornerRadius="5">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto" />
+                                                                    <ColumnDefinition Width="auto" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <ui:SymbolIcon
+                                                                    Margin="0,0,5,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Symbol="NumberRow16" />
+                                                                <TextBlock
+                                                                    Grid.Column="1"
+                                                                    VerticalAlignment="Center"
+                                                                    Text="Maximum backups" />
+                                                                <ui:NumberBox
+                                                                    Grid.Column="2"
+                                                                    Width="150"
+                                                                    Margin="30,0,0,0"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{Binding ViewModel.SelectedRoutine.MaxBackupsNumber, Mode=TwoWay}" />
+                                                            </Grid>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </ScrollViewer>
+                                                <Border
+                                                    Grid.Row="2"
+                                                    Margin="0,5,0,0"
+                                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                    CornerRadius="5">
+                                                    <ScrollViewer>
+                                                        <ItemsControl ItemsSource="{Binding ViewModel.SelectedRoutine.Backups}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border
+                                                                        Margin="5,5"
+                                                                        Padding="15"
+                                                                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                                                        CornerRadius="5">
+                                                                        <Grid>
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition />
+                                                                                <ColumnDefinition Width="auto" />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <StackPanel>
+                                                                                <TextBlock Text="{Binding BackupDate}" />
+                                                                                <TextBlock
+                                                                                    FontStyle="Italic"
+                                                                                    Opacity=".5"
+                                                                                    Text="{Binding BackupPath, StringFormat={}({0})}" />
+                                                                            </StackPanel>
+                                                                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                                                <ui:Button
+                                                                                    Margin="10,0"
+                                                                                    Command="{Binding ViewModel.RestoreBackupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                                    CommandParameter="{Binding}"
+                                                                                    ToolTipService.InitialShowDelay="0"
+                                                                                    ToolTipService.ToolTip="Restore to this backup">
+                                                                                    <ui:SymbolIcon Symbol="ArrowReset20" />
+                                                                                </ui:Button>
+                                                                                <ui:Button
+                                                                                    Appearance="Danger"
+                                                                                    Command="{Binding ViewModel.DeleteBackupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                                    CommandParameter="{Binding}"
+                                                                                    ToolTipService.InitialShowDelay="0"
+                                                                                    ToolTipService.ToolTip="Delete this backup">
+                                                                                    <ui:SymbolIcon Symbol="Delete12" />
+                                                                                </ui:Button>
+                                                                            </StackPanel>
+                                                                        </Grid>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </ScrollViewer>
+
+                                                </Border>
+                                                <StackPanel
+                                                    Grid.Row="2"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Opacity=".5">
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding ViewModel.SelectedRoutine.Backups.Count}" Value="0">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        FontSize="50"
+                                                        FontWeight="Heavy"
+                                                        Text="{Binding Path=(face:EEManager.Face), Mode=TwoWay}" />
+                                                    <TextBlock
+                                                        Margin="0,10,0,0"
+                                                        HorizontalAlignment="Center"
+                                                        Text="Seems like there aren't any backups yet!" />
+                                                    <TextBlock HorizontalAlignment="Center" Text="Let's make one!" />
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="3" Margin="0,20">
+                                                    <ui:Button
+                                                        HorizontalAlignment="Stretch"
+                                                        Appearance="Primary"
+                                                        Command="{Binding ViewModel.DoBackupCommand}"
+                                                        Content="Backup now" />
+                                                    <ui:Button
+                                                        Margin="0,10,0,0"
+                                                        HorizontalAlignment="Stretch"
+                                                        Appearance="Danger"
+                                                        Command="{Binding ViewModel.RemoveRoutineCommand}"
+                                                        Content="Delete backup routine" />
+                                                </StackPanel>
                                             </Grid>
                                         </Setter.Value>
                                     </Setter>

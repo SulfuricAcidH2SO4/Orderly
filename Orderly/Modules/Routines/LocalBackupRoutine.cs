@@ -2,6 +2,7 @@
 using Orderly.Database;
 using Orderly.Helpers;
 using Orderly.Interfaces;
+using Orderly.Models;
 using Orderly.Models.Backup;
 using System;
 using System.Collections.Generic;
@@ -26,26 +27,27 @@ namespace Orderly.Modules.Routines
         private string path = "C:\\Orderly_Backups\\";
         [ObservableProperty]
         private int maxBackupsNumber = 50;
-    
-        public bool Backup(out string errorMessage)
+        [ObservableProperty]
+        private RoutineStatus status;
+        [ObservableProperty]
+        private string statusMessage = string.Empty;
+
+        public bool Backup()
         {
             if(!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             using DatabaseContext db = new();
             db.SaveChanges();
             db.EnsureClosed();
-            File.Copy("CoreDB.ordb", System.IO.Path.Combine(Path, $"CoreDB{DateTime.Now.ToString("dd.MM.yyyy")}.ordb"), true);
-            errorMessage = string.Empty;    
+            File.Copy("CoreDB.ordb", System.IO.Path.Combine(Path, $"CoreDB{DateTime.Now.ToString("dd.MM.yyyy.HH.mm.ss")}.ordb"), true);
             LastBackupDate = DateTime.Now;
             App.GetService<IProgramConfiguration>().Save();
             ReloadBackups();
             return true;
         }
 
-        public bool Delete(IBackup backup, out string errorMessage)
+        public bool Delete(IBackup backup)
         {
-            errorMessage = string.Empty;
             if(backup is not LocalBackup lb) {
-                errorMessage = "Wrong backup type";
                 return false;
             }
 
@@ -57,16 +59,14 @@ namespace Orderly.Modules.Routines
             return true;
         }
 
-        public bool Restore(IBackup backup, out string errorMessage)
+        public bool Restore(IBackup backup)
         {
-            errorMessage = string.Empty;
             try {
                 LocalBackup bp = (LocalBackup)backup;
                 File.Copy(bp.BackupPath, "CoreDB.ordb.new");
                 return true;
             }
             catch (Exception e){
-                errorMessage = $"Error restoring localbackup {(backup as LocalBackup).BackupPath}: {e.Message}";
                 return false;
             }
         }
@@ -82,9 +82,10 @@ namespace Orderly.Modules.Routines
 
                 string dateString = System.IO.Path.GetFileName(backup).Replace("CoreDB", string.Empty).Replace(".ordb", string.Empty);
 
-                DateTime.TryParseExact(dateString, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
+                DateTime.TryParseExact(dateString, "dd.MM.yyyy.HH.mm.ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
                 bp.BackupDate = parsedDate;
                 Backups.Add(bp);
+                if(LastBackupDate < parsedDate) LastBackupDate = parsedDate;
             }
         }
     }

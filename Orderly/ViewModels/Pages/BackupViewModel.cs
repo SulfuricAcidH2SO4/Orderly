@@ -42,6 +42,11 @@ namespace Orderly.ViewModels.Pages
                         gd.ReloadBackups();
                     });
                 }
+                else {
+                    RunCommand(() => {
+                        value.ReloadBackups();
+                    });
+                }
             }
         }
         
@@ -85,6 +90,10 @@ namespace Orderly.ViewModels.Pages
                     //GoogleDriveRoutine gdrive = new();
                     //Config.BackupRoutines.Add(gdrive);
                     break;
+                case "ftp":
+                    FtpRoutine ftp = new();
+                    Config.BackupRoutines.Add(ftp);
+                    break;
             }
 
             IsFlyoutOpen = false;
@@ -105,18 +114,31 @@ namespace Orderly.ViewModels.Pages
         {
             RunCommand(() => {
                 if (SelectedRoutine == null) return;
-                SelectedRoutine.Backup(out string error);
-                SelectedRoutine = SelectedRoutine;
-                App.Current.Dispatcher.Invoke(() => {
-                    App.GetService<ISnackbarService>().Show(
-                        "You did it!",
-                        "Backup created successfully!",
-                        ControlAppearance.Success,
-                        new SymbolIcon(SymbolRegular.Check20),
-                        TimeSpan.FromSeconds(2)
+                if (SelectedRoutine.Backup()) {
+                    App.Current.Dispatcher.Invoke(() => {
+                        App.GetService<ISnackbarService>().Show(
+                            "You did it!",
+                            "Backup created successfully!",
+                            ControlAppearance.Success,
+                            new SymbolIcon(SymbolRegular.Check20),
+                            TimeSpan.FromSeconds(2)
 
-                );
-                });
+                    );
+                    });
+                }
+                else {
+                    App.Current.Dispatcher.Invoke(() => {
+                        App.GetService<ISnackbarService>().Show(
+                            "Oh no! :(",
+                            "Something went wrong...",
+                            ControlAppearance.Danger,
+                            new SymbolIcon(SymbolRegular.Dismiss12),
+                            TimeSpan.FromSeconds(2)
+
+                    );
+                    });
+                }
+                SelectedRoutine = SelectedRoutine;
             });
         }
         
@@ -134,6 +156,14 @@ namespace Orderly.ViewModels.Pages
                 lb.Path = dialog.SelectedPath;
             }
         }
+        
+        [RelayCommand]
+        public void ReloadList()
+        {
+            RunCommand(() => {
+                SelectedRoutine?.ReloadBackups();
+            });
+        }
 
         [RelayCommand]
         public void DeleteBackup(IBackup backup)
@@ -141,12 +171,12 @@ namespace Orderly.ViewModels.Pages
             if (new PasswordConfirmDialog().ShowDialog() == false) return;
             RunCommand(() => {
                 if (backup is LocalBackup lb) {
-                    if (((LocalBackupRoutine)SelectedRoutine!).Delete(backup, out string error)) {
+                    if (((LocalBackupRoutine)SelectedRoutine!).Delete(backup)) {
                         BackupsInFolderList.Remove(lb);
                     }
                 }
                 else {
-                    SelectedRoutine?.Delete(backup, out _);
+                    SelectedRoutine?.Delete(backup);
                 }
             });
         }
@@ -155,7 +185,7 @@ namespace Orderly.ViewModels.Pages
         public void RestoreBackup(IBackup backup)
         {
             if (new ConfirmDialog("Are you sure want to restore this backup?\nYou will need to restart orderly").ShowDialog() == false) return;
-            SelectedRoutine?.Restore(backup, out _);
+            SelectedRoutine?.Restore(backup);
             App.Current.Shutdown();
             System.Windows.Forms.Application.Restart();
         }

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Orderly.DaVault;
 using Orderly.Helpers;
 using Orderly.Interfaces;
+using Orderly.Models;
 using Orderly.Models.Backups;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,10 @@ namespace Orderly.Modules.Routines
         private string user = string.Empty;
         [ObservableProperty]
         private string folderName = "Orderly_Backups";
+        [ObservableProperty]
+        private RoutineStatus status;
+        [ObservableProperty]
+        private string statusMessage = string.Empty;
 
         private DriveService? service;
         private UserCredential? credential;
@@ -91,37 +96,32 @@ namespace Orderly.Modules.Routines
             }
         }
 
-        public bool Backup(out string errorMessage)
+        public bool Backup()
         {
             if (!IsAuthenticated) Authenticate();
-            errorMessage = string.Empty;
             UploadFile(Path.GetFullPath("CoreDB.ordb"), $"Backup DB for orderly. Date: {DateTime.Now}");
             return true;
         }
 
-        public bool Delete(IBackup backup, out string errorMessage)
+        public bool Delete(IBackup backup)
         { 
-            errorMessage = string.Empty;
             try {
                 Backups.Remove((GoogleDriveBackup)backup);
                 var result = service?.Files.Delete((backup as GoogleDriveBackup)!.FileId).Execute();
                 return true;
             }
             catch (Exception e) {
-                errorMessage = $"Error deleting file from Google Drive: {e.Message}";
                 return false;
             }
         }
 
-        public bool Restore(IBackup backup, out string errorMessage)
+        public bool Restore(IBackup backup)
         {
-            errorMessage = string.Empty;
             try {
                 GoogleDriveBackup bp = (GoogleDriveBackup)backup;
                 DownloadFileAsync(bp.FileId, "CoreDB.ordb.new").Wait();
             }
             catch (Exception ex) {
-                errorMessage = ex.Message;
                 return false;
             }
             return true;
@@ -253,16 +253,7 @@ namespace Orderly.Modules.Routines
             });
 
             var file = request.Execute();
-
-            using (HttpClient client = new HttpClient()) {
-                HttpResponseMessage response = await client.GetAsync(file.WebContentLink);
-
-                if (response.IsSuccessStatusCode) {
-                    byte[] fileContent = await response.Content.ReadAsByteArrayAsync();
-
-                    System.IO.File.WriteAllBytes(destinationPath, fileContent);
-                }
-            }
+            request.Download(stream);
 
             using (var fileStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.Write)) {
                 stream.Seek(0, SeekOrigin.Begin);
