@@ -187,8 +187,10 @@ namespace Orderly.ViewModels.Pages
             if (new ConfirmDialog("Are you sure want to restore this backup?\nYou will need to restart orderly").ShowDialog() == false) return;
             RunCommand(() => {
                 SelectedRoutine?.Restore(backup);
-                App.Current.Shutdown();
-                System.Windows.Forms.Application.Restart();
+                App.Current.Dispatcher.Invoke(() => {
+                    App.Current.Shutdown();
+                    System.Windows.Forms.Application.Restart();
+                });
             });
         }
 
