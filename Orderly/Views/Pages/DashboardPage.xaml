@@ -122,7 +122,7 @@
                 <ItemsControl ItemsSource="{Binding ViewModel.Categories}" VirtualizingPanel.IsVirtualizing="True">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <ui:CardExpander PreviewMouseUp="CategoryMouseUp" Visibility="{Binding IsVisibile, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ui:CardExpander PreviewMouseUp="CategoryMouseUp" MouseEnter="CategoryMouseEnter" MouseLeave="CategoryMouseLeave" Visibility="{Binding IsVisibile, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <ui:CardExpander.Header>
                                     <Grid x:Name="grid">
                                         <Grid.RowDefinitions>

@@ -88,5 +88,15 @@ namespace Orderly.Views.Pages
             if (!isDragging) return;
             var lol = draggedElement;
         }
+
+        private void CategoryMouseEnter(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void CategoryMouseLeave(object sender, MouseEventArgs e)
+        {
+
+        }
     }
 }
