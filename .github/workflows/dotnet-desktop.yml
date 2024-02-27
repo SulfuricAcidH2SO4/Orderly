@@ -85,10 +85,10 @@ jobs:
         Configuration: ${{ matrix.configuration }}
 
     - name: Build Application
-      run: dotnet build -c /p:Configuration=$env:Configuration
+      run:  msbuild $env:Solution_Name /p:Configuration=$env:Configuration
 
     - name: Publish Application
-      run: dotnet publish -c /p:Configuration=$env:Configuration -o publish
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /t:Publish
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
