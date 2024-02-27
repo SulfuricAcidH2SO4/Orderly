@@ -55,7 +55,7 @@ namespace Orderly.Views.Dialogs
             if (cbUpper is null || cbSymbols is null || cbNumbers is null || slLength is null || pbPassword is null || tbStrength is null) return;
             bool upperCase = cbUpper.IsChecked!.Value;
             bool symbols = cbSymbols.IsChecked!.Value;
-            bool numbers = cbNumbers.IsChecked!.Value;
+            bool numbers = cbNumbers.IsChecked!.Value; 
             int length = (int)slLength.Value;
 
             GeneratedPassword = PasswordGenerator.GenerateSecurePassword(length, upperCase, numbers, symbols);
