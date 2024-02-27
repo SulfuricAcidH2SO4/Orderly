@@ -15,7 +15,7 @@ Orderly excels in ensuring the secure management of passwords, employing robust 
 Everything is ran locally, reducing to basically 0 the possibility of a breach on your main credentials database.
 
 ### Always protected
-Set up backup routines, locally or remotely (Google Drive and Mega coming soon...) to add another layer of security that your passwords will never be lost!
+Set up backup routines, locally or remotely (Google Drive and Mega coming soon...) to add another layer of security so that your passwords will never be lost!
 
 ### Flexible password generator
 Generate secure and customizable passwords for your applications that no one will be able to crack. Turns out you don't need creativity to make your passwords water tight.
