@@ -88,7 +88,7 @@ jobs:
       run:  msbuild $env:Solution_Name /p:Configuration=$env:Configuration
 
     - name: Publish Application
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /t:Publish
+      run: msbuild $env:Solution_Name /t:Publish
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
