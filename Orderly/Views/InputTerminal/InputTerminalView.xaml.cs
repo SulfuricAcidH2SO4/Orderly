@@ -51,7 +51,7 @@ namespace Orderly.Views.RadialMenu
         {
             var window = (Window)sender;
             window.Topmost = true;
-            CloseMenu();
+            //CloseMenu();
         }
 
         private void Window_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)

@@ -91,6 +91,11 @@
                                             ToolTipService.ToolTip="{Binding Category.Name}" />
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding ServiceName}" />
+                                            <TextBlock
+                                                Margin="5,0,0,0"
+                                                FontStyle="Italic"
+                                                Opacity=".6"
+                                                Text="{Binding Username, StringFormat={}({0})}" />
                                             <ToggleButton
                                                 x:Name="tbFavorite"
                                                 Background="Transparent"
