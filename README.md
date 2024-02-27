@@ -1,10 +1,11 @@
 <p align="center">
 	<img src="https://i.ibb.co/XzX6cQb/logo.png" alt="dash-screen" 		  border="0" width= "200">
+	
 </p>
 
 ## Overview
 
-Orderly is a secure and user-friendly password management program designed to simplify and enhance the way users organize and protect their sensitive credentials. It allows credentials insertion by simulation low level keyboard input making it useful in games, desktop applications and web pages!
+Orderly is a secure and user-friendly password management program designed to simplify and enhance the way users organize and protect their sensitive credentials. It allows credentials insertion by simulating low level keyboard input making it useful in games, desktop applications and web pages!
 
 <p align="center"><img src="https://i.ibb.co/3TcyyC0/dash-screen.png" alt="dash-screen" border="0"></p>
 
@@ -28,7 +29,7 @@ Generate secure and customizable passwords for your applications that no one wil
 And many more!
 
 ## Build
-Building the project requires you to have **Visual Studio 2022** installed on your system as well as the latest .NET SDK (Target sdk is .NET 8).
+Building the project requires you to have **Visual Studio 2022** installed on your system as well as the latest .NET SDK (Target SDK is .NET 8).
 
 Next you'll need to provide your credentials for Google OAuth authentication and a new encryption key
 
