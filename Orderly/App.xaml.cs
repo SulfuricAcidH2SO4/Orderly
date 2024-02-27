@@ -130,7 +130,7 @@ namespace Orderly
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            bool isAlreadyRunning = System.Diagnostics.Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location)).Count() > 1;
+            bool isAlreadyRunning = System.Diagnostics.Process.GetProcessesByName("Orderly").Count() > 1;
             if (isAlreadyRunning) {
                 Shutdown();
                 return;
@@ -153,6 +153,8 @@ namespace Orderly
 
             INavigationWindow window = GetService<INavigationWindow>();
             MainWindow = (Window)window;
+
+            BackupWorker.CheckBackups();
 
             sc.Close(TimeSpan.FromSeconds(.5));
 
@@ -177,7 +179,6 @@ namespace Orderly
             else {
                 window.ShowWindow();
             }
-            BackupWorker.CheckBackups();
             KeyManager.InitializeHook();
         }
 
