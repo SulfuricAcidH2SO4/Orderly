@@ -281,6 +281,7 @@
                         </StackPanel>
                     </DockPanel>
                 </Border>
+
                 <Separator Margin="0,10" />
                 <TextBlock
                     Margin="0,0,0,5"

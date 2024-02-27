@@ -1,4 +1,5 @@
-﻿using Orderly.Modules;
+﻿using Orderly.Models;
+using Orderly.Modules;
 using Orderly.Views.Windows;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,7 @@ namespace Orderly.Views.Dialogs
 
         private void UpdatePassword(object sender, RoutedEventArgs e)
         {
-            if (cbUpper is null || cbSymbols is null || cbNumbers is null || slLength is null || pbPassword is null) return;
+            if (cbUpper is null || cbSymbols is null || cbNumbers is null || slLength is null || pbPassword is null || tbStrength is null) return;
             bool upperCase = cbUpper.IsChecked!.Value;
             bool symbols = cbSymbols.IsChecked!.Value;
             bool numbers = cbNumbers.IsChecked!.Value;
@@ -59,6 +60,12 @@ namespace Orderly.Views.Dialogs
 
             GeneratedPassword = PasswordGenerator.GenerateSecurePassword(length, upperCase, numbers, symbols);
             pbPassword.Password = GeneratedPassword;
+
+            int strength = PasswordStrengthChecker.CalculatePasswordStrength(GeneratedPassword);
+
+            if (strength == 0) tbStrength.Text = "Weak";
+            else if (strength == 1) tbStrength.Text = "Medium";
+            else tbStrength.Text = "Strong";
         }
 
         private void slLength_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
