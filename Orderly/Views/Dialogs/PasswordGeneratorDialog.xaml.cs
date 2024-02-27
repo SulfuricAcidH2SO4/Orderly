@@ -1,4 +1,5 @@
 ﻿using Orderly.Modules;
+using Orderly.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace Orderly.Views.Dialogs
         public string GeneratedPassword { get; private set; } = string.Empty;
         public PasswordGeneratorDialog()
         {
+            Owner = MainWindow.Instance;
             InitializeComponent();
         }
 
