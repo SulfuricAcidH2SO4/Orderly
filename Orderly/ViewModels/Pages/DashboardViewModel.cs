@@ -143,6 +143,14 @@ namespace Orderly.ViewModels.Pages
             db.SaveChanges();
         }
 
+        [RelayCommand]
+        public void GeneratePassword(Credential credential)
+        {
+            PasswordGeneratorDialog dialog = new();
+            if (dialog.ShowDialog() == false) return;
+            credential.Password = dialog.GeneratedPassword;
+        }
+
         public void OnNavigatedFrom()
         {
             Task.Factory.StartNew(() => {
@@ -169,7 +177,7 @@ namespace Orderly.ViewModels.Pages
                     credential.PropertyChanged += OnCredentialPropertyChanged;
                 }
             }
-            config.FilteringOptions.PropertyChanged += OnFilteringOptionChanged;
+            Config.FilteringOptions.PropertyChanged += OnFilteringOptionChanged;
             SortList();
         }
 

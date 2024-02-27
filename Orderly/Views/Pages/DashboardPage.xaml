@@ -343,6 +343,17 @@
                                                                     <Button
                                                                         Background="Transparent"
                                                                         BorderThickness="0"
+                                                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.GeneratePasswordCommand}"
+                                                                        CommandParameter="{Binding}"
+                                                                        Cursor="Hand"
+                                                                        ToolTipService.InitialShowDelay="0"
+                                                                        ToolTipService.ToolTip="Generate new password"
+                                                                        Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                                        <ui:SymbolIcon Symbol="ShieldAdd24" />
+                                                                    </Button>
+                                                                    <Button
+                                                                        Background="Transparent"
+                                                                        BorderThickness="0"
                                                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.SaveEditingCommand}"
                                                                         CommandParameter="{Binding}"
                                                                         Cursor="Hand"
