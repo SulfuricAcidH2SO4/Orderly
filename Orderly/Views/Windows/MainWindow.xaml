@@ -55,59 +55,75 @@
             PaneDisplayMode="Left"
             TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}">
             <ui:NavigationView.Header>
-                <DockPanel>
-                    <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
-                    <StackPanel
-                        Margin="0,15,40,0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal">
-                        <Grid Margin="10,0">
-                            <ToggleButton
-                                x:Name="tbNotifications"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                Cursor="Hand"
-                                IsChecked="{Binding ViewModel.NotificationService.IsOpen, Mode=TwoWay}">
-                                <ui:SymbolIcon Symbol="Alert48" />
-                            </ToggleButton>
-                            <Border
-                                Width="15"
-                                Height="15"
-                                Margin="15,0,0,15"
-                                Background="#0694d1"
-                                CornerRadius="50"
-                                IsHitTestVisible="False">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ViewModel.NotificationService.UnreadNotifications}" Value="0">
-                                                <Setter Property="Visibility" Value="Hidden" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding ViewModel.NotificationService.UnreadNotifications}" />
-                            </Border>
-                            <ui:Flyout
-                                Padding="0"
-                                IsOpen="{Binding ViewModel.NotificationService.IsOpen, Mode=TwoWay}"
-                                Placement="Bottom">
-                                <Border Width="300" Height="300">
-                                    <ContentControl x:Name="NotificationViewControl" />
-                                </Border>
-                            </ui:Flyout>
-                        </Grid>
-                        <ui:SymbolIcon Symbol="Person12" />
-                        <TextBlock
-                            Margin="5,0,0,0"
+                <Grid>
+                    <Border>
+                        <Border.Background>
+                            <ImageBrush
+                                ImageSource="/Assets/TopBanner.png"
+                                Opacity=".7"
+                                Stretch="UniformToFill" />
+                        </Border.Background>
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Offset="0" Color="#FFFFFFFF" />
+                                <GradientStop Offset="1" Color="#00FFFFFF" />
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                    </Border>
+                    <DockPanel>
+                        <ui:BreadcrumbBar x:Name="BreadcrumbBar" Margin="42,32,42,20" />
+                        <StackPanel
+                            Margin="0,15,40,0"
+                            HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            Text="{Binding ViewModel.Config.UserName}" />
-                    </StackPanel>
-                </DockPanel>
+                            Orientation="Horizontal">
+                            <Grid Margin="10,0">
+                                <ToggleButton
+                                    x:Name="tbNotifications"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    IsChecked="{Binding ViewModel.NotificationService.IsOpen, Mode=TwoWay}">
+                                    <ui:SymbolIcon Symbol="Alert48" />
+                                </ToggleButton>
+                                <Border
+                                    Width="15"
+                                    Height="15"
+                                    Margin="15,0,0,15"
+                                    Background="#0694d1"
+                                    CornerRadius="50"
+                                    IsHitTestVisible="False">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ViewModel.NotificationService.UnreadNotifications}" Value="0">
+                                                    <Setter Property="Visibility" Value="Hidden" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding ViewModel.NotificationService.UnreadNotifications}" />
+                                </Border>
+                                <ui:Flyout
+                                    Padding="0"
+                                    IsOpen="{Binding ViewModel.NotificationService.IsOpen, Mode=TwoWay}"
+                                    Placement="Bottom">
+                                    <Border Width="300" Height="300">
+                                        <ContentControl x:Name="NotificationViewControl" />
+                                    </Border>
+                                </ui:Flyout>
+                            </Grid>
+                            <ui:SymbolIcon Symbol="Person12" />
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding ViewModel.Config.UserName}" />
+                        </StackPanel>
+                    </DockPanel>
+                </Grid>
             </ui:NavigationView.Header>
             <ui:NavigationView.AutoSuggestBox>
                 <ui:AutoSuggestBox x:Name="AutoSuggestBox" PlaceholderText="Search">

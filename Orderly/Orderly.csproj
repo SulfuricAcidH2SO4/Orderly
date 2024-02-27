@@ -21,6 +21,7 @@
     <None Remove="Assets\Logo_HQ.png" />
     <None Remove="Assets\SpalshScreen.png" />
     <None Remove="Assets\SplashScreen.png" />
+    <None Remove="Assets\TopBanner.png" />
     <None Remove="Assets\WizardBg.png" />
     <None Remove="DaVault\DaVault.json" />
     <None Remove="Resources\LouiseGeorge.ttf" />
@@ -57,6 +58,7 @@
 
   <ItemGroup>
     <Resource Include="Assets\SplashScreen.png" />
+    <Resource Include="Assets\TopBanner.png" />
     <Resource Include="Assets\WizardBg.png" />
     <Resource Include="Resources\LouiseGeorge.ttf" />
     <Resource Include="Resources\Mont.otf" />
