@@ -9,6 +9,7 @@ using Orderly.ViewModels.Pages;
 using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using Wpf.Ui.Controls;
 using TextBlock = System.Windows.Controls.TextBlock;
 using TextBox = Wpf.Ui.Controls.TextBox;
@@ -17,6 +18,9 @@ namespace Orderly.Views.Pages
 {
     public partial class DashboardPage : INavigableView<DashboardViewModel>
     {
+        private bool isDragging;
+        private bool dragDeadZoneTime; 
+
         public DashboardViewModel ViewModel { get; }
 
         public DashboardPage(DashboardViewModel viewModel)
@@ -38,17 +42,51 @@ namespace Orderly.Views.Pages
             ViewModel.UpdateCategory((Category)pop.DataContext);
         }
 
-        private void OnSadFaceLoaded(object sender, RoutedEventArgs e)
-        {
-            if(sender is TextBlock tb) {
-                //tb.Text = EEManager.GetRandomAngryFace();
-            }
-        }
-
         private void OnTextSearchChanged(object sender, TextChangedEventArgs e)
         {
             string textQuery = (sender as TextBox).Text;
             ViewModel.SortList(textQuery, false);
+        }
+
+        private void CredentialMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            dragDeadZoneTime = true;
+            Task.Factory.StartNew(() => {
+                Thread.Sleep(200);
+                if (dragDeadZoneTime) {
+                    
+                    Dispatcher.Invoke(() => {
+                        draggedElement.Visibility = Visibility.Visible;
+                    });
+                    isDragging = true;
+                }
+            });
+        }
+
+        private void CredentialMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            dragDeadZoneTime = false;
+            draggedElement.Visibility = Visibility.Collapsed;
+            Task.Factory.StartNew(() => {
+                Thread.Sleep(150);
+                isDragging = false;
+            });
+        }
+
+        private void grMainGrid_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging) {
+                Point mousePoint = Mouse.GetPosition(canvasDrag);
+
+                draggedElement.SetValue(Canvas.LeftProperty, mousePoint.X);
+                draggedElement.SetValue(Canvas.TopProperty, mousePoint.Y);
+            }
+        }
+
+        private void CategoryMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!isDragging) return;
+            var lol = draggedElement;
         }
     }
 }
