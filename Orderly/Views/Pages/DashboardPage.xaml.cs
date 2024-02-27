@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using Wpf.Ui.Controls;
 using TextBlock = System.Windows.Controls.TextBlock;
 using TextBox = Wpf.Ui.Controls.TextBox;
@@ -18,7 +19,6 @@ namespace Orderly.Views.Pages
 {
     public partial class DashboardPage : INavigableView<DashboardViewModel>
     {
-        private bool isDragging;
         private bool dragDeadZoneTime; 
 
         public DashboardViewModel ViewModel { get; }
@@ -56,9 +56,11 @@ namespace Orderly.Views.Pages
                 if (dragDeadZoneTime) {
                     
                     Dispatcher.Invoke(() => {
-                        draggedElement.Visibility = Visibility.Visible;
+                        ((Expander)sender).Visibility = Visibility.Hidden;
+                        DragDrop.DoDragDrop(sender as FrameworkElement, ((FrameworkElement)sender).DataContext, DragDropEffects.Move);
+                        ((Expander)sender).Visibility = Visibility.Visible;
+                        dragDeadZoneTime = false;
                     });
-                    isDragging = true;
                 }
             });
         }
@@ -66,37 +68,42 @@ namespace Orderly.Views.Pages
         private void CredentialMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             dragDeadZoneTime = false;
-            draggedElement.Visibility = Visibility.Collapsed;
-            Task.Factory.StartNew(() => {
-                Thread.Sleep(150);
-                isDragging = false;
-            });
         }
 
-        private void grMainGrid_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            if (isDragging) {
-                Point mousePoint = Mouse.GetPosition(canvasDrag);
 
-                draggedElement.SetValue(Canvas.LeftProperty, mousePoint.X);
-                draggedElement.SetValue(Canvas.TopProperty, mousePoint.Y);
+        private void CardExpander_DragEnter(object sender, DragEventArgs e)
+        {
+            if (sender is CardExpander ex)
+            {
+                ex.BorderBrush = new SolidColorBrush(Colors.Cyan);
             }
         }
 
-        private void CategoryMouseUp(object sender, MouseButtonEventArgs e)
+        private void CardExpander_DragLeave(object sender, DragEventArgs e)
         {
-            if (!isDragging) return;
-            var lol = draggedElement;
+            if (sender is CardExpander ex)
+            {
+                ex.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            }
         }
 
-        private void CategoryMouseEnter(object sender, MouseEventArgs e)
+        private void Expander_GiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
-
+            
         }
 
-        private void CategoryMouseLeave(object sender, MouseEventArgs e)
+        private void CardExpander_Drop(object sender, DragEventArgs e)
         {
+            if (sender is CardExpander ex)
+            {
+                ex.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                Credential? data = (Credential)e.Data.GetData(typeof(Credential));
 
+                if(data is not null)
+                {
+                    ViewModel.MoveCredentialCategory(data, (Category)((FrameworkElement)sender).DataContext);
+                }
+            }
         }
     }
 }

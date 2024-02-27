@@ -31,7 +31,6 @@
     <Grid
         x:Name="grMainGrid"
         Margin="0,0,0,30"
-        PreviewMouseMove="grMainGrid_PreviewMouseMove"
         PreviewMouseUp="CredentialMouseUp">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -123,9 +122,10 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <ui:CardExpander
-                                MouseEnter="CategoryMouseEnter"
-                                MouseLeave="CategoryMouseLeave"
-                                PreviewMouseUp="CategoryMouseUp"
+                                AllowDrop="True"
+                                DragEnter="CardExpander_DragEnter"
+                                DragLeave="CardExpander_DragLeave"
+                                Drop="CardExpander_Drop"
                                 Visibility="{Binding IsVisibile, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <ui:CardExpander.Header>
                                     <Grid x:Name="grid">
@@ -315,7 +315,7 @@
                                             </ItemsControl.Style>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Expander PreviewMouseDown="CredentialMouseDown">
+                                                    <Expander GiveFeedback="Expander_GiveFeedback" PreviewMouseDown="CredentialMouseDown">
                                                         <Expander.Header>
                                                             <Grid>
                                                                 <Grid.ColumnDefinitions>
@@ -485,14 +485,5 @@
                 </ItemsControl>
             </ScrollViewer>
         </Border>
-        <Canvas x:Name="canvasDrag" Grid.RowSpan="3">
-            <Border
-                x:Name="draggedElement"
-                Width="300"
-                Height="100"
-                Background="Red"
-                IsHitTestVisible="False"
-                Visibility="Collapsed" />
-        </Canvas>
     </Grid>
 </UserControl>

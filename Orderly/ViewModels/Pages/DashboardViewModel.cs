@@ -151,6 +151,21 @@ namespace Orderly.ViewModels.Pages
             credential.Password = dialog.GeneratedPassword;
         }
 
+        public void MoveCredentialCategory(Credential credential, Category destCategory)
+        {
+            if (credential.Category == destCategory) return;
+            Categories.Single(x => x == credential.Category).Credentials!.Remove(credential);
+            Categories.Single(x => x == destCategory).Credentials!.Add(credential);
+
+            CollectionViewSource.GetDefaultView(Categories.Single(x => x.Id == credential.CategoryId).Credentials).Refresh();
+            CollectionViewSource.GetDefaultView(Categories.Single(x => x.Id == destCategory.Id).Credentials).Refresh();
+            credential.CategoryId = destCategory.Id;
+            credential.Category = destCategory;
+            using DatabaseContext db = new();
+            db.Credentials.Update(credential);
+            db.SaveChanges(true);
+        }
+
         public void OnNavigatedFrom()
         {
             Task.Factory.StartNew(() => {
@@ -162,10 +177,10 @@ namespace Orderly.ViewModels.Pages
 
         public void OnNavigatedTo()
         {
-            if (!isInitialized) Initalize();
+            if (!isInitialized) Initialize();
         }
 
-        public void Initalize()
+        public void Initialize()
         {
             isInitialized = true;
             using DatabaseContext db = new();
