@@ -320,6 +320,8 @@
                                                                         <ColumnDefinition Width="auto" />
                                                                         <ColumnDefinition />
                                                                         <ColumnDefinition />
+                                                                        <ColumnDefinition Width="auto" />
+                                                                        <ColumnDefinition Width="auto" />
                                                                     </Grid.ColumnDefinitions>
                                                                     <ui:TextBox
                                                                         HorizontalAlignment="Stretch"
@@ -364,6 +366,7 @@
                                                                         <ui:SymbolIcon Symbol="ShieldAdd24" />
                                                                     </Button>
                                                                     <Button
+                                                                        Grid.Column="5"
                                                                         Background="Transparent"
                                                                         BorderThickness="0"
                                                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.SaveEditingCommand}"
@@ -448,6 +451,20 @@
                                                                 </StackPanel>
                                                             </Grid>
                                                         </Expander.Header>
+                                                        <Expander.Content>
+                                                            <Grid>
+                                                                <StackPanel>
+                                                                    <TextBlock
+                                                                        FontStyle="Italic"
+                                                                        Opacity=".5"
+                                                                        Text="{Binding AdditionDate, StringFormat={}Addition date: {0}}" />
+                                                                    <TextBlock
+                                                                        FontStyle="Italic"
+                                                                        Opacity=".5"
+                                                                        Text="{Binding LastEditDate, StringFormat={}Last edit date: {0}}" />
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </Expander.Content>
                                                     </Expander>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
