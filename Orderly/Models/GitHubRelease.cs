@@ -18,8 +18,8 @@ namespace Orderly.Models
         [JsonProperty("name")]
         public string Name { get; set; } = string.Empty;
 
-        [JsonProperty("zipball_url")]
-        public string ZipBallUrl { get; set; } = string.Empty;
+        [JsonProperty("assets")]
+        public List<Asset> Assets { get; set; } = new();
 
         [JsonIgnore]
         public Version Version
@@ -35,5 +35,17 @@ namespace Orderly.Models
                 }
             }
         }
+    }
+
+    public sealed class Asset
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; } = string.Empty;
+
+        [JsonProperty("browser_download_url")]
+        public string DownloadUrl { get; set; } = string.Empty;
+
+        [JsonProperty("content_type")]
+        public string ContentType { get; set; } = string.Empty;
     }
 }

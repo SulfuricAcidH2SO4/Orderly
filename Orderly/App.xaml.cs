@@ -160,7 +160,7 @@ namespace Orderly
 
             BackupWorker.CheckBackups();
 
-            if(ProgramUpdater.CheckUpdate(out _, out Version latestVersion)){
+            if(ProgramUpdater.CheckUpdate(out Version latestVersion, out string downloadUrl)){
                 NotificationService ns = GetService<NotificationService>();
                 UserNotification notification = new() {
                     Header = $"Version {latestVersion} available!",
@@ -169,7 +169,10 @@ namespace Orderly
                 };
                 notification.NotificationActions.Add(new() {
                     Description = "Update now!",
-                    Procedure = ProgramUpdater.UpdateProgram
+                    Procedure = () => {
+                        if (new ConfirmDialog("You are about to update Ordely. Before closing the program all your backup routines will run a backup of your data.\nAre you sure you want to continue?").ShowDialog() == false) return;
+                        ProgramUpdater.UpdateProgram(downloadUrl);
+                    }
                 });
                 ns.Add(notification);
             }

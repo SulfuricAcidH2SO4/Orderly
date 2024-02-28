@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Orderly.Backups;
 using Orderly.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,28 +18,30 @@ namespace Orderly.Update
 {
     public static class ProgramUpdater
     {
-        public static bool CheckUpdate(out Version currentVersion, out Version latestVersion)
+        public static bool CheckUpdate(out Version latestVersion, out string releaseUrl)
         {
             try {
+                releaseUrl = string.Empty;
                 Version v = Assembly.GetExecutingAssembly().GetName().Version!;
-                currentVersion = v;
                 //string response = MakeGetRequest("https://api.github.com/repos/SulfuricAcidH2SO4/Orderly/releases");
-                string response = MakeGetRequest("https://api.github.com/repos/SixLabors/ImageSharp/releases");
+                string response = MakeGetRequest("https://api.github.com/repos/authpass/authpass/releases");
                 List<GitHubRelease> releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(response)!;
 
                 if (releases.Any(x => x.Version > v)) {
-                    latestVersion = releases.Max(x => x.Version)!;
+                    var latestRelease = releases.First(x => x.Version == releases.Max(v => x.Version));
+                    latestVersion = latestRelease.Version;
+                    releaseUrl = latestRelease.Assets.First(x => x.DownloadUrl.Contains(".zip")).DownloadUrl;
                     return true;
                 }
                 else {
-                    latestVersion = currentVersion;
+                    latestVersion = v;
                     return false;
                 }
             }
             catch (Exception e) {
                 Version v = Assembly.GetExecutingAssembly().GetName().Version!;
-                currentVersion = v;
                 latestVersion = v;
+                releaseUrl = string.Empty;
                 return false;
             }
         }
@@ -49,9 +54,22 @@ namespace Orderly.Update
             }
         }
 
-        public static void UpdateProgram()
+        public static void UpdateProgram(string downloadUrl)
         {
+            string executablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orderly.Dog.exe");
 
+            BackupWorker.RunAllBackups();
+
+            if (File.Exists(executablePath))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = executablePath,
+                    Arguments = $"update {downloadUrl}"
+                };
+
+                Process.Start(startInfo);
+            }
         }
     }
 }

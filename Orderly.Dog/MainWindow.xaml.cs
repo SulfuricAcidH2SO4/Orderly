@@ -37,6 +37,7 @@ namespace Orderly.Dog
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Task.Factory.StartNew(() => {
+                KillOrderly();
                 DownloadZip();
                 DecompressZip();
                 Dictionary<string, string> updateFilesHashes = GetFolderFilesAndHashes("update.temp", false);
@@ -113,6 +114,28 @@ namespace Orderly.Dog
             });
         }
 
+        private void KillOrderly()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                tbStatusMessage.Text = "Killing Orderly...";
+            });
+
+            Process[] processes = Process.GetProcessesByName("Orderly");
+
+            if (processes.Length > 0)
+            {
+                foreach (Process process in processes)
+                {
+                    try
+                    {
+                        process.Kill();
+                        process.WaitForExit();
+                    }
+                    catch { }
+                }
+            }
+        }
 
         private Dictionary<string, string> GetFolderFilesAndHashes(string folderPath, bool updateFolder)
         {
