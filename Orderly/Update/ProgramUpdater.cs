@@ -23,8 +23,7 @@ namespace Orderly.Update
             try {
                 releaseUrl = string.Empty;
                 Version v = Assembly.GetExecutingAssembly().GetName().Version!;
-                //string response = MakeGetRequest("https://api.github.com/repos/SulfuricAcidH2SO4/Orderly/releases");
-                string response = MakeGetRequest("https://api.github.com/repos/authpass/authpass/releases");
+                string response = MakeGetRequest("https://api.github.com/repos/SulfuricAcidH2SO4/Orderly/releases");
                 List<GitHubRelease> releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(response)!;
 
                 if (releases.Any(x => x.Version > v)) {

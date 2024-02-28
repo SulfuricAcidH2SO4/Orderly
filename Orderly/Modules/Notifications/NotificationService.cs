@@ -26,7 +26,7 @@ namespace Orderly.Modules.Notifications
             if (File.Exists("Notis.ord")) {
                 NotificationService sv = JsonConvert.DeserializeObject<NotificationService>(File.ReadAllText("Notis.ord"))!;
                 Notifications.Clear();
-                Notifications.AddRange(sv.Notifications.Where(x => !x.KeepBetweenSessions));
+                Notifications.AddRange(sv.Notifications.Where(x => x.KeepBetweenSessions));
                 UpdateNotifications();
             }
         }
