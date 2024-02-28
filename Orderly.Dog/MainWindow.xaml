@@ -29,7 +29,7 @@
             HorizontalAlignment="Stretch"
             Foreground="#ff723b"
             IsIndeterminate="False"
-            Maximum="6"
+            Maximum="5"
             Minimum="0"
             SmallChange="0.01" />
         <TextBlock

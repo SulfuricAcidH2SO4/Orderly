@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
@@ -36,10 +37,12 @@ namespace Orderly.Dog
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Task.Factory.StartNew(() => {
-                //DownloadZip();
-                //DecompressZip();
-                CalculateHashes();
-                ReplaceFiles();
+                DownloadZip();
+                DecompressZip();
+                Dictionary<string, string> updateFilesHashes = GetFolderFilesAndHashes("update.temp", false);
+                CopyAndOverwriteFiles(updateFilesHashes, "update.temp");
+                ClearFiles();
+                Restart();
             });
         }
 
@@ -83,57 +86,124 @@ namespace Orderly.Dog
             });
         }
 
-        private void CalculateHashes()
+        private void Restart()
         {
-            Dispatcher.Invoke(() => {
-                tbStatusMessage.Text = "Checking local files";
+            Dispatcher.Invoke(() =>
+            {
+                tbStatusMessage.Text = "Update complete! Restarting Orderly...";
             });
-            IEnumerable<string> oldFiles = Directory.GetFiles(Directory.GetCurrentDirectory());
 
-            using (var md5 = MD5.Create()) {
-                foreach (string file in oldFiles) {
-                    OldFiles.Add(Path.GetFileName(file), File.ReadAllBytes(file));
-                }
+            Thread.Sleep(1000);
+
+            string executablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orderly.exe");
+
+            if (File.Exists(executablePath))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = executablePath
+                };
+
+                Process.Start(startInfo);
             }
 
-            Dispatcher.Invoke(() => {
-                pbProgress.Value += 1;
-                tbStatusMessage.Text = "Checking new files";
+            Dispatcher.Invoke(() =>
+            {
+                App.Current.Shutdown();
             });
-
-            IEnumerable<string> newFiles = Directory.GetFiles(@"update.temp\");
-
-            using (var md5 = MD5.Create()) {
-                foreach (string file in newFiles) {
-                    NewFiles.Add(Path.GetFileName(file), File.ReadAllBytes(file));
-                }
-            }
-
-            Dispatcher.Invoke(() => {
-                pbProgress.Value += 1;
-            });
-
         }
 
-        private void ReplaceFiles()
+
+        private Dictionary<string, string> GetFolderFilesAndHashes(string folderPath, bool updateFolder)
         {
             Dispatcher.Invoke(() => {
-                tbStatusMessage.Text = "Replacing files...";
+                tbStatusMessage.Text = "Calculating file hashes...";
             });
-            foreach (var file in NewFiles) {
-                KeyValuePair<string, byte[]> oldFile = OldFiles.FirstOrDefault(x => x.Key == file.Key);
 
-                if (OldFiles.ContainsKey(file.Key) && oldFile.Value.SequenceEqual(file.Value)) continue;
+            Dictionary<string, string> fileHashes = new Dictionary<string, string>();
 
-                if (OldFiles.ContainsKey(file.Key) && !oldFile.Value.SequenceEqual(file.Value)) {
-                    File.WriteAllBytes(file.Key, file.Value);
+            if (Directory.Exists(folderPath))
+            {
+                foreach (string filePath in Directory.GetFiles(folderPath, "*", SearchOption.AllDirectories))
+                {
+                    if (updateFolder && filePath.Contains("update.temp")) continue;
+                    byte[] fileBytes = File.ReadAllBytes(filePath);
+                    string hash = CalculateMD5(fileBytes);
+                    string relativePath = Path.GetRelativePath(folderPath, filePath);
+                    fileHashes[relativePath] = hash;
                 }
-                else {
-                    File.WriteAllBytes(file.Key, file.Value);
+            }
+
+            Dispatcher.Invoke(() =>
+            {
+                pbProgress.Value += 1;
+            });
+
+            return fileHashes;
+        }
+
+        private void CopyAndOverwriteFiles(Dictionary<string, string> sourceFiles, string destinationFolder)
+        {
+
+            Dispatcher.Invoke(() => {
+                tbStatusMessage.Text = "Replacing outadate files...";
+            });
+
+            foreach (var kvp in sourceFiles)
+            {
+                string sourcePath = Path.Combine(destinationFolder, kvp.Key);
+                string destinationPath = Path.Combine("", kvp.Key);
+
+                string destinationDirectory = Path.GetDirectoryName(destinationPath);
+                if (!string.IsNullOrEmpty(destinationDirectory) && !Directory.Exists(destinationDirectory))
+                {
+                    // Create the directory if it doesn't exist
+                    Directory.CreateDirectory(destinationDirectory);
+                }
+
+                if (!File.Exists(destinationPath) || !FileHashMatches(destinationPath, kvp.Value))
+                {
+                    File.Copy(sourcePath, destinationPath, true);
                 }
             }
 
             Dispatcher.Invoke(() => {
+                pbProgress.Value += 1;
+            });
+        }
+
+        private bool FileHashMatches(string filePath, string expectedHash)
+        {
+            if (File.Exists(filePath))
+            {
+                byte[] fileBytes = File.ReadAllBytes(filePath);
+                string actualHash = CalculateMD5(fileBytes);
+                return actualHash == expectedHash;
+            }
+
+            return false;
+        }
+
+        private string CalculateMD5(byte[] inputBytes)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+            }
+        }
+
+        private void ClearFiles()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                tbStatusMessage.Text = "Removing temporary files...";
+            });
+
+            Directory.Delete("update.temp", true);
+
+            Dispatcher.Invoke(() =>
+            {
                 pbProgress.Value += 1;
             });
         }
