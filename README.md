@@ -15,7 +15,7 @@ Orderly excels in ensuring the secure management of passwords, employing robust 
 Everything is ran locally, reducing to basically 0 the possibility of a breach on your main credentials database.
 
 ### Always protected
-Set up backup routines, locally or remotely (Google Drive and Mega coming soon...) to add another layer of security so that your passwords will never be lost!
+Set up backup routines, locally or remotely (Google Drive and Mega coming soon...) to add another layer of security that your passwords will never be lost!
 
 ### Flexible password generator
 Generate secure and customizable passwords for your applications that no one will be able to crack. Turns out you don't need creativity to make your passwords water tight.
@@ -29,6 +29,8 @@ Generate secure and customizable passwords for your applications that no one wil
 And many more!
 
 ## Build
+If you want to run Orderly you are highly encouraged to build your own program and run it with your own config encryption key! Don't worry though, your actual password encryption key is generated using your master password.
+
 Building the project requires you to have **Visual Studio 2022** installed on your system as well as the latest .NET SDK (Target SDK is .NET 8).
 
 Next you'll need to provide your credentials for Google OAuth authentication and a new encryption key
