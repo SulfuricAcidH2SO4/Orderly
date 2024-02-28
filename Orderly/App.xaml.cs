@@ -11,6 +11,7 @@ using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Modules.Notifications;
 using Orderly.Services;
+using Orderly.Update;
 using Orderly.ViewModels.Pages;
 using Orderly.ViewModels.RadialMenu;
 using Orderly.ViewModels.Windows;
@@ -155,6 +156,16 @@ namespace Orderly
             MainWindow = (Window)window;
 
             BackupWorker.CheckBackups();
+
+            if(ProgramUpdater.CheckUpdate(out _, out Version latestVersion)){
+                NotificationService ns = GetService<NotificationService>();
+                if(!ns.Notifications.Any(x => x.Header.ToLower().Contains("version"))) {
+                    ns.Add(new() {
+                        Header = $"Version {latestVersion} available!",
+                        Body = $" "
+                    });
+                }
+            }
 
             sc.Close(TimeSpan.FromSeconds(.5));
 
