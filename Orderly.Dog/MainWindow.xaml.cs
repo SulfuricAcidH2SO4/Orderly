@@ -230,5 +230,11 @@ namespace Orderly.Dog
                 pbProgress.Value += 1;
             });
         }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
     }
 }

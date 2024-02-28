@@ -11,8 +11,9 @@
     Icon="/Assets/Logo_HQ.png"
     Loaded="OnLoaded"
     ResizeMode="CanMinimize"
+    WindowStyle="None"
     mc:Ignorable="d">
-    <Grid Background="#121212">
+    <Grid Background="#121212" MouseDown="Grid_MouseDown">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="auto" />
