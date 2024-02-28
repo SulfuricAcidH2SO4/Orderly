@@ -35,5 +35,11 @@ namespace Orderly.ViewModels.Pages
         {
             NotificationService.Clear();
         }
+
+        [RelayCommand]
+        public void ExecuteButtonAction(Action action)
+        {
+            action.Invoke();
+        }
     }
 }

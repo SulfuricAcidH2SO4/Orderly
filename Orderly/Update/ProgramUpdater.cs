@@ -20,7 +20,8 @@ namespace Orderly.Update
             try {
                 Version v = Assembly.GetExecutingAssembly().GetName().Version!;
                 currentVersion = v;
-                string response = MakeGetRequest("https://api.github.com/repos/SulfuricAcidH2SO4/Orderly/releases");
+                //string response = MakeGetRequest("https://api.github.com/repos/SulfuricAcidH2SO4/Orderly/releases");
+                string response = MakeGetRequest("https://api.github.com/repos/SixLabors/ImageSharp/releases");
                 List<GitHubRelease> releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(response)!;
 
                 if (releases.Any(x => x.Version > v)) {
@@ -43,9 +44,14 @@ namespace Orderly.Update
         static string MakeGetRequest(string url)
         {
             using (WebClient webClient = new()) {
-                webClient.Headers.Add(HttpRequestHeader.UserAgent, "Update-Checker");
+                webClient.Headers.Add(HttpRequestHeader.UserAgent, "Orderly-UpdateCheck");
                 return webClient.DownloadString(url);
             }
+        }
+
+        public static void UpdateProgram()
+        {
+
         }
     }
 }

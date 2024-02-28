@@ -75,7 +75,8 @@
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Command="{Binding ViewModel.AddRoutineCommand}"
-                                    CommandParameter="google">
+                                    CommandParameter="google"
+                                    IsEnabled="False">
                                     <DockPanel>
                                         <Image
                                             Width="25"
@@ -94,7 +95,8 @@
                                     Background="Transparent"
                                     BorderThickness="0"
                                     Command="{Binding ViewModel.AddRoutineCommand}"
-                                    CommandParameter="Mega">
+                                    CommandParameter="Mega"
+                                    IsEnabled="False">
                                     <DockPanel>
                                         <Image
                                             Width="25"

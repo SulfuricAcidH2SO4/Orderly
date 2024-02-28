@@ -64,6 +64,7 @@
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto" />
                                             <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
                                         </Grid.RowDefinitions>
                                         <ui:TextBlock
                                             Margin="0,0,80,0"
@@ -77,6 +78,22 @@
                                             Appearance="Primary"
                                             Text="{Binding Body}"
                                             TextWrapping="Wrap" />
+                                        <ItemsControl Grid.Row="2" ItemsSource="{Binding NotificationActions}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Rows="1" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ui:Button
+                                                        Margin="0,10"
+                                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ViewModel.ExecuteButtonActionCommand}"
+                                                        CommandParameter="{Binding Procedure}"
+                                                        Content="{Binding Description}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
                                         <StackPanel
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Top"

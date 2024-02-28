@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Orderly.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +16,10 @@ namespace Orderly.Models.Notifications
         string body = string.Empty;
         [ObservableProperty]
         bool isRead = false;
+
+        public bool KeepBetweenSessions { get; set; } = true;
+
+        [JsonIgnore]
+        public ExtendedObservableCollection<NotificationAction> NotificationActions { get; set; } = new();
     }
 }

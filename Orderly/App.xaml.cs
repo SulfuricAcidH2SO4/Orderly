@@ -8,6 +8,7 @@ using Orderly.Database.Entities;
 using Orderly.DaVault;
 using Orderly.Helpers;
 using Orderly.Interfaces;
+using Orderly.Models.Notifications;
 using Orderly.Modules;
 using Orderly.Modules.Notifications;
 using Orderly.Services;
@@ -152,6 +153,8 @@ namespace Orderly
                 db.SaveChanges();
             }
 
+            App.GetService<NotificationService>().Initialize();
+
             INavigationWindow window = GetService<INavigationWindow>();
             MainWindow = (Window)window;
 
@@ -159,12 +162,16 @@ namespace Orderly
 
             if(ProgramUpdater.CheckUpdate(out _, out Version latestVersion)){
                 NotificationService ns = GetService<NotificationService>();
-                if(!ns.Notifications.Any(x => x.Header.ToLower().Contains("version"))) {
-                    ns.Add(new() {
-                        Header = $"Version {latestVersion} available!",
-                        Body = $" "
-                    });
-                }
+                UserNotification notification = new() {
+                    Header = $"Version {latestVersion} available!",
+                    Body = $"Hey guess what?\nVersion {latestVersion} is now out! You should probably update...",
+                    KeepBetweenSessions = false
+                };
+                notification.NotificationActions.Add(new() {
+                    Description = "Update now!",
+                    Procedure = ProgramUpdater.UpdateProgram
+                });
+                ns.Add(notification);
             }
 
             sc.Close(TimeSpan.FromSeconds(.5));
