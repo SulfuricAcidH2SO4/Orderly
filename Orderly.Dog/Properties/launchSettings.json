@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Orderly.Dog": {
+      "commandName": "Project",
+      "commandLineArgs": "update https://api.github.com/repos/SixLabors/ImageSharp/zipball/v3.1.2"
+    }
+  }
+}

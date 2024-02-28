@@ -1,0 +1,8 @@
+﻿<Application
+    x:Class="Orderly.Dog.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Orderly.Dog"
+    Startup="Application_Startup">
+    <Application.Resources />
+</Application>

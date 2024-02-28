@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orderly", "Orderly\Orderly.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orderly.Database", "Orderly.Database\Orderly.Database.csproj", "{7AEFC0A9-C187-407F-BE09-ECB3D7B37AB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orderly.Dog", "Orderly.Dog\Orderly.Dog.csproj", "{9916F1B2-1F49-414B-9937-D086A0BB7EA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7AEFC0A9-C187-407F-BE09-ECB3D7B37AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AEFC0A9-C187-407F-BE09-ECB3D7B37AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AEFC0A9-C187-407F-BE09-ECB3D7B37AB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9916F1B2-1F49-414B-9937-D086A0BB7EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9916F1B2-1F49-414B-9937-D086A0BB7EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9916F1B2-1F49-414B-9937-D086A0BB7EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9916F1B2-1F49-414B-9937-D086A0BB7EA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

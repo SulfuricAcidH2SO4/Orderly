@@ -1,0 +1,45 @@
+﻿<Window
+    x:Class="Orderly.Dog.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Orderly.Dog"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Orderly Dog"
+    Width="800"
+    Height="250"
+    Icon="/Assets/Logo_HQ.png"
+    Loaded="OnLoaded"
+    ResizeMode="CanMinimize"
+    mc:Ignorable="d">
+    <Grid Background="#121212">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Border Width="100" Height="100">
+            <Image Source="/Assets/Logo_HQ.png" />
+        </Border>
+        <ProgressBar
+            x:Name="pbProgress"
+            Grid.Row="1"
+            Height="15"
+            Margin="20,0"
+            HorizontalAlignment="Stretch"
+            Foreground="#ff723b"
+            IsIndeterminate="False"
+            Maximum="6"
+            Minimum="0"
+            SmallChange="0.01" />
+        <TextBlock
+            x:Name="tbStatusMessage"
+            Grid.Row="2"
+            Margin="0,20"
+            HorizontalAlignment="Center"
+            FontStyle="Italic"
+            Foreground="White"
+            Opacity=".8"
+            Text="Downloading update..." />
+    </Grid>
+</Window>
