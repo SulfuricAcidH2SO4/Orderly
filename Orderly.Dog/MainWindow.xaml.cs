@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Path = System.IO.Path;
 
 namespace Orderly.Dog
 {
@@ -35,8 +36,8 @@ namespace Orderly.Dog
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Task.Factory.StartNew(() => {
-                DownloadZip();
-                DecompressZip();
+                //DownloadZip();
+                //DecompressZip();
                 CalculateHashes();
                 ReplaceFiles();
             });
@@ -91,9 +92,7 @@ namespace Orderly.Dog
 
             using (var md5 = MD5.Create()) {
                 foreach (string file in oldFiles) {
-                    using (var stream = File.OpenRead(file)) {
-                        OldFiles.Add(file, md5.ComputeHash(stream));
-                    }
+                    OldFiles.Add(Path.GetFileName(file), File.ReadAllBytes(file));
                 }
             }
 
@@ -106,9 +105,7 @@ namespace Orderly.Dog
 
             using (var md5 = MD5.Create()) {
                 foreach (string file in newFiles) {
-                    using (var stream = File.OpenRead(file)) {
-                        NewFiles.Add(file, md5.ComputeHash(stream));
-                    }
+                    NewFiles.Add(Path.GetFileName(file), File.ReadAllBytes(file));
                 }
             }
 
@@ -124,9 +121,11 @@ namespace Orderly.Dog
                 tbStatusMessage.Text = "Replacing files...";
             });
             foreach (var file in NewFiles) {
-                KeyValuePair<string, byte[]>? oldFile = OldFiles.FirstOrDefault(x => x.Key == file.Key);
+                KeyValuePair<string, byte[]> oldFile = OldFiles.FirstOrDefault(x => x.Key == file.Key);
 
-                if(oldFile == null) {
+                if (OldFiles.ContainsKey(file.Key) && oldFile.Value.SequenceEqual(file.Value)) continue;
+
+                if (OldFiles.ContainsKey(file.Key) && !oldFile.Value.SequenceEqual(file.Value)) {
                     File.WriteAllBytes(file.Key, file.Value);
                 }
                 else {
