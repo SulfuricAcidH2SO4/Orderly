@@ -1,13 +1,17 @@
 <p align="center">
-	<img src="https://i.ibb.co/XzX6cQb/logo.png" alt="dash-screen" 		  border="0" width= "200">
+	<img src="https://github.com/SulfuricAcidH2SO4/Orderly/blob/master/Docs/logo.png" alt="dash-screen" 		  border="0" width= "200">
 	
 </p>
 
 ## Overview
+![GitHub License](https://img.shields.io/github/license/SulfuricAcidH2SO4/Orderly) ![GitHub Release](https://img.shields.io/github/v/release/SulfuricAcidH2SO4/Orderly)
+ ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/SulfuricAcidH2SO4/Orderly/total) ![GitHub Repo stars](https://img.shields.io/github/stars/SulfuricAcidH2SO4/Orderly?style=flat)
+
+
 
 Orderly is a secure and user-friendly password management program designed to simplify and enhance the way users organize and protect their sensitive credentials. It allows credentials insertion by simulating low level keyboard input making it useful in games, desktop applications and web pages!
 
-<p align="center"><img src="https://i.ibb.co/3TcyyC0/dash-screen.png" alt="dash-screen" border="0"></p>
+<p align="center"><img src="https://github.com/SulfuricAcidH2SO4/Orderly/blob/master/Docs/dash_screen.png" alt="dash-screen" border="0"></p>
 
 ## What does it do?
 Orderly excels in ensuring the secure management of passwords, employing robust top-tier encryption measures. All you need is a master password which will allow you to access your entire catalog of credentials.
