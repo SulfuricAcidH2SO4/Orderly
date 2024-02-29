@@ -20,6 +20,7 @@ namespace Orderly.Database.Entities
         private string additionDate = string.Empty;
         private string lastEditDate = string.Empty;
         private bool isVisibile = true;
+        private bool isOpen = false;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -72,6 +73,15 @@ namespace Orderly.Database.Entities
             set
             {
                 SetProperty(ref isVisibile, value);
+            }
+        }
+        [NotMapped]
+        public bool IsOpen
+        {
+            get => isOpen;
+            set
+            {
+                SetProperty(ref isOpen, value);
             }
         }
 

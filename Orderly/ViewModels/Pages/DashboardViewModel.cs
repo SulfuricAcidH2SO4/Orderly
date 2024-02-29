@@ -61,7 +61,8 @@ namespace Orderly.ViewModels.Pages
             Category addedCategory = db.Categories.Add(new() {
                 Name = "New Category",
                 AdditionDate = DateTime.Now.ToString(),
-                LastEditDate = DateTime.Now.ToString()
+                LastEditDate = DateTime.Now.ToString(),
+                IsOpen = true
             }).Entity;
             db.SaveChanges();
 
@@ -101,6 +102,7 @@ namespace Orderly.ViewModels.Pages
             db.SaveChanges();
             cred.Category = CredentialCategory;
             CredentialCategory.Credentials!.Add(cred);
+            CredentialCategory.IsOpen = true;
             CollectionViewSource.GetDefaultView(CredentialCategory.Credentials).Refresh();
             cred.PropertyChanged += OnCredentialPropertyChanged;
         }

@@ -126,6 +126,7 @@
                                 DragEnter="CardExpander_DragEnter"
                                 DragLeave="CardExpander_DragLeave"
                                 Drop="CardExpander_Drop"
+                                IsExpanded="{Binding IsOpen, Mode=TwoWay}"
                                 Visibility="{Binding IsVisibile, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <ui:CardExpander.Header>
                                     <Grid x:Name="grid">
@@ -201,7 +202,10 @@
                                                 Padding="5"
                                                 Background="Transparent"
                                                 BorderThickness="0"
-                                                Cursor="Hand">
+                                                Cursor="Hand"
+                                                ToolTipService.InitialShowDelay="0"
+                                                ToolTipService.Placement="Top"
+                                                ToolTipService.ToolTip="Edit or delete category">
                                                 <ui:SymbolIcon
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
@@ -249,7 +253,10 @@
                                                 Padding="5"
                                                 Background="Transparent"
                                                 BorderThickness="0"
-                                                Cursor="Hand">
+                                                Cursor="Hand"
+                                                ToolTipService.InitialShowDelay="0"
+                                                ToolTipService.Placement="Top"
+                                                ToolTipService.ToolTip="Change category flair color">
                                                 <ui:SymbolIcon
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
@@ -262,7 +269,10 @@
                                                 BorderThickness="0"
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.AddCredentialsCommand}"
                                                 CommandParameter="{Binding ElementName=btnEdit, Path=DataContext, Mode=TwoWay}"
-                                                Cursor="Hand">
+                                                Cursor="Hand"
+                                                ToolTipService.InitialShowDelay="0"
+                                                ToolTipService.Placement="Top"
+                                                ToolTipService.ToolTip="Add new credential">
                                                 <ui:SymbolIcon
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
