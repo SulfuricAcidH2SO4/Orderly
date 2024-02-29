@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="Docs\logo.png" alt="dash-screen" 		  border="0" width= "200">
+	<img src="https://github.com/SulfuricAcidH2SO4/Orderly/blob/master/Docs/logo.png" alt="dash-screen" 		  border="0" width= "200">
 	
 </p>
 
