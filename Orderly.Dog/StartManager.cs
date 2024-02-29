@@ -29,7 +29,7 @@ namespace Orderly.Dog
 
             if (rk == null) return;
 
-            rk.SetValue("Orderly", exePath);
+            rk.SetValue("Orderly", $"\"{exePath}\"");
 
             string encryptedConfig = File.ReadAllText(@"C:\LocalProjects\Orderly\Orderly\bin\Debug\net8.0-windows10.0.17763.0\CoreConfig.ordcf");
             string plainConfig = DecryptString(encryptedConfig, encryptionKey);
