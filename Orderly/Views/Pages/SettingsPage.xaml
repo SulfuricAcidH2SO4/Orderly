@@ -35,6 +35,10 @@
                     <DockPanel VerticalAlignment="Center" LastChildFill="True">
                         <ui:SymbolIcon Margin="0,0,5,0" Symbol="Autocorrect20" />
                         <TextBlock Text="Automatic start up" />
+                        <ui:SymbolIcon
+                            Margin="5,0"
+                            Foreground="Orange"
+                            Symbol="Shield12" />
                         <ui:ToggleSwitch
                             Margin="5,0"
                             HorizontalAlignment="Right"
