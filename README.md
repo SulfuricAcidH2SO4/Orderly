@@ -7,7 +7,7 @@
 
 Orderly is a secure and user-friendly password management program designed to simplify and enhance the way users organize and protect their sensitive credentials. It allows credentials insertion by simulating low level keyboard input making it useful in games, desktop applications and web pages!
 
-<p align="center"><img src="Docs\dash-screen.png" alt="dash-screen" border="0"></p>
+<p align="center"><img src="https://github.com/SulfuricAcidH2SO4/Orderly/blob/master/Docs/dash_screen.png" alt="dash-screen" border="0"></p>
 
 ## What does it do?
 Orderly excels in ensuring the secure management of passwords, employing robust top-tier encryption measures. All you need is a master password which will allow you to access your entire catalog of credentials.
