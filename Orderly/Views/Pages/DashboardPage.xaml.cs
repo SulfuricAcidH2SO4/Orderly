@@ -2,6 +2,7 @@
 using Orderly.EE;
 using Orderly.Interfaces;
 using Orderly.ViewModels.Pages;
+using Orderly.Views.Windows;
 using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -27,6 +28,7 @@ namespace Orderly.Views.Pages
             DataContext = this;
 
             InitializeComponent();
+
             ApplicationThemeManager.Apply(App.GetService<IProgramConfiguration>().IsDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light);
             App.GetService<IThemeService>().SetAccent(Color.FromRgb(252, 120, 58));
         }
