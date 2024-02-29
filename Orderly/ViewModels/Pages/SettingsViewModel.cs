@@ -67,6 +67,7 @@ namespace Orderly.ViewModels.Pages
             if (File.Exists(executablePath)) {
                 ProcessStartInfo startInfo = new ProcessStartInfo {
                     FileName = executablePath,
+                    Verb = "runas",
                     Arguments = $"add-startup {Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orderly.exe")} {App.GetService<Vault>().ConfigEncryptionKey}"
                 };
 
@@ -83,6 +84,7 @@ namespace Orderly.ViewModels.Pages
             if (File.Exists(executablePath)) {
                 ProcessStartInfo startInfo = new ProcessStartInfo {
                     FileName = executablePath,
+                    Verb = "runas",
                     Arguments = $"remove-startup {App.GetService<Vault>().ConfigEncryptionKey}"
                 };
 

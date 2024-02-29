@@ -154,14 +154,20 @@
                                             Background="{DynamicResource SystemAccentColorPrimaryBrush}"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ViewModel.ProcessUsernameCommand}"
                                             CommandParameter="{Binding Username}"
-                                            CornerRadius="0">
+                                            CornerRadius="0"
+                                            ToolTipService.InitialShowDelay="0"
+                                            ToolTipService.Placement="Top"
+                                            ToolTipService.ToolTip="Insert username">
                                             <ui:SymbolIcon Symbol="Person12" />
                                         </ui:Button>
                                         <ui:Button
                                             Background="{DynamicResource SystemAccentColorPrimaryBrush}"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ViewModel.ProcessPasswordCommand}"
                                             CommandParameter="{Binding Password}"
-                                            CornerRadius="0">
+                                            CornerRadius="0"
+                                            ToolTipService.InitialShowDelay="0"
+                                            ToolTipService.Placement="Top"
+                                            ToolTipService.ToolTip="Insert password">
                                             <ui:SymbolIcon Symbol="Key20" />
                                         </ui:Button>
                                     </StackPanel>

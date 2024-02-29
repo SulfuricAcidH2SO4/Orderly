@@ -232,6 +232,7 @@ namespace Orderly
             if (File.Exists(executablePath)) {
                 ProcessStartInfo startInfo = new ProcessStartInfo {
                     FileName = executablePath,
+                    Verb = "runas",
                     Arguments = $"add-start {Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orderly.exe")}"
                 };
 
