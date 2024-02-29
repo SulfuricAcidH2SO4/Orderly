@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 
@@ -23,6 +24,8 @@ namespace Orderly.Dog
                 Shutdown();
                 return;
             }
+
+
 
             MainWindow = new MainWindow(e.Args[1]);
 
