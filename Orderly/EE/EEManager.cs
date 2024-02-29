@@ -1,10 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Orderly.EE
 {
@@ -32,8 +27,9 @@ namespace Orderly.EE
             };
         private static string face;
 
-        public static string Face { 
-            get => Faces[rnd.Next(Faces.Length - 1)]; 
+        public static string Face
+        {
+            get => Faces[rnd.Next(Faces.Length - 1)];
             set
             {
                 face = value;

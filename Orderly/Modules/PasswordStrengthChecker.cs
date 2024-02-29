@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace Orderly.Modules
 {
@@ -12,7 +7,7 @@ namespace Orderly.Modules
         public static int CalculatePasswordStrength(string password)
         {
             if (string.IsNullOrEmpty(password))
-                return 0; 
+                return 0;
 
             int strength = 0;
 
@@ -29,7 +24,7 @@ namespace Orderly.Modules
 
             if (hasUppercase && hasLowercase && hasNumber)
                 strength++;
-            else strength--; 
+            else strength--;
 
             return Math.Clamp(strength, 0, 2);
         }

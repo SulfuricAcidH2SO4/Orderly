@@ -1,10 +1,5 @@
 ﻿using Orderly.Models.Notifications;
 using Orderly.Modules.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Orderly.ViewModels.Pages
 {
@@ -12,7 +7,7 @@ namespace Orderly.ViewModels.Pages
     {
         [ObservableProperty]
         NotificationService notificationService;
-        
+
         public NotificationViewModel(NotificationService notificationService)
         {
             NotificationService = notificationService;

@@ -4,12 +4,7 @@ using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Views.Windows;
 using Orderly.Views.Wizard;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Wpf.Ui;
 
 namespace Orderly.ViewModels.Wizard
@@ -47,7 +42,7 @@ namespace Orderly.ViewModels.Wizard
         [RelayCommand]
         private void NextPage()
         {
-            if(currentStep == 2) {
+            if (currentStep == 2) {
                 if (Pass1 != Pass2) {
                     IsPasswordError = true;
                     ErrorMessage = "Passwords don't match!";
@@ -65,7 +60,7 @@ namespace Orderly.ViewModels.Wizard
                 Config.AbsolutePassword = EncryptionHelper.HashPassword(Pass1);
                 ErrorMessage = string.Empty;
             }
-            if(currentStep == 4) {
+            if (currentStep == 4) {
                 Config.Save();
                 Vault v = App.GetService<Vault>();
                 v.PasswordEncryptionKey = EncryptionHelper.HashPassword(Config.AbsolutePassword).Substring(0, 24);

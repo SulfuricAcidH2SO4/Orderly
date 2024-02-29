@@ -1,19 +1,5 @@
-﻿using Orderly.Models;
-using Orderly.Modules;
+﻿using Orderly.Modules;
 using Orderly.Views.Windows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Wpf.Ui.Controls;
 
 namespace Orderly.Views.Dialogs
@@ -55,7 +41,7 @@ namespace Orderly.Views.Dialogs
             if (cbUpper is null || cbSymbols is null || cbNumbers is null || slLength is null || pbPassword is null || tbStrength is null) return;
             bool upperCase = cbUpper.IsChecked!.Value;
             bool symbols = cbSymbols.IsChecked!.Value;
-            bool numbers = cbNumbers.IsChecked!.Value; 
+            bool numbers = cbNumbers.IsChecked!.Value;
             int length = (int)slLength.Value;
 
             GeneratedPassword = PasswordGenerator.GenerateSecurePassword(length, upperCase, numbers, symbols);

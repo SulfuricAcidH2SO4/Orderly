@@ -4,13 +4,6 @@ using Orderly.Models.Backup;
 using Orderly.Modules;
 using Orderly.Modules.Routines;
 using Orderly.Views.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
@@ -32,12 +25,12 @@ namespace Orderly.ViewModels.Pages
             set
             {
                 SetProperty(ref selectedRoutine, value);
-                if(value is LocalBackupRoutine lb) {
+                if (value is LocalBackupRoutine lb) {
                     RunCommand(() => {
                         lb.ReloadBackups();
                     });
                 }
-                else if(value is GoogleDriveRoutine gd && gd.IsAuthenticated) {
+                else if (value is GoogleDriveRoutine gd && gd.IsAuthenticated) {
                     RunCommand(() => {
                         gd.ReloadBackups();
                     });
@@ -49,7 +42,7 @@ namespace Orderly.ViewModels.Pages
                 }
             }
         }
-        
+
 
         public ExtendedObservableCollection<LocalBackup> BackupsInFolderList { get; set; } = new();
 
@@ -104,7 +97,7 @@ namespace Orderly.ViewModels.Pages
         {
             if (SelectedRoutine == null) return;
             if (new ConfirmDialog("Are you sure you want to delete this backup routine?\nThis action cannot be reverted.").ShowDialog() == false) return;
-            if(new PasswordConfirmDialog().ShowDialog() == false) return;
+            if (new PasswordConfirmDialog().ShowDialog() == false) return;
             Config.BackupRoutines.Remove(SelectedRoutine);
             Config.Save();
         }
@@ -141,7 +134,7 @@ namespace Orderly.ViewModels.Pages
                 SelectedRoutine = SelectedRoutine;
             });
         }
-        
+
         [RelayCommand]
         public void PickLocalPath()
         {
@@ -156,7 +149,7 @@ namespace Orderly.ViewModels.Pages
                 lb.Path = dialog.SelectedPath;
             }
         }
-        
+
         [RelayCommand]
         public void ReloadList()
         {

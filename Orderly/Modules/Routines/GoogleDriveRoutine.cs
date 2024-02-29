@@ -9,14 +9,8 @@ using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Models;
 using Orderly.Models.Backups;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
@@ -59,7 +53,7 @@ namespace Orderly.Modules.Routines
 
         public bool Authenticate()
         {
-            Vault v = App.GetService<Vault>();  
+            Vault v = App.GetService<Vault>();
             string[] scopes = new string[] { DriveService.Scope.DriveAppdata,
                                              DriveService.Scope.DriveMetadata,
                                              DriveService.Scope.Drive,
@@ -104,7 +98,7 @@ namespace Orderly.Modules.Routines
         }
 
         public bool Delete(IBackup backup)
-        { 
+        {
             try {
                 Backups.Remove((GoogleDriveBackup)backup);
                 var result = service?.Files.Delete((backup as GoogleDriveBackup)!.FileId).Execute();
@@ -139,7 +133,7 @@ namespace Orderly.Modules.Routines
             request.Q = query;
             var result = request.Execute();
 
-            foreach ( var backup in result.Files.ToList()) {
+            foreach (var backup in result.Files.ToList()) {
                 string dateString = backup.Name.Replace("CoreDB", string.Empty).Replace(".ordb", string.Empty);
                 DateTime.TryParseExact(dateString, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
                 Backups.Add(new GoogleDriveBackup() {
@@ -147,7 +141,7 @@ namespace Orderly.Modules.Routines
                     BackupDate = parsedDate,
                     BackupName = backup.Name,
                 });
-                if(parsedDate > LastBackupDate) LastBackupDate = parsedDate;
+                if (parsedDate > LastBackupDate) LastBackupDate = parsedDate;
             }
 
         }
@@ -219,8 +213,7 @@ namespace Orderly.Modules.Routines
             var stream = new MemoryStream();
 
             SnackbarService snackBarService = (SnackbarService)App.GetService<ISnackbarService>();
-            request.MediaDownloader.ProgressChanged += (IDownloadProgress progress) =>
-            {
+            request.MediaDownloader.ProgressChanged += (IDownloadProgress progress) => {
                 switch (progress.Status) {
                     case DownloadStatus.Downloading: {
                             break;

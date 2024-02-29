@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Orderly.Models
@@ -13,7 +8,7 @@ namespace Orderly.Models
     {
         private bool useAlt = true;
         private bool useCtrl = true;
-        private bool useShift = false;   
+        private bool useShift = false;
         private Keys keyCode = Keys.P;
 
         public bool UseAlt
@@ -37,7 +32,7 @@ namespace Orderly.Models
             get => useShift;
             set
             {
-                SetProperty(ref useShift, value);   
+                SetProperty(ref useShift, value);
             }
         }
         public Keys KeyCode

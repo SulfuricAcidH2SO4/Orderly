@@ -8,13 +8,6 @@ using Orderly.Modules;
 using Orderly.ViewModels.Pages;
 using Orderly.Views.Dialogs;
 using Orderly.Views.RadialMenu;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Wpf.Ui.Controls;
 
 namespace Orderly.ViewModels.RadialMenu
 {

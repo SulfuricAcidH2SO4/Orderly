@@ -1,8 +1,8 @@
-﻿using Orderly.Views.RadialMenu;
-using Gma.System.MouseKeyHook;
-using System.Windows.Forms;
+﻿using Gma.System.MouseKeyHook;
 using Orderly.Interfaces;
+using Orderly.Views.RadialMenu;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Orderly.Modules
 {
@@ -13,7 +13,7 @@ namespace Orderly.Modules
 
         public static IKeyboardMouseEvents? Hook { get; private set; }
         public static bool PauseMenuListener { get; set; } = false;
-        public static bool PauseClickListener { get; set; } = false;    
+        public static bool PauseClickListener { get; set; } = false;
 
         public static Point lastOpenedPoint;
         private static ProgramConfiguration? config;
@@ -69,7 +69,7 @@ namespace Orderly.Modules
                 if (menu.IsVisible) {
                     menu.CloseMenu();
                     return;
-                } 
+                }
                 double xPos = Cursor.Position.X;
                 double yPos = Cursor.Position.Y;
                 yPos = yPos < 0 ? 0 : yPos;

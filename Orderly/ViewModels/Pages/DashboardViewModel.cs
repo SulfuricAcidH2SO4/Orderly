@@ -7,10 +7,6 @@ using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.Views.Dialogs;
-using Orderly.Views.Pages;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Net;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Wpf.Ui.Controls;
@@ -190,7 +186,7 @@ namespace Orderly.ViewModels.Pages
 
             foreach (var category in Categories) {
                 category.PropertyChanged += OnCategoryPropertyChanged;
-                foreach(var credential in category.Credentials) {
+                foreach (var credential in category.Credentials) {
                     credential.PropertyChanged += OnCredentialPropertyChanged;
                 }
             }
@@ -200,7 +196,7 @@ namespace Orderly.ViewModels.Pages
 
         private void OnCredentialPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(sender is Credential cr) {
+            if (sender is Credential cr) {
                 if (e.PropertyName == nameof(cr.Pinned)) {
                     using DatabaseContext db = new();
                     db.Credentials.Update(cr);
@@ -217,7 +213,7 @@ namespace Orderly.ViewModels.Pages
 
         private void OnCategoryPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(Category.IsFavorite)) {
+            if (e.PropertyName == nameof(Category.IsFavorite)) {
                 SortList();
             }
         }

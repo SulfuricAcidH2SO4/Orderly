@@ -1,13 +1,10 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json.Linq;
 using Orderly.Interfaces;
-using Orderly.Modules;
 using Orderly.Modules.Notifications;
 using Orderly.ViewModels.Pages;
 using Orderly.ViewModels.Windows;
 using Orderly.Views.Pages;
-using System.Windows.Media;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -34,12 +31,12 @@ namespace Orderly.Views.Windows
             Instance = this;
 
             Configuration = config!;
-            
+
             SystemThemeWatcher.Watch(this);
 
             InitializeComponent();
 
-            
+
 
             SetPageService(pageService);
 

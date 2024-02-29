@@ -1,19 +1,6 @@
 ﻿using Orderly.Models;
 using Orderly.Modules;
 using Orderly.Views.Windows;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Wpf.Ui.Controls;
 
 namespace Orderly.Views.Dialogs
@@ -35,7 +22,7 @@ namespace Orderly.Views.Dialogs
         }
 
         private void OnKeyDown(object? sender, System.Windows.Forms.KeyEventArgs e)
-        { 
+        {
             InputOptions.UseCtrl = e.Control;
             InputOptions.UseAlt = e.Alt;
             InputOptions.UseShift = e.Shift;

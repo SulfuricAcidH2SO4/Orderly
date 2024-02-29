@@ -4,11 +4,6 @@ using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Models;
 using Orderly.Models.Backups;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Orderly.Modules.Routines
 {
@@ -103,7 +98,7 @@ namespace Orderly.Modules.Routines
                             BackupDate = item.Modified,
                             BackupPath = item.FullName
                         });
-                        if(LastBackupDate < item.Modified) LastBackupDate = item.Modified;
+                        if (LastBackupDate < item.Modified) LastBackupDate = item.Modified;
                     }
                     Status = RoutineStatus.Ok;
                 }

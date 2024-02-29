@@ -1,18 +1,10 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Orderly.Backups;
 using Orderly.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Reflection;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Orderly.Update
 {
@@ -59,10 +51,8 @@ namespace Orderly.Update
 
             BackupWorker.RunAllBackups();
 
-            if (File.Exists(executablePath))
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
+            if (File.Exists(executablePath)) {
+                ProcessStartInfo startInfo = new ProcessStartInfo {
                     FileName = executablePath,
                     Arguments = $"update {downloadUrl}"
                 };

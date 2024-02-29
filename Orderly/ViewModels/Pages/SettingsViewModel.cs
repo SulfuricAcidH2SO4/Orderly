@@ -5,7 +5,6 @@ using Orderly.Modules;
 using Orderly.Views.Dialogs;
 using System.Diagnostics;
 using System.IO;
-using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace Orderly.ViewModels.Pages
@@ -26,7 +25,7 @@ namespace Orderly.ViewModels.Pages
         {
             PasswordConfirmDialog confirmDialog = new();
 
-            if(confirmDialog.ShowDialog() == true) {
+            if (confirmDialog.ShowDialog() == true) {
                 PasswordChangeDialog dialog = new(Configuration);
                 dialog.ShowDialog();
             }
@@ -35,7 +34,7 @@ namespace Orderly.ViewModels.Pages
         private void ChangeInpuKeybind()
         {
             ChangeInputOptionsDialog dialog = new();
-            if(dialog.ShowDialog() == true) {
+            if (dialog.ShowDialog() == true) {
                 Configuration.InputOptions = dialog.InputOptions;
             }
         }
@@ -48,7 +47,7 @@ namespace Orderly.ViewModels.Pages
 
         private void OnPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(Configuration.StartOnStartUp)) {
+            if (e.PropertyName == nameof(Configuration.StartOnStartUp)) {
                 Configuration.PropertyChanged -= OnPropertyChanged;
                 if (Configuration.StartOnStartUp) AddStartup();
                 else RemoveStartup();

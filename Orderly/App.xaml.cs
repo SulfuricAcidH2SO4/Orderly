@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Orderly.Backups;
 using Orderly.Database;
-using Orderly.Database.Entities;
 using Orderly.DaVault;
 using Orderly.Helpers;
 using Orderly.Interfaces;
@@ -24,11 +23,9 @@ using Orderly.Views.Windows;
 using Orderly.Views.Wizard;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Wpf.Ui;
-using Wpf.Ui.Appearance;
 
 namespace Orderly
 {
@@ -161,7 +158,7 @@ namespace Orderly
 
             BackupWorker.CheckBackups();
 
-            if(ProgramUpdater.CheckUpdate(out Version latestVersion, out string downloadUrl)){
+            if (ProgramUpdater.CheckUpdate(out Version latestVersion, out string downloadUrl)) {
                 NotificationService ns = GetService<NotificationService>();
                 UserNotification notification = new() {
                     Header = $"Version {latestVersion} available!",
@@ -180,8 +177,7 @@ namespace Orderly
 
             sc.Close(TimeSpan.FromSeconds(.5));
 
-            if (CheckWizardLaunch())
-            {
+            if (CheckWizardLaunch()) {
                 AddStart();
                 GetService<NotificationService>().Add(new() {
                     Header = "Welcome to Orderly!",
@@ -210,8 +206,7 @@ namespace Orderly
             if (!string.IsNullOrEmpty(config.AbsolutePassword)) return false;
 
             WizardMainWindow wizardWindow = GetService<WizardMainWindow>();
-            if (wizardWindow.ShowDialog() == false)
-            {
+            if (wizardWindow.ShowDialog() == false) {
                 Shutdown();
                 return true;
             }

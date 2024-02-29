@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Orderly.Views.Pages;
+﻿using Microsoft.Extensions.Hosting;
 using Orderly.Views.Windows;
 using Wpf.Ui;
 

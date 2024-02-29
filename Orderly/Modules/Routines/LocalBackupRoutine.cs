@@ -4,14 +4,8 @@ using Orderly.Helpers;
 using Orderly.Interfaces;
 using Orderly.Models;
 using Orderly.Models.Backup;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Orderly.Modules.Routines
 {
@@ -34,7 +28,7 @@ namespace Orderly.Modules.Routines
 
         public bool Backup()
         {
-            if(!Directory.Exists(Path)) Directory.CreateDirectory(Path);
+            if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
             using DatabaseContext db = new();
             db.SaveChanges();
             db.EnsureClosed();
@@ -47,7 +41,7 @@ namespace Orderly.Modules.Routines
 
         public bool Delete(IBackup backup)
         {
-            if(backup is not LocalBackup lb) {
+            if (backup is not LocalBackup lb) {
                 return false;
             }
 
@@ -66,7 +60,7 @@ namespace Orderly.Modules.Routines
                 File.Copy(bp.BackupPath, $"{Constants.DbName}.new");
                 return true;
             }
-            catch (Exception e){
+            catch (Exception e) {
                 return false;
             }
         }
@@ -85,7 +79,7 @@ namespace Orderly.Modules.Routines
                 DateTime.TryParseExact(dateString, "dd.MM.yyyy.HH.mm.ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
                 bp.BackupDate = parsedDate;
                 Backups.Add(bp);
-                if(LastBackupDate < parsedDate) LastBackupDate = parsedDate;
+                if (LastBackupDate < parsedDate) LastBackupDate = parsedDate;
             }
         }
     }
