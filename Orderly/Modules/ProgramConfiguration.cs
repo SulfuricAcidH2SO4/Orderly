@@ -23,7 +23,7 @@ namespace Orderly.Modules
         private string userName = string.Empty;
         private bool isDarkMode = true;
         private bool showMinimizeNotifaction = true;
-        private bool startOnStartup = true;
+        private bool startOnStartup = false;
         private bool startMinimized = false;
         private bool closeButtonClosesApp = false;
         private bool useHardwareRendering = false;
