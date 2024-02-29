@@ -208,7 +208,7 @@
                                         <Run
                                             FontWeight="Bold"
                                             Foreground="Red"
-                                            Text="Software:" />
+                                            Text="Hardware:" />
                                         <Run Text="Uses more memory with the benefit of a smoother UI experience during demanding tasks and a very slight decrease in CPU usage" />
                                     </TextBlock>
                                 </Grid>

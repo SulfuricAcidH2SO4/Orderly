@@ -151,24 +151,24 @@
                                         HorizontalAlignment="Right"
                                         Orientation="Horizontal">
                                         <ui:Button
-                                            Background="{DynamicResource SystemAccentColorPrimaryBrush}"
+                                            Appearance="Primary"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ViewModel.ProcessUsernameCommand}"
                                             CommandParameter="{Binding Username}"
                                             CornerRadius="0"
                                             ToolTipService.InitialShowDelay="0"
                                             ToolTipService.Placement="Top"
                                             ToolTipService.ToolTip="Insert username">
-                                            <ui:SymbolIcon Symbol="Person12" />
+                                            <ui:SymbolIcon Foreground="{DynamicResource TextFillColorPrimaryBrush}" Symbol="Person12" />
                                         </ui:Button>
                                         <ui:Button
-                                            Background="{DynamicResource SystemAccentColorPrimaryBrush}"
+                                            Appearance="Primary"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ViewModel.ProcessPasswordCommand}"
                                             CommandParameter="{Binding Password}"
                                             CornerRadius="0"
                                             ToolTipService.InitialShowDelay="0"
                                             ToolTipService.Placement="Top"
                                             ToolTipService.ToolTip="Insert password">
-                                            <ui:SymbolIcon Symbol="Key20" />
+                                            <ui:SymbolIcon Foreground="{DynamicResource TextFillColorPrimaryBrush}" Symbol="Key32" />
                                         </ui:Button>
                                     </StackPanel>
                                 </Grid>

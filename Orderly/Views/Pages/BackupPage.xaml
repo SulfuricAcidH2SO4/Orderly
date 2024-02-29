@@ -505,7 +505,7 @@
                                                 <StackPanel Grid.Row="3" Margin="0,20">
                                                     <ui:Button
                                                         HorizontalAlignment="Stretch"
-                                                        Appearance="Primary"
+                                                        Appearance="Transparent"
                                                         Command="{Binding ViewModel.DoBackupCommand}"
                                                         Content="Backup now" />
                                                     <ui:Button

@@ -1,11 +1,14 @@
 ﻿using Orderly.Database.Entities;
 using Orderly.EE;
+using Orderly.Interfaces;
 using Orderly.ViewModels.Pages;
 using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using Wpf.Ui;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using TextBlock = System.Windows.Controls.TextBlock;
 using TextBox = Wpf.Ui.Controls.TextBox;
@@ -24,6 +27,8 @@ namespace Orderly.Views.Pages
             DataContext = this;
 
             InitializeComponent();
+            ApplicationThemeManager.Apply(App.GetService<IProgramConfiguration>().IsDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light);
+            App.GetService<IThemeService>().SetAccent(Color.FromRgb(252, 120, 58));
         }
 
         private void Popup_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

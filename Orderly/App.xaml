@@ -13,7 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Dark" />
-                <ui:ControlsDictionary />
+                <ui:ControlsDictionary  />
 
             </ResourceDictionary.MergedDictionaries>
             <tb:TaskbarIcon

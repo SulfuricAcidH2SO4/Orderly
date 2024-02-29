@@ -7,6 +7,7 @@ using Orderly.Modules.Notifications;
 using Orderly.ViewModels.Pages;
 using Orderly.ViewModels.Windows;
 using Orderly.Views.Pages;
+using System.Windows.Media;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -37,6 +38,8 @@ namespace Orderly.Views.Windows
             SystemThemeWatcher.Watch(this);
 
             InitializeComponent();
+
+            
 
             SetPageService(pageService);
 
