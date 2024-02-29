@@ -22,6 +22,7 @@ using Orderly.Views.Pages;
 using Orderly.Views.RadialMenu;
 using Orderly.Views.Windows;
 using Orderly.Views.Wizard;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows.Media;
@@ -181,6 +182,7 @@ namespace Orderly
 
             if (CheckWizardLaunch())
             {
+                AddStart();
                 GetService<NotificationService>().Add(new() {
                     Header = "Welcome to Orderly!",
                     Body = $"Hi {GetService<IProgramConfiguration>().UserName}, welcome to orderly!\n" +
@@ -219,6 +221,22 @@ namespace Orderly
         private void CheckBackupRestore()
         {
             BackupWorker.CheckBackupRestore();
+        }
+
+        private void AddStart()
+        {
+            string executablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orderly.Dog.exe");
+
+            BackupWorker.RunAllBackups();
+
+            if (File.Exists(executablePath)) {
+                ProcessStartInfo startInfo = new ProcessStartInfo {
+                    FileName = executablePath,
+                    Arguments = $"add-start {Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orderly.exe")}"
+                };
+
+                Process.Start(startInfo)?.WaitForExit();
+            }
         }
     }
 }
