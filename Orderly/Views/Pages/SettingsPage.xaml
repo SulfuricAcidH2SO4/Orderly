@@ -105,7 +105,7 @@
                                 Background="Transparent"
                                 BorderThickness="0"
                                 Cursor="Hand">
-                                <ui:SymbolIcon Symbol="Edit20">
+                                <ui:SymbolIcon>
                                     <ui:SymbolIcon.Style>
                                         <Style TargetType="ui:SymbolIcon">
                                             <Setter Property="Symbol" Value="Edit20" />
