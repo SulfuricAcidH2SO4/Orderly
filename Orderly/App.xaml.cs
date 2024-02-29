@@ -178,7 +178,6 @@ namespace Orderly
             sc.Close(TimeSpan.FromSeconds(.5));
 
             if (CheckWizardLaunch()) {
-                AddStart();
                 GetService<NotificationService>().Add(new() {
                     Header = "Welcome to Orderly!",
                     Body = $"Hi {GetService<IProgramConfiguration>().UserName}, welcome to orderly!\n" +
@@ -216,23 +215,6 @@ namespace Orderly
         private void CheckBackupRestore()
         {
             BackupWorker.CheckBackupRestore();
-        }
-
-        private void AddStart()
-        {
-            string executablePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orderly.Dog.exe");
-
-            BackupWorker.RunAllBackups();
-
-            if (File.Exists(executablePath)) {
-                ProcessStartInfo startInfo = new ProcessStartInfo {
-                    FileName = executablePath,
-                    Verb = "runas",
-                    Arguments = $"add-start {Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orderly.exe")}"
-                };
-
-                Process.Start(startInfo)?.WaitForExit();
-            }
         }
     }
 }
