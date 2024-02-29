@@ -18,7 +18,7 @@ namespace Orderly.Views.Dialogs
 
         private void btnConfirm_Click(object sender, RoutedEventArgs e)
         {
-            GeneratedPassword = pbPassword.Text;
+            GeneratedPassword = pbPassword.Password;
             DialogResult = true;
             Close();
         }
