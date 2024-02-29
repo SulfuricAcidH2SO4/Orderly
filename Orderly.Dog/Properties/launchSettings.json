@@ -2,7 +2,7 @@
   "profiles": {
     "Orderly.Dog": {
       "commandName": "Project",
-      "commandLineArgs": "update https://github.com/keeweb/keeweb/releases/download/v1.18.7/KeeWeb-1.18.7.linux.x64.zip"
+      "commandLineArgs": "remove-startup Oi2KpDgv21Iv6ULKGNIe6w=="
     }
   }
 }

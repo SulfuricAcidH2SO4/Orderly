@@ -20,16 +20,30 @@ namespace Orderly.Dog
                 return;
             }
 
-            if (e.Args[0] != "update") {
-                Shutdown();
-                return;
+            string action = e.Args[0];
+
+            switch (action) {
+                case "update":
+                    MainWindow = new MainWindow(e.Args[1]);
+                    MainWindow.Show();
+                    break;
+                case "add-start":
+                    StartManager.AddToWindowsStart(e.Args[1]);
+                    Shutdown();
+                    break;
+                case "add-startup":
+                    StartManager.AddToStartup(e.Args[1], e.Args[2]);
+                    Shutdown();
+                    break;
+                case "remove-startup":
+                    StartManager.RemoveFromStartup(e.Args[1]);
+                    Shutdown();
+                    break;
+                default:
+                    Shutdown();
+                    break;
             }
-
-
-
-            MainWindow = new MainWindow(e.Args[1]);
-
-            MainWindow.Show();
+           
         }
     }
 
