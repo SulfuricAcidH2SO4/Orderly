@@ -8,7 +8,7 @@ namespace Orderly.Modules
         private const string LowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
         private const string UppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private const string Numbers = "0123456789";
-        private const string SpecialCharacters = "!@#$%^&*()_-+<>?";
+        private const string SpecialCharacters = "!@#$%^&*()_-+<>?%";
 
         public static string GenerateSecurePassword(int length, bool useUppercase, bool useNumbers, bool useSpecialChars)
         {

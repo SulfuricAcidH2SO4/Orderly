@@ -1,8 +1,11 @@
 ﻿using Gma.System.MouseKeyHook;
+using Orderly.Extensions;
 using Orderly.Interfaces;
 using Orderly.Views.RadialMenu;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Orderly.Modules
 {
@@ -46,7 +49,7 @@ namespace Orderly.Modules
                 (nint)(UIntPtr)0);
             }
             MouseAction.ClickAtPosition(point.X, point.Y);
-            SendKeys.SendWait(text);
+            SendKeys.SendWait(ProcessTextToSend(text));
             SendKeys.Flush();
         }
 
@@ -80,5 +83,35 @@ namespace Orderly.Modules
             }
         }
 
+        private static string ProcessTextToSend(string text)
+        {
+            var sb = new StringBuilder(text.Length);
+            for (var i = 0; i < text.Length; i++)
+            {
+                var c = text[i];
+                switch (c)
+                {
+                    case '+':
+                    case '^':
+                    case '%':
+                    case '~':
+                    case '(':
+                    case ')':
+                    case '[':
+                    case ']':
+                    case '{':
+                    case '}':
+                        sb.Append('{');
+                        sb.Append(c);
+                        sb.Append('}');
+                        break;
+                    default:
+                        sb.Append(c);
+                        break;
+                }
+            }
+
+            return sb.ToString();
+        }
     }
 }
