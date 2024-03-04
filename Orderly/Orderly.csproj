@@ -16,10 +16,12 @@
     <None Remove="Assets\Banner.png" />
     <None Remove="Assets\Icons\drive128.png" />
     <None Remove="Assets\Icons\mega128.png" />
+    <None Remove="Assets\kofi_btn.png" />
     <None Remove="Assets\Logo_1024.png" />
     <None Remove="Assets\Logo_128.png" />
     <None Remove="Assets\Logo_512.png" />
     <None Remove="Assets\Logo_HQ.png" />
+    <None Remove="Assets\pp_btn.png" />
     <None Remove="Assets\SpalshScreen.png" />
     <None Remove="Assets\SplashScreen.png" />
     <None Remove="Assets\TopBanner.png" />
@@ -50,11 +52,13 @@
     <Resource Include="Assets\Banner.png" />
     <Resource Include="Assets\Icons\drive128.png" />
     <Resource Include="Assets\Icons\mega128.png" />
+    <Resource Include="Assets\kofi_btn.png" />
     <Resource Include="Assets\Logo_1024.png" />
     <Resource Include="Assets\Logo_128.png" />
     <Resource Include="Assets\Logo_512.png" />
     <Resource Include="Assets\Logo_HQ.png" />
     <Resource Include="Assets\Logo_ICO.ico" />
+    <Resource Include="Assets\pp_btn.png" />
   </ItemGroup>
 
   <ItemGroup>

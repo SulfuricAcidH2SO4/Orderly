@@ -25,6 +25,7 @@ namespace Orderly.ViewModels.Pages
             set
             {
                 SetProperty(ref selectedRoutine, value);
+                if (value == null) return;
                 if (value is LocalBackupRoutine lb) {
                     RunCommand(() => {
                         lb.ReloadBackups();

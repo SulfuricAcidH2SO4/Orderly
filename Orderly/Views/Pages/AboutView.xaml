@@ -28,7 +28,31 @@
                 Margin="0,10"
                 Text="Orderly is a secure and user-friendly password management program designed to simplify and enhance the way users organize and protect their sensitive credentials."
                 TextWrapping="Wrap" />
-            <TextBlock x:Name="tbVersion" Opacity=".5" />
+            <TextBlock Margin="0,50" Text="Donations are not required but greatly appreciated! They help me to keep the project alive!" />
+            <StackPanel Orientation="Horizontal">
+                <Image
+                    Height="50"
+                    Cursor="Hand"
+                    MouseDown="OnKofiClick"
+                    Source="/Assets/kofi_btn.png" />
+                <Image
+                    Height="50"
+                    Margin="20,0"
+                    Cursor="Hand"
+                    MouseDown="OnPaypalClick"
+                    Source="/Assets/pp_btn.png" />
+            </StackPanel>
+            <ui:TextBlock Margin="0,30,0,0" Text="Crypto wallet" />
+            <ui:TextBox
+                Width="350"
+                Margin="0,10"
+                HorizontalAlignment="Left"
+                IsReadOnly="True"
+                Text="0xa85aee7AEDcdfA470f220F325ef2Ef8Bc6a08e95" />
+            <TextBlock
+                x:Name="tbVersion"
+                Margin="0,20"
+                Opacity=".5" />
         </StackPanel>
     </Grid>
 </UserControl>
