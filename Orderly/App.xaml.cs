@@ -96,9 +96,10 @@ namespace Orderly
         /// </summary>
         /// <typeparam name="T">Type of the service to get.</typeparam>
         /// <returns>Instance of the service or <see langword="null"/>.</returns>
-        public static T GetService<T>()
+        public static T? GetService<T>()
             where T : class
         {
+            if (_host == null) return null;
             return _host.Services.GetService(typeof(T)) as T;
         }
 

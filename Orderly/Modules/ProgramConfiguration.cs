@@ -6,6 +6,8 @@ using Orderly.Models;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
+using Wpf.Ui;
 using Wpf.Ui.Appearance;
 
 namespace Orderly.Modules
@@ -55,8 +57,8 @@ namespace Orderly.Modules
             set
             {
                 SetProperty(ref isDarkMode, value);
-                if (value) ApplicationThemeManager.Apply(ApplicationTheme.Dark);
-                else ApplicationThemeManager.Apply(ApplicationTheme.Light);
+
+                ApplicationThemeManager.Apply(value ? ApplicationTheme.Dark : ApplicationTheme.Light, Wpf.Ui.Controls.WindowBackdropType.Auto, false);
             }
         }
         public bool ShowMinimizeNotification

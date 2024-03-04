@@ -1,1 +1,4 @@
-The installation process will trust the OrderlySSC certificate on your machine. This is made so you won't get any Windows Smart Screen warnings because of an untrusted certificate. It costs a lot.
+Once the installation is complete Windows will block the program from running as it cannot recognize its signature. Unfortunately this is because buying a certificate is not really feasible for a solo developer therefore I cannot guarantee Windows that this executable is safe. 
+When the error occurs you can just click "More Info > Run Anyway"
+
+Thank you for your understanding!
