@@ -581,6 +581,13 @@
                         VerticalAlignment="Top"
                         Background="White" />
                 </Grid>
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="145,0,0,70"
+                    VerticalAlignment="Bottom"
+                    FontStyle="Italic"
+                    Opacity=".7"
+                    Text="Recommended" />
             </Grid>
             <Button
                 Margin="0,425,0,0"

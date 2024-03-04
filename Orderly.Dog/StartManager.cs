@@ -25,13 +25,15 @@ namespace Orderly.Dog
 
         public static void AddToStartup(string exePath, string encryptionKey)
         {
-            RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            Directory.CreateDirectory(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\");
+            Shortcuts.CreateShortcutToFile(exePath,
+                @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\Orderly.lnk",
+                "Orderly, Secure Password Manager",
+                null,
+                null,
+                Path.GetDirectoryName(exePath));
 
-            if (rk == null) return;
-
-            rk.SetValue("Orderly", $"\"{exePath}\"");
-
-            string encryptedConfig = File.ReadAllText(@"C:\LocalProjects\Orderly\Orderly\bin\Debug\net8.0-windows10.0.17763.0\CoreConfig.ordcf");
+            string encryptedConfig = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Orderly", "CoreConfig.ordcf"));
             string plainConfig = DecryptString(encryptedConfig, encryptionKey);
 
             dynamic config = JsonConvert.DeserializeObject(plainConfig)!;
@@ -40,18 +42,16 @@ namespace Orderly.Dog
 
             plainConfig = JsonConvert.SerializeObject(config);
             encryptedConfig = EncryptString(plainConfig, encryptionKey);
-            File.WriteAllText(@"C:\LocalProjects\Orderly\Orderly\bin\Debug\net8.0-windows10.0.17763.0\CoreConfig.ordcf", encryptedConfig);
+            File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Orderly", "CoreConfig.ordcf"), encryptedConfig);
         }
 
         public static void RemoveFromStartup(string encryptionKey)
         {
-            RegistryKey? rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            if(Directory.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\Orderly.lnk")) {
+                File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\Orderly.lnk");
+            }
 
-            if (rk == null) return;
-
-            rk.DeleteValue("Orderly");
-
-            string encryptedConfig = File.ReadAllText(@"C:\LocalProjects\Orderly\Orderly\bin\Debug\net8.0-windows10.0.17763.0\CoreConfig.ordcf");
+            string encryptedConfig = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Orderly", "CoreConfig.ordcf"));
             string plainConfig = DecryptString(encryptedConfig, encryptionKey);
 
             dynamic config = JsonConvert.DeserializeObject(plainConfig)!;
@@ -60,7 +60,7 @@ namespace Orderly.Dog
 
             plainConfig = JsonConvert.SerializeObject(config);
             encryptedConfig = EncryptString(plainConfig, encryptionKey);
-            File.WriteAllText(@"C:\LocalProjects\Orderly\Orderly\bin\Debug\net8.0-windows10.0.17763.0\CoreConfig.ordcf", encryptedConfig);
+            File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Orderly", "CoreConfig.ordcf"), encryptedConfig);
         }
 
         private static string EncryptString(string plainText, string key)
