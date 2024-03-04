@@ -9,13 +9,16 @@ namespace Orderly.Database
 {
     public class DatabaseContext : DbContext
     {
-        public string DbName = "CoreDB.ordb";
+        public string DbName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Orderly", "CoreDB.ordb");
 
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Credential> Credentials { get; set; }
 
         public DatabaseContext()
         {
+            if(!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Orderly"))){
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Orderly"));
+            }
             Database.EnsureCreated();
             Database.Migrate();
             

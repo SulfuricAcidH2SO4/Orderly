@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Orderly.Helpers;
+using Orderly.Models;
 using Orderly.Models.Notifications;
 using Orderly.Views.Pages;
 using System.IO;
@@ -17,8 +18,8 @@ namespace Orderly.Modules.Notifications
 
         public void Initialize()
         {
-            if (File.Exists("Notis.ord")) {
-                NotificationService sv = JsonConvert.DeserializeObject<NotificationService>(File.ReadAllText("Notis.ord"))!;
+            if (File.Exists(Constants.NotificationsFile)) {
+                NotificationService sv = JsonConvert.DeserializeObject<NotificationService>(File.ReadAllText(Constants.NotificationsFile))!;
                 Notifications.Clear();
                 Notifications.AddRange(sv.Notifications.Where(x => x.KeepBetweenSessions));
                 UpdateNotifications();
@@ -26,7 +27,7 @@ namespace Orderly.Modules.Notifications
         }
         public void Save()
         {
-            File.WriteAllText("Notis.ord", JsonConvert.SerializeObject(this));
+            File.WriteAllText(Constants.NotificationsFile, JsonConvert.SerializeObject(this));
         }
         public void Add(UserNotification notification)
         {

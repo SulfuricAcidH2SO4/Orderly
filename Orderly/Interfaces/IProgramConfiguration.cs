@@ -26,6 +26,7 @@ namespace Orderly.Interfaces
         static ProgramConfiguration Load(Vault vault)
         {
             if (!File.Exists(Constants.ConfigFileName)) {
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),  "Orderly"));
                 ProgramConfiguration config = new();
                 config.Save(vault);
             }
