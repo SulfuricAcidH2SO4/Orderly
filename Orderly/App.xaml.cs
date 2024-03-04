@@ -26,6 +26,7 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace Orderly
 {
@@ -124,7 +125,8 @@ namespace Orderly
         /// </summary>
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
+            ConfirmDialog dialog = new(e.Exception.Message, "Unhandled exception");
+            dialog.Show();
         }
         #endregion
 
