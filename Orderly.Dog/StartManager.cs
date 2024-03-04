@@ -25,9 +25,8 @@ namespace Orderly.Dog
 
         public static void AddToStartup(string exePath, string encryptionKey)
         {
-            Directory.CreateDirectory(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\");
             Shortcuts.CreateShortcutToFile(exePath,
-                @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\Orderly.lnk",
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup), "Orderly.lnk"),
                 "Orderly, Secure Password Manager",
                 null,
                 null,
@@ -47,8 +46,8 @@ namespace Orderly.Dog
 
         public static void RemoveFromStartup(string encryptionKey)
         {
-            if(File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\Orderly.lnk")) {
-                File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\Orderly.lnk");
+            if(File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup), "Orderly.lnk"))) {
+                File.Delete(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup), "Orderly.lnk"));
             }
 
             string encryptedConfig = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Orderly", "CoreConfig.ordcf"));
