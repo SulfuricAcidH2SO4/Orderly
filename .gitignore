@@ -3,6 +3,13 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+
+##ORDERLY CUSTOM
+Orderly.Setup/sources/*
+Orderly.Setup/outputs/*
+Orderly.Setup/*.exe
+
+
 # User-specific files
 *.rsuser
 *.suo
