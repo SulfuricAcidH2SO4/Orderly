@@ -26,6 +26,8 @@ namespace Orderly.Modules.Routines
         [ObservableProperty]
         private string statusMessage = string.Empty;
 
+        private readonly object lockReload = new();
+
         public bool Backup()
         {
             if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
@@ -36,6 +38,17 @@ namespace Orderly.Modules.Routines
             LastBackupDate = DateTime.Now;
             App.GetService<IProgramConfiguration>().Save();
             ReloadBackups();
+            Task.Factory.StartNew(() => {
+                List<IBackup> bpsToRemove = Backups
+                .OrderBy(x => ((LocalBackup)x).BackupDate)
+                .Take(Math.Clamp(Backups.Count - MaxBackupsNumber, 0, int.MaxValue))
+                .ToList();
+
+                foreach (var bp in bpsToRemove) {
+                    Delete(bp);
+                }
+                if (bpsToRemove.Count > 0) ReloadBackups();
+            });
             return true;
         }
 
@@ -67,19 +80,21 @@ namespace Orderly.Modules.Routines
 
         public void ReloadBackups()
         {
-            var filesInFolder = Directory.EnumerateFiles(Path);
-            Backups.Clear();
-            foreach (var backup in filesInFolder.Where(x => x.Contains("CoreDB") && x.EndsWith(".ordb"))) {
-                LocalBackup bp = new() {
-                    BackupPath = backup
-                };
+            lock (lockReload) {
+                var filesInFolder = Directory.EnumerateFiles(Path);
+                Backups.Clear();
+                foreach (var backup in filesInFolder.Where(x => x.Contains("CoreDB") && x.EndsWith(".ordb"))) {
+                    LocalBackup bp = new() {
+                        BackupPath = backup
+                    };
 
-                string dateString = System.IO.Path.GetFileName(backup).Replace("CoreDB", string.Empty).Replace(".ordb", string.Empty);
+                    string dateString = System.IO.Path.GetFileName(backup).Replace("CoreDB", string.Empty).Replace(".ordb", string.Empty);
 
-                DateTime.TryParseExact(dateString, "dd.MM.yyyy.HH.mm.ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
-                bp.BackupDate = parsedDate;
-                Backups.Add(bp);
-                if (LastBackupDate < parsedDate) LastBackupDate = parsedDate;
+                    DateTime.TryParseExact(dateString, "dd.MM.yyyy.HH.mm.ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
+                    bp.BackupDate = parsedDate;
+                    Backups.Add(bp);
+                    if (LastBackupDate < parsedDate) LastBackupDate = parsedDate;
+                }
             }
         }
     }
