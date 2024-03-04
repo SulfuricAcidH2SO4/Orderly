@@ -47,7 +47,7 @@ namespace Orderly.Dog
 
         public static void RemoveFromStartup(string encryptionKey)
         {
-            if(Directory.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\Orderly.lnk")) {
+            if(File.Exists(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\Orderly.lnk")) {
                 File.Delete(@"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Orderly\Orderly.lnk");
             }
 
