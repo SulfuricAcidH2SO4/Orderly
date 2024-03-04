@@ -1,0 +1,1 @@
+The installation process will trust the OrderlySSC certificate on your machine. This is made so you won't get any Windows Smart Screen warnings because of an untrusted certificate. It costs a lot.
