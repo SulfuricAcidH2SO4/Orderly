@@ -7,7 +7,15 @@ namespace Orderly.EE
     {
         public static string GetRandomPhrase()
         {
-            string[] phrases = JsonConvert.DeserializeObject<string[]>(File.ReadAllText("EE\\FP.ordf"))!;
+            string[] phrases = {
+                "Now with extra sauce!",
+                "Written (almost) without ChatGPT",
+                "Don't know what to put here...",
+                "Also try Minecraft",
+                "Also try Terraria",
+                "I swear it's not Origin",
+                "Touching grass since 2001"
+            };
 
             return phrases[new Random().Next(phrases.Length - 1)];
         }

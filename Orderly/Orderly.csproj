@@ -67,12 +67,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="EE\FP.ordf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="ViewModels\Dialogs\" />
   </ItemGroup>
 
