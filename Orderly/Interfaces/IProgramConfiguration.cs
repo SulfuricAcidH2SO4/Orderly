@@ -32,9 +32,13 @@ namespace Orderly.Interfaces
             }
             string encryptedFile = File.ReadAllText(Constants.ConfigFileName);
             string decryptedFile = EncryptionHelper.DecryptString(encryptedFile, vault.ConfigEncryptionKey);
-            return JsonConvert.DeserializeObject<ProgramConfiguration>(decryptedFile, new JsonSerializerSettings() {
+            var desObj = JsonConvert.DeserializeObject<ProgramConfiguration>(decryptedFile, new JsonSerializerSettings() {
                 TypeNameHandling = TypeNameHandling.Objects
             })!;
+
+            desObj.StartOnStartUp = File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup), "Orderly.lnk"));
+
+            return desObj;
         }
     }
 }
