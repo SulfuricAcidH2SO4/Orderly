@@ -16,7 +16,7 @@ namespace Orderly.Modules
         private string passwordHint = string.Empty;
         private string userName = string.Empty;
         private bool isDarkMode = true;
-        private bool showMinimizeNotifaction = true;
+        private bool showMinimizeNotifaction = false;
         private bool startOnStartup = false;
         private bool startMinimized = false;
         private bool closeButtonClosesApp = false;
