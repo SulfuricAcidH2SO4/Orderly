@@ -60,6 +60,6 @@ You can generate a 8 byte encryption key [here](https://generate-random.org/encr
 As usual, donations are not required, the software is free for everyone, but they are greatly appreciated as they help me keep the project alive!
 
 <a href="https://ko-fi.com/sulfuricacidh2s04"><img style="height: 70px;" src="https://github.com/SulfuricAcidH2SO4/Orderly/assets/62122799/229663a5-2ce5-48f4-85aa-370da69ebe2e"/></a>
-<a href="https://ko-fi.com/sulfuricacidh2s04"><img style="height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png"/></a>
+<a href="https://www.paypal.com/donate/?hosted_button_id=7TCNVYSU58NZC"><img style="height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png"/></a>
 
 <b>Crypto Wallet:</b> 0xa85aee7AEDcdfA470f220F325ef2Ef8Bc6a08e95
