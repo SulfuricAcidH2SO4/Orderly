@@ -106,10 +106,12 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void RemoveCredentials(Credential credential)
         {
-            credential.PropertyChanged -= OnCredentialPropertyChanged;
             PasswordConfirmDialog dialog = new();
             if (dialog.ShowDialog() == false) return;
 
+            if (new ConfirmDialog($"Are you sure you want to delete credentials for {credential.ServiceName}?").ShowDialog() == false) return;
+
+            credential.PropertyChanged -= OnCredentialPropertyChanged;
             Category categoryToUpdate = Categories.First(x => x == credential.Category);
             using DatabaseContext db = new();
             db.Credentials.Remove(credential);

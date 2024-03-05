@@ -26,6 +26,7 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Wpf.Ui;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace Orderly
@@ -142,6 +143,9 @@ namespace Orderly
             if (!config.StartMinimized) {
                 sc.Show(false);
             }
+
+            ApplicationThemeManager.Apply(App.GetService<IProgramConfiguration>().IsDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light);
+            App.GetService<IThemeService>().SetAccent(Color.FromRgb(252, 120, 58));
 
             CheckBackupRestore();
 
