@@ -54,3 +54,12 @@ Next you'll need to provide your credentials for Google OAuth authentication and
 You can generate a 8 byte encryption key [here](https://generate-random.org/encryption-key-generator?count=1&bytes=8&cipher=aes-256-cbc&string=&password=).
 
 5. Build!
+
+## Donations
+
+As usual, donations are not required, the software is free for everyone, but they are greatly appreciated as they help me keep the project alive!
+
+<a href="https://ko-fi.com/sulfuricacidh2s04"><img style="height: 70px;" src="https://github.com/SulfuricAcidH2SO4/Orderly/assets/62122799/229663a5-2ce5-48f4-85aa-370da69ebe2e"/></a>
+<a href="https://ko-fi.com/sulfuricacidh2s04"><img style="height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/2560px-PayPal.svg.png"/></a>
+
+<b>Crypto Wallet:</b> 0xa85aee7AEDcdfA470f220F325ef2Ef8Bc6a08e95
