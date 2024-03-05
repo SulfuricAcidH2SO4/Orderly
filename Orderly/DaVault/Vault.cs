@@ -1,4 +1,7 @@
 ﻿using Newtonsoft.Json;
+using Orderly.Helpers;
+using Orderly.Modules;
+using Orderly.Views.Dialogs;
 using System.IO;
 using System.Reflection;
 
@@ -23,7 +26,6 @@ namespace Orderly.DaVault
             }
 
             Vault v = JsonConvert.DeserializeObject<Vault>(jsonContent)!;
-            v.PasswordEncryptionKey = v.ConfigEncryptionKey.Substring(0, 24);
 
             return v;
         }

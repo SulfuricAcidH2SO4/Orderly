@@ -47,7 +47,6 @@ namespace Orderly
                 Vault v = Vault.Initialize();
                 services.AddSingleton(v);
                 config = IProgramConfiguration.Load(v);
-                v.PasswordEncryptionKey = EncryptionHelper.HashPassword(config.AbsolutePassword).Substring(0, 24);
                 services.AddSingleton<IProgramConfiguration>(config);
 
                 // Theme manipulation

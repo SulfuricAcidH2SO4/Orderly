@@ -6,10 +6,10 @@ namespace Orderly.Helpers
 {
     public class EncryptionHelper
     {
-        public static string HashPassword(string password)
+        public static string HashPassword(string password, int hashingTimes = 500)
         {
             string hashedPassword = $"{password}-odr";
-            for (int i = 0; i < 500; i++) {
+            for (int i = 0; i < hashingTimes; i++) {
                 byte[] hashedBytes = SHA256.HashData(Encoding.UTF8.GetBytes(hashedPassword));
                 hashedPassword = Convert.ToHexString(hashedBytes);
             }
@@ -60,6 +60,11 @@ namespace Orderly.Helpers
                     }
                 }
             }
+        }
+
+        public static string GetPasswordKey(string plainPassword)
+        {
+            return HashPassword(plainPassword, 20).Substring(0, 24);
         }
     }
 }

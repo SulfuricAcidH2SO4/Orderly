@@ -63,7 +63,7 @@ namespace Orderly.ViewModels.Wizard
             if (currentStep == 4) {
                 Config.Save();
                 Vault v = App.GetService<Vault>();
-                v.PasswordEncryptionKey = EncryptionHelper.HashPassword(Config.AbsolutePassword).Substring(0, 24);
+                App.GetService<Vault>()!.PasswordEncryptionKey = EncryptionHelper.GetPasswordKey(Pass1);
                 MainWindow window = (MainWindow)App.GetService<INavigationWindow>();
                 window.Show();
                 WizardMainWindow wizardWindow = App.GetService<WizardMainWindow>();

@@ -16,6 +16,7 @@ namespace Orderly.Views.Dialogs
     /// </summary>
     public partial class PasswordChangeDialog : FluentWindow
     {
+        private string clearPassword = string.Empty;
         public ICommand ConfirmCommand { get; set; }
 
         ProgramConfiguration config;
@@ -52,6 +53,7 @@ namespace Orderly.Views.Dialogs
             }
 
             config.AbsolutePassword = EncryptionHelper.HashPassword(pass1);
+            clearPassword = pass1;
             UpdatePassword();
             bool runNewBackup = cbBackup.IsChecked!.Value;
             Task.Factory.StartNew(() => {
@@ -70,8 +72,7 @@ namespace Orderly.Views.Dialogs
         private void UpdatePassword()
         {
             string oldKey = App.GetService<Vault>().PasswordEncryptionKey;
-            string newKey = EncryptionHelper.HashPassword(config.AbsolutePassword).Substring(0, 24);
-
+            string newKey = EncryptionHelper.GetPasswordKey(clearPassword);
             using DatabaseContext db = new();
             foreach (var credential in db.Credentials) {
                 string plainPassword = EncryptionHelper.DecryptString(credential.Password, oldKey);
@@ -79,8 +80,8 @@ namespace Orderly.Views.Dialogs
                 db.Credentials.Update(credential);
             }
             db.SaveChanges();
+
             App.GetService<Vault>().PasswordEncryptionKey = newKey;
-            //App.GetService<DashboardViewModel>().Initalize();
 
             config.Save();
         }

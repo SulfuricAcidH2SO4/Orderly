@@ -120,6 +120,7 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void EnableEditing(Credential credential)
         {
+            if (new PasswordConfirmDialog().ShowDialog() == false) return;
             if (credential.IsEditing) return;
             PasswordConfirmDialog dialog = new();
             if (dialog.ShowDialog() == false) return;
@@ -132,6 +133,7 @@ namespace Orderly.ViewModels.Pages
         [RelayCommand]
         public void SaveEditing(Credential credential)
         {
+            if (new PasswordConfirmDialog().ShowDialog() == false) return;
             credential.IsEditing = false;
             credential.LastEditDate = DateTime.Now.ToString();
             Vault v = App.GetService<Vault>();
