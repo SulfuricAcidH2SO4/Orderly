@@ -4,6 +4,7 @@ using Orderly.Database.Entities;
 using Orderly.DaVault;
 using Orderly.Extensions;
 using Orderly.Helpers;
+using Orderly.Interfaces;
 using Orderly.Modules;
 using Orderly.ViewModels.Pages;
 using Orderly.Views.Dialogs;
@@ -13,11 +14,14 @@ namespace Orderly.ViewModels.RadialMenu
 {
     public partial class InputTerminalViewModel : ViewModelBase
     {
+        private ProgramConfiguration config;
+
         [ObservableProperty]
         private ExtendedObservableCollection<Credential> credentials = new();
 
-        public InputTerminalViewModel()
+        public InputTerminalViewModel(IProgramConfiguration configuration)
         {
+            config = (ProgramConfiguration?)configuration!;
             using DatabaseContext db = new();
             Credentials.AddRange(db.Credentials.Include(c => c.Category).ToList());
         }
@@ -33,7 +37,8 @@ namespace Orderly.ViewModels.RadialMenu
         private void ProcessUsername(string username)
         {
             App.GetService<InputTerminalView>().CloseMenu();
-            KeyManager.SendTextAt(username, KeyManager.lastOpenedPoint);
+            if(config.TerminalInputBehaviour == Models.TerminalInputBehaviour.Insert) KeyManager.SendTextAt(username, KeyManager.lastOpenedPoint);
+            else Clipboard.SetText(username);
         }
 
         [RelayCommand]
@@ -47,7 +52,8 @@ namespace Orderly.ViewModels.RadialMenu
             string decryptedPassw = EncryptionHelper.DecryptString(password, v.PasswordEncryptionKey);
 
             App.GetService<InputTerminalView>().CloseMenu();
-            KeyManager.SendTextAt(decryptedPassw, KeyManager.lastOpenedPoint);
+            if (config.TerminalInputBehaviour == Models.TerminalInputBehaviour.Insert) KeyManager.SendTextAt(decryptedPassw, KeyManager.lastOpenedPoint);
+            else Clipboard.SetText(decryptedPassw);
         }
 
         public void FilterCredentials(string name)
