@@ -26,6 +26,7 @@ namespace Orderly.Modules
         private FilteringOptions filteringOptions = new();
         private InputOptions inputOptions = new();
         private ExtendedObservableCollection<IBackupRoutine> backupRoutines = new();
+        private TerminalInputBehaviour terminalInputBehaviour = TerminalInputBehaviour.Insert;
 
         public string AbsolutePassword
         {
@@ -123,6 +124,14 @@ namespace Orderly.Modules
             set
             {
                 SetProperty(ref backupRoutines, value);
+            }
+        }
+        public TerminalInputBehaviour TerminalInputBehaviour
+        {
+            get => terminalInputBehaviour;
+            set
+            {
+                SetProperty(ref terminalInputBehaviour, value);
             }
         }
 

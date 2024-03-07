@@ -21,6 +21,7 @@ namespace Orderly.Interfaces
         FilteringOptions FilteringOptions { get; set; }
         InputOptions InputOptions { get; set; }
         ExtendedObservableCollection<IBackupRoutine> BackupRoutines { get; set; }
+        TerminalInputBehaviour TerminalInputBehaviour { get; set; }
 
         void Save();
         static ProgramConfiguration Load(Vault vault)

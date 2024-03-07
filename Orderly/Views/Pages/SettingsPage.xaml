@@ -3,9 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="clr-namespace:Orderly.Extensions"
     xmlns:helpers="clr-namespace:Orderly.Helpers"
     xmlns:local="clr-namespace:Orderly.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:Orderly.Models"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="SettingsPage"
     d:DataContext="{d:DesignInstance local:SettingsPage,
@@ -153,6 +155,25 @@
                                 Cursor="Hand">
                                 <ui:SymbolIcon Symbol="Edit20" />
                             </Button>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border
+                    Margin="0,5"
+                    Padding="15"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="5">
+                    <DockPanel VerticalAlignment="Center" LastChildFill="True">
+                        <ui:SymbolIcon Margin="0,0,5,0" Symbol="Insert20" />
+                        <TextBlock VerticalAlignment="Center" Text="Terminal input behaviour" />
+                        <StackPanel Width="230" HorizontalAlignment="Right">
+                            <ComboBox ItemsSource="{extensions:EnumToItemSource {x:Type models:TerminalInputBehaviour}}" SelectedItem="{Binding ViewModel.Configuration.TerminalInputBehaviour, Mode=TwoWay}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </StackPanel>
                     </DockPanel>
                 </Border>

@@ -6,4 +6,10 @@
         Warning,
         Error
     }
+
+    public enum TerminalInputBehaviour
+    {
+        Insert,
+        Copy
+    }
 }
