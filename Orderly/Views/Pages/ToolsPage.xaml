@@ -1,0 +1,63 @@
+﻿<UserControl
+    x:Class="Orderly.Views.Pages.ToolsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Orderly.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tools="clr-namespace:Orderly.Views.Pages.Tools"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    d:DataContext="{d:DesignInstance local:ToolsPage,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+    <Grid Margin="0,20">
+        <WrapPanel>
+            <ui:Button
+                Width="400"
+                Height="80"
+                Margin="5,5"
+                Padding="0"
+                HorizontalAlignment="Center"
+                BorderThickness="0"
+                Command="{Binding ViewModel.NavigateToolCommand}"
+                CommandParameter="{x:Type tools:PasswordGeneratorTool}">
+                <Grid Width="360" Height="55">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <ui:SymbolIcon
+                        Grid.RowSpan="2"
+                        Margin="0,0,15,0"
+                        FontSize="25"
+                        Symbol="ShieldLock48" />
+                    <ui:TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Appearance="Primary"
+                        FontWeight="SemiBold"
+                        Text="Password generator" />
+                    <ui:TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,0,0,0"
+                        Appearance="Tertiary"
+                        Text="Generate secure and crack-proof passwords"
+                        TextWrapping="Wrap" />
+                    <ui:SymbolIcon
+                        Grid.RowSpan="2"
+                        Grid.Column="2"
+                        Symbol="ChevronRight48" />
+                </Grid>
+            </ui:Button>
+        </WrapPanel>
+    </Grid>
+</UserControl>
