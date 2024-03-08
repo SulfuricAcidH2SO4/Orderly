@@ -42,9 +42,15 @@
             Grid.Row="0"
             CloseWindowByDoubleClickOnIcon="False">
             <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="/Assets/Logo_128.png" />
+                <ui:ImageIcon Width="40" />
             </ui:TitleBar.Icon>
         </ui:TitleBar>
+        <Image
+            Width="20"
+            Margin="25,15,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Source="/Assets/Logo_128.png" />
         <ui:NavigationView
             x:Name="RootNavigation"
             Grid.Row="1"
