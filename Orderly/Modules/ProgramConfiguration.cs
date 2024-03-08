@@ -58,8 +58,6 @@ namespace Orderly.Modules
             set
             {
                 SetProperty(ref isDarkMode, value);
-
-                ApplicationThemeManager.Apply(value ? ApplicationTheme.Dark : ApplicationTheme.Light, Wpf.Ui.Controls.WindowBackdropType.Auto, false);
             }
         }
         public bool ShowMinimizeNotification
