@@ -1,0 +1,285 @@
+﻿<UserControl
+    x:Class="Orderly.Views.Pages.Tools.PwdBreachToolView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:Orderly.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Orderly.Views.Pages.Tools"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    d:DataContext="{d:DesignInstance local:PwdBreachToolView,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ui:NavigationView.HeaderContent="Password breach checker"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <conv:StringToBrushConverter x:Key="StringToBrushConverter" />
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <TabControl>
+            <TabItem Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" Header="Password check">
+                <ScrollViewer>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid Margin="0,20">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
+                                <ui:PasswordBox Margin="100,0" />
+                                <ui:Button
+                                    Margin="100,10"
+                                    Padding="60,15"
+                                    HorizontalAlignment="Stretch"
+                                    Appearance="Primary"
+                                    Content="Check" />
+                            </StackPanel>
+                            <Border
+                                Grid.Row="1"
+                                Height="100"
+                                Margin="0,20"
+                                Padding="20"
+                                VerticalAlignment="Top"
+                                Background="{DynamicResource SystemFillColorSuccessBrush}"
+                                CornerRadius="10"
+                                Visibility="Collapsed">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <ui:SymbolIcon FontSize="50" Symbol="EmojiSmileSlight20" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="20,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="20"
+                                        FontWeight="SemiBold"
+                                        Text="Nice! There are no occurances of your password in any major data breach!"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+                            </Border>
+                            <Border
+                                Grid.Row="1"
+                                Height="100"
+                                Margin="0,20"
+                                Padding="20"
+                                VerticalAlignment="Top"
+                                Background="#f44d41"
+                                CornerRadius="10"
+                                Visibility="Collapsed">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <ui:SymbolIcon FontSize="50" Symbol="EmojiSad24" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="20,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="20"
+                                        FontWeight="SemiBold"
+                                        Text="Your password has 123 occurances in some major data breaches. Consider changing your password"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="24"
+                                FontWeight="SemiBold"
+                                Text="Your passwords" />
+                            <ui:AutoSuggestBox
+                                Width="250"
+                                Margin="0,0,130,0"
+                                HorizontalAlignment="Right"
+                                PlaceholderText="Search category or username..."
+                                Text="{Binding ViewModel.SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <ui:Button
+                                Margin="0,10"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Appearance="Primary">
+                                <ui:Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:SymbolIcon Symbol="Checkmark48" />
+                                        <TextBlock Margin="10,0" Text="Update all" />
+                                    </StackPanel>
+                                </ui:Button.Content>
+                            </ui:Button>
+                            <DataGrid
+                                Grid.Row="1"
+                                AutoGenerateColumns="False"
+                                Background="Transparent"
+                                CanUserAddRows="False"
+                                ItemsSource="{Binding ViewModel.Passwords}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn
+                                        Width="*"
+                                        Header="Credential"
+                                        IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Padding="10">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="auto" />
+                                                            <RowDefinition />
+                                                        </Grid.RowDefinitions>
+                                                        <Border
+                                                            Width="50"
+                                                            Height="7"
+                                                            Margin="0,3"
+                                                            HorizontalAlignment="Left"
+                                                            Background="{Binding Credential.Category.FlairColor, Converter={StaticResource StringToBrushConverter}}"
+                                                            CornerRadius="3" />
+                                                        <StackPanel
+                                                            Grid.Row="1"
+                                                            HorizontalAlignment="Left"
+                                                            Orientation="Horizontal">
+                                                            <TextBlock
+                                                                VerticalAlignment="Center"
+                                                                Opacity=".5"
+                                                                Text="{Binding Credential.Category.Name}" />
+                                                            <Border
+                                                                Width="3"
+                                                                Margin="5,0"
+                                                                VerticalAlignment="Stretch"
+                                                                Background="White"
+                                                                CornerRadius="2"
+                                                                Opacity=".5" />
+                                                            <TextBlock VerticalAlignment="Center" Text="{Binding Credential.ServiceName}" />
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn
+                                        Width="*"
+                                        Header="Username"
+                                        IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock
+                                                    Margin="10,0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Credential.Username}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn
+                                        Width="*"
+                                        Header="Password"
+                                        IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <ui:TextBox IsReadOnly="True">
+                                                        <ui:TextBox.Style>
+                                                            <Style BasedOn="{StaticResource {x:Type ui:TextBox}}" TargetType="ui:TextBox">
+                                                                <Setter Property="Text" Value="**************" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsPasswordVisibile}" Value="true">
+                                                                        <Setter Property="Text" Value="{Binding Credential.Password}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ui:TextBox.Style>
+                                                    </ui:TextBox>
+                                                    <ToggleButton
+                                                        Grid.Column="1"
+                                                        Height="35"
+                                                        Margin="15,0,0,0"
+                                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.ChangePasswordVisibilityCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        IsChecked="{Binding IsPasswordVisibile}">
+                                                        <ui:SymbolIcon Symbol="Eye48" />
+                                                    </ToggleButton>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Status" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ui:SymbolIcon ToolTipService.InitialShowDelay="0" ToolTipService.Placement="Top">
+                                                    <ui:SymbolIcon.Style>
+                                                        <Style TargetType="ui:SymbolIcon">
+                                                            <Setter Property="Symbol" Value="Question48" />
+                                                            <Setter Property="ToolTipService.ToolTip" Value="Password status unknown..." />
+                                                        </Style>
+                                                    </ui:SymbolIcon.Style>
+                                                </ui:SymbolIcon>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn
+                                        Width="auto"
+                                        Header="Actions"
+                                        IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ui:Button Margin="10,0" Content="Check" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="{x:Type DataGridRow}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsVisible}" Value="false">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                            </DataGrid>
+                            <Border
+                                Grid.Row="1"
+                                Background="#3e000000"
+                                CornerRadius="5"
+                                Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <ui:ProgressRing IsIndeterminate="True" />
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                IsEnabled="False"
+                ToolTipService.InitialShowDelay="0"
+                ToolTipService.Placement="Top"
+                ToolTipService.ShowOnDisabled="True"
+                ToolTipService.ToolTip="Feature not available yet">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Opacity=".5" Symbol="LockClosed12" />
+                        <TextBlock
+                            Margin="5,0"
+                            Opacity=".5"
+                            Text="Username check" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

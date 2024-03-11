@@ -12,4 +12,11 @@
         Insert,
         Copy
     }
+
+    public enum CredentialBreachStatus
+    {
+        Unknown,
+        Safe,
+        Breached
+    }
 }

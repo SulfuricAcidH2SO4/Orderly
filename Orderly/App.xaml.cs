@@ -83,6 +83,8 @@ namespace Orderly
                 //Tools
                 services.AddSingleton<PasswordGeneratorTool>();
                 services.AddSingleton<PasswordGeneratorToolViewModel>();
+                services.AddSingleton<PwdBreachToolView>();
+                services.AddSingleton<PwdBreachToolViewModel>();
 
                 //General
                 services.AddSingleton<BackupPage>();
@@ -135,7 +137,7 @@ namespace Orderly
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             ConfirmDialog dialog = new(e.Exception.Message, "Unhandled exception");
-            dialog.Show();
+            dialog.ShowDialog();
         }
         #endregion
 

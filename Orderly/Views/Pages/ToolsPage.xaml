@@ -58,6 +58,49 @@
                         Symbol="ChevronRight48" />
                 </Grid>
             </ui:Button>
+            <ui:Button
+                Width="400"
+                Height="80"
+                Margin="5,5"
+                Padding="0"
+                HorizontalAlignment="Center"
+                BorderThickness="0"
+                Command="{Binding ViewModel.NavigateToolCommand}"
+                CommandParameter="{x:Type tools:PwdBreachToolView}">
+                <Grid Width="360" Height="55">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <ui:SymbolIcon
+                        Grid.RowSpan="2"
+                        Margin="0,0,15,0"
+                        FontSize="25"
+                        Symbol="PersonKey20" />
+                    <ui:TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Appearance="Primary"
+                        FontWeight="SemiBold"
+                        Text="Password breach checker" />
+                    <ui:TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,0,0,0"
+                        Appearance="Tertiary"
+                        Text="Check whether your password has appeared in any major data breach online"
+                        TextWrapping="Wrap" />
+                    <ui:SymbolIcon
+                        Grid.RowSpan="2"
+                        Grid.Column="2"
+                        Symbol="ChevronRight48" />
+                </Grid>
+            </ui:Button>
         </WrapPanel>
     </Grid>
 </UserControl>
