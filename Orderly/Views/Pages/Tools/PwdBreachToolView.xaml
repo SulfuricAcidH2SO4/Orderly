@@ -278,7 +278,7 @@
                                     <DataGridTemplateColumn Header="Status" IsReadOnly="True">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ui:SymbolIcon ToolTipService.InitialShowDelay="0" ToolTipService.Placement="Top">
+                                                <ui:SymbolIcon ToolTipService.InitialShowDelay="0" ToolTipService.Placement="Left">
                                                     <ui:SymbolIcon.Style>
                                                         <Style TargetType="ui:SymbolIcon">
                                                             <Setter Property="Symbol" Value="Question48" />
