@@ -20,5 +20,8 @@ namespace Orderly.Models
 
         [ObservableProperty]
         bool isPasswordVisibile = false;
+
+        [ObservableProperty]
+        int occurrences;
     }
 }

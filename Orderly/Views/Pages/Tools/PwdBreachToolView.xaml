@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:conv="clr-namespace:Orderly.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="clr-namespace:Orderly.Helpers"
     xmlns:local="clr-namespace:Orderly.Views.Pages.Tools"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -17,7 +18,14 @@
     <UserControl.Resources>
         <conv:StringToBrushConverter x:Key="StringToBrushConverter" />
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <conv:BoolToVisibilityReconverter x:Key="BoolToVisibilityReconverter" />
     </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding
+            Key="Return"
+            Command="{Binding ViewModel.CheckPasswordBreachCommand}"
+            CommandParameter="{Binding ViewModel.InputPassword}" />
+    </UserControl.InputBindings>
     <Grid>
         <TabControl>
             <TabItem Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" Header="Password check">
@@ -33,12 +41,17 @@
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <StackPanel HorizontalAlignment="Stretch" Orientation="Vertical">
-                                <ui:PasswordBox Margin="100,0" />
+                                <ui:PasswordBox
+                                    Margin="100,0"
+                                    helpers:PasswordHelper.Attach="True"
+                                    helpers:PasswordHelper.Password="{Binding ViewModel.InputPassword, Mode=TwoWay}" />
                                 <ui:Button
                                     Margin="100,10"
                                     Padding="60,15"
                                     HorizontalAlignment="Stretch"
                                     Appearance="Primary"
+                                    Command="{Binding ViewModel.CheckPasswordBreachCommand}"
+                                    CommandParameter="{Binding ViewModel.InputPassword}"
                                     Content="Check" />
                             </StackPanel>
                             <Border
@@ -49,7 +62,7 @@
                                 VerticalAlignment="Top"
                                 Background="{DynamicResource SystemFillColorSuccessBrush}"
                                 CornerRadius="10"
-                                Visibility="Collapsed">
+                                Visibility="{Binding ViewModel.IsNoCheckFound, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
@@ -64,6 +77,14 @@
                                         FontWeight="SemiBold"
                                         Text="Nice! There are no occurances of your password in any major data breach!"
                                         TextWrapping="Wrap" />
+                                    <ToggleButton
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Background="Transparent"
+                                        IsChecked="{Binding ViewModel.IsNoCheckFound, Mode=TwoWay}">
+                                        <ui:SymbolIcon Symbol="Dismiss48" />
+                                    </ToggleButton>
                                 </Grid>
                             </Border>
                             <Border
@@ -74,7 +95,7 @@
                                 VerticalAlignment="Top"
                                 Background="#f44d41"
                                 CornerRadius="10"
-                                Visibility="Collapsed">
+                                Visibility="{Binding ViewModel.IsCheckFound, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
@@ -87,14 +108,22 @@
                                         VerticalAlignment="Center"
                                         FontSize="20"
                                         FontWeight="SemiBold"
-                                        Text="Your password has 123 occurances in some major data breaches. Consider changing your password"
+                                        Text="{Binding ViewModel.Occurrences, StringFormat={}There are {0} occurrences of your password in the database. Consider changing your password!}"
                                         TextWrapping="Wrap" />
+                                    <ToggleButton
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Background="Transparent"
+                                        IsChecked="{Binding ViewModel.IsCheckFound, Mode=TwoWay}">
+                                        <ui:SymbolIcon Symbol="Dismiss48" />
+                                    </ToggleButton>
                                 </Grid>
                             </Border>
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="60" />
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <TextBlock
@@ -111,8 +140,10 @@
                             <ui:Button
                                 Margin="0,10"
                                 HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Appearance="Primary">
+                                VerticalAlignment="Center"
+                                Appearance="Primary"
+                                Command="{Binding ViewModel.CheckAllCredentialsCommand}"
+                                Visibility="{Binding ViewModel.IsCheckingCredentials, Converter={StaticResource BoolToVisibilityReconverter}}">
                                 <ui:Button.Content>
                                     <StackPanel Orientation="Horizontal">
                                         <ui:SymbolIcon Symbol="Checkmark48" />
@@ -120,6 +151,33 @@
                                     </StackPanel>
                                 </ui:Button.Content>
                             </ui:Button>
+                            <ui:ProgressRing
+                                Margin="0,0,15,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                IsIndeterminate="True"
+                                Visibility="{Binding ViewModel.IsCheckingCredentials, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <ui:ProgressRing.RenderTransform>
+                                    <ScaleTransform ScaleX=".5" ScaleY=".5" />
+                                </ui:ProgressRing.RenderTransform>
+                            </ui:ProgressRing>
+                            <ToggleButton
+                                Margin="0,0,42,26"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                IsChecked="{Binding ViewModel.IsCheckingCredentials, Mode=TwoWay}"
+                                Visibility="{Binding ViewModel.IsCheckingCredentials, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <ui:SymbolIcon Symbol="Dismiss48" />
+                            </ToggleButton>
+                            <TextBlock
+                                Margin="45,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Text="{Binding ViewModel.ProgressText}"
+                                Visibility="{Binding ViewModel.IsCheckingCredentials, Converter={StaticResource BoolToVisibilityConverter}}" />
                             <DataGrid
                                 Grid.Row="1"
                                 AutoGenerateColumns="False"
@@ -224,7 +282,28 @@
                                                     <ui:SymbolIcon.Style>
                                                         <Style TargetType="ui:SymbolIcon">
                                                             <Setter Property="Symbol" Value="Question48" />
-                                                            <Setter Property="ToolTipService.ToolTip" Value="Password status unknown..." />
+                                                            <Setter Property="ToolTipService.ToolTip" Value="{Binding Status}" />
+
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Status}" Value="Safe">
+                                                                    <Setter Property="Symbol" Value="Checkmark48" />
+                                                                    <Setter Property="Foreground" Value="Lime" />
+                                                                    <Setter Property="FontWeight" Value="Bold" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Status}" Value="Breached">
+                                                                    <Setter Property="Symbol" Value="Dismiss12" />
+                                                                    <Setter Property="Foreground" Value="Red" />
+                                                                    <Setter Property="FontWeight" Value="Bold" />
+                                                                    <Setter Property="ToolTipService.ToolTip">
+                                                                        <Setter.Value>
+                                                                            <Border>
+                                                                                <TextBlock Text="{Binding Occurrences, StringFormat={}{0} occurrences}" />
+                                                                            </Border>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
                                                         </Style>
                                                     </ui:SymbolIcon.Style>
                                                 </ui:SymbolIcon>
@@ -237,7 +316,11 @@
                                         IsReadOnly="True">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ui:Button Margin="10,0" Content="Check" />
+                                                <ui:Button
+                                                    Margin="10,0"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.CheckUserCredentialCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Content="Check" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
