@@ -23,7 +23,6 @@
     public enum ExportFormats
     {
         TXT,
-        PDF,
         CSV,
         HTML
     }

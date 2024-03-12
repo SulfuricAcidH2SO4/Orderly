@@ -2,6 +2,7 @@
 using Orderly.DaVault;
 using Orderly.Extensions;
 using Orderly.Helpers;
+using Orderly.Interfaces;
 using Orderly.Models;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,7 @@ namespace Orderly.Modules.Exporting
         private static void ExportHTML(IEnumerable<Credential> credentials, string path)
         {
             List<string> lines = new();
-            lines.Add("<!DOCTYPE html> <html> <head><style>body{  font-family: 'Helvetica', 'Arial', sans-serif;  } #passwords { font-family: 'Helvetica', 'Arial', sans-serif;    border-collapse: collapse;    width: 100%;  }    #passwords td, #passwords th {    border: 1px solid #ddd;    padding: 8px;  }    #passwords tr:nth-child(even){background-color: #f2f2f2;}    #passwords tr:hover {background-color: #ddd;}    #passwords th {    padding-top: 12px;    padding-bottom: 12px;    text-align: left;    background-color: #fc9038;    color: white;  }  </style>  </head>  <body>    <h1>Orderly - George's passwords</h1>    <table id=\"passwords\">    <tr>      <th>Category</th>      <th>Service Name</th>      <th>Username</th>  <th>Password</th>  </tr>");
+            lines.Add("<!DOCTYPE html> <html> <head><style>body{  font-family: 'Helvetica', 'Arial', sans-serif;  } #passwords { font-family: 'Helvetica', 'Arial', sans-serif;    border-collapse: collapse;    width: 100%;  }    #passwords td, #passwords th {    border: 1px solid #ddd;    padding: 8px;  }    #passwords tr:nth-child(even){background-color: #f2f2f2;}    #passwords tr:hover {background-color: #ddd;}    #passwords th {    padding-top: 12px;    padding-bottom: 12px;    text-align: left;    background-color: #fc9038;    color: white;  }  </style>  </head>  <body>    <h1>Orderly - " + App.GetService<IProgramConfiguration>().UserName +  "'s passwords</h1>    <table id=\"passwords\">    <tr>      <th>Category</th>      <th>Service Name</th>      <th>Username</th>  <th>Password</th>  </tr>");
 
             Vault v = App.GetService<Vault>()!;
 
@@ -67,11 +68,6 @@ namespace Orderly.Modules.Exporting
             });
             lines.Add("</table></body></html>");
             File.WriteAllLines($"{path}.html", lines);
-        }
-
-        private static void ExportPDF(IEnumerable<Credential> credentials, string path)
-        {
-
         }
     }
 }

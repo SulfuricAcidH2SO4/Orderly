@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wpf.Ui;
 using Wpf.Ui.Controls;
 
 namespace Orderly.ViewModels.Pages.Tools
@@ -78,16 +79,24 @@ namespace Orderly.ViewModels.Pages.Tools
             if (dialog.ShowDialog() == false) return;
 
             RunCommand(() => {
-
                 List<Credential> creds = new();
                 Categories.ForEach(c => {
                     c.Credentials.ForEach(x => {
                         if (x.IsSelected) creds.Add(x.Credential!);
                     });
                 });
+                if (creds == null || creds.Count == 0) return;
                 if(CsvExport) DataExporter.Export(creds, dialog.FileName, Models.ExportFormats.CSV);
                 if(HtmlExport) DataExporter.Export(creds, dialog.FileName, Models.ExportFormats.HTML);
                 if(TxtExport) DataExporter.Export(creds, dialog.FileName, Models.ExportFormats.TXT);
+
+                App.Current.Dispatcher.Invoke(() => {
+                    App.GetService<ISnackbarService>()!.Show("Success!",
+                                                             "You passwords have been exported! Enjoy!",
+                                                             ControlAppearance.Primary,
+                                                             new SymbolIcon(SymbolRegular.EmojiSmileSlight24),
+                                                             TimeSpan.FromSeconds(3));
+                });
             });
         }
     }
