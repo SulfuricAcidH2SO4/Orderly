@@ -318,9 +318,14 @@
                                             <DataTemplate>
                                                 <ui:Button
                                                     Margin="10,0"
+                                                    Padding="5"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ViewModel.CheckUserCredentialCommand}"
                                                     CommandParameter="{Binding}"
-                                                    Content="Check" />
+                                                    ToolTipService.InitialShowDelay="0"
+                                                    ToolTipService.Placement="Left"
+                                                    ToolTipService.ToolTip="Check password">
+                                                    <ui:SymbolIcon Symbol="ArrowRotateClockwise16" />
+                                                </ui:Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
