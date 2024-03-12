@@ -108,7 +108,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="20"
                                         FontWeight="SemiBold"
-                                        Text="{Binding ViewModel.Occurrences, StringFormat={}There are {0} occurrences of your password in the database. Consider changing your password!}"
+                                        Text="{Binding ViewModel.Occurrences, StringFormat={}There are {0} occurrences of your password in breaches database. Consider changing it!}"
                                         TextWrapping="Wrap" />
                                     <ToggleButton
                                         Grid.Column="1"
