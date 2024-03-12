@@ -7,7 +7,7 @@
     <ApplicationIcon>Assets\Logo_ICO.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	<AssemblyVersion>1.1.0</AssemblyVersion>
+	<AssemblyVersion>1.2.0</AssemblyVersion>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>false</UseWindowsForms>
   </PropertyGroup>
