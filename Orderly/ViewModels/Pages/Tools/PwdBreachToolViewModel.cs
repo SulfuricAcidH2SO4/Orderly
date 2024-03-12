@@ -140,6 +140,7 @@ namespace Orderly.ViewModels.Pages.Tools
         public void CheckAllCredentials()
         {
             if (new PasswordConfirmDialog().ShowDialog() == false) return;
+            Passwords.ForEach(p => p.Status = CredentialBreachStatus.Unknown);
             IsCheckingCredentials = true;
             Task.Factory.StartNew(() => {
                 int i = 0;

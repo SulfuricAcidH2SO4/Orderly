@@ -85,6 +85,8 @@ namespace Orderly
                 services.AddSingleton<PasswordGeneratorToolViewModel>();
                 services.AddSingleton<PwdBreachToolView>();
                 services.AddSingleton<PwdBreachToolViewModel>();
+                services.AddSingleton<PasswordsExporterView>();
+                services.AddSingleton<PasswordsExporterViewModel>();
 
                 //General
                 services.AddSingleton<BackupPage>();

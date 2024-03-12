@@ -12,7 +12,7 @@
                                      IsDesignTimeCreatable=False}"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    ui:NavigationView.HeaderContent="Password breach checker"
+    ui:NavigationView.HeaderContent="Password Breach Checker"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
     <UserControl.Resources>
