@@ -169,24 +169,27 @@ namespace Orderly.Dog
         {
 
             Dispatcher.Invoke(() => {
-                tbStatusMessage.Text = "Replacing outadate files...";
+                tbStatusMessage.Text = "Replacing outadated files...";
             });
 
             foreach (var kvp in sourceFiles)
             {
-                string sourcePath = Path.Combine(destinationFolder, kvp.Key);
-                string destinationPath = Path.Combine("", kvp.Key);
+                try {
+                    string sourcePath = Path.Combine(destinationFolder, kvp.Key);
+                    string destinationPath = Path.Combine("", kvp.Key);
 
-                string destinationDirectory = Path.GetDirectoryName(destinationPath);
-                if (!string.IsNullOrEmpty(destinationDirectory) && !Directory.Exists(destinationDirectory))
-                {
-                    // Create the directory if it doesn't exist
-                    Directory.CreateDirectory(destinationDirectory);
+                    string destinationDirectory = Path.GetDirectoryName(destinationPath);
+                    if (!string.IsNullOrEmpty(destinationDirectory) && !Directory.Exists(destinationDirectory)) {
+                        // Create the directory if it doesn't exist
+                        Directory.CreateDirectory(destinationDirectory);
+                    }
+
+                    if (!File.Exists(destinationPath) || !FileHashMatches(destinationPath, kvp.Value)) {
+                        File.Copy(sourcePath, destinationPath, true);
+                    }
                 }
-
-                if (!File.Exists(destinationPath) || !FileHashMatches(destinationPath, kvp.Value))
-                {
-                    File.Copy(sourcePath, destinationPath, true);
+                catch (Exception ex) {
+                    
                 }
             }
 

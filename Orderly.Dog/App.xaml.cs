@@ -13,6 +13,7 @@ namespace Orderly.Dog
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            DispatcherUnhandledException += OnException;
             RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
 
             if (e.Args.Length < 2) {
@@ -44,6 +45,11 @@ namespace Orderly.Dog
                     break;
             }
            
+        }
+
+        private void OnException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(e.Exception.Message);
         }
     }
 
