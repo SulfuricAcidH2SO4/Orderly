@@ -14,15 +14,16 @@
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     Closing="OnClosing"
     ExtendsContentIntoTitleBar="True"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     Loaded="FluentWindow_Loaded"
-    WindowBackdropType="Auto"
+    WindowBackdropType="None"
     WindowCornerPreference="Round"
     WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
+    WindowState="Normal"
     mc:Ignorable="d">
     <ui:FluentWindow.InputBindings>
         <KeyBinding
@@ -32,26 +33,34 @@
     </ui:FluentWindow.InputBindings>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <ui:TitleBar
-            x:Name="TitleBar"
             Title="{Binding ViewModel.ApplicationTitle}"
             Grid.Row="0"
             CloseWindowByDoubleClickOnIcon="False">
             <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="/Assets/Logo_128.png" />
+                <ui:ImageIcon Width="40" />
             </ui:TitleBar.Icon>
         </ui:TitleBar>
-
+        <Image
+            Width="20"
+            Margin="25,15,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Source="/Assets/Logo_128.png" />
         <ui:NavigationView
             x:Name="RootNavigation"
+            Grid.Row="1"
             Padding="42,0,42,0"
             BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
             FooterMenuItemsSource="{Binding ViewModel.FooterMenuItems, Mode=OneWay}"
             FrameMargin="0"
             IsBackButtonVisible="Visible"
             IsPaneToggleVisible="True"
-            OpenPaneLength="200"
-            PaneDisplayMode="Left"
+            PaneDisplayMode="LeftFluent"
             TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}">
             <ui:NavigationView.Header>
                 <Grid>
@@ -124,15 +133,6 @@
                     </DockPanel>
                 </Grid>
             </ui:NavigationView.Header>
-            <ui:NavigationView.AutoSuggestBox>
-                <ui:AutoSuggestBox x:Name="AutoSuggestBox" PlaceholderText="Search">
-                    <ui:AutoSuggestBox.Icon>
-                        <ui:IconSourceElement>
-                            <ui:SymbolIconSource Symbol="Search24" />
-                        </ui:IconSourceElement>
-                    </ui:AutoSuggestBox.Icon>
-                </ui:AutoSuggestBox>
-            </ui:NavigationView.AutoSuggestBox>
             <ui:NavigationView.ContentOverlay>
                 <Grid>
                     <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
@@ -158,6 +158,15 @@
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem
+                    Content="Tools"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    TargetPageTag="tools"
+                    TargetPageType="{x:Type views:ToolsPage}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Wrench24" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem
                     Content="About"
                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
                     TargetPageTag="home"
@@ -179,6 +188,9 @@
             </ui:NavigationView.FooterMenuItems>
         </ui:NavigationView>
 
-        <ContentPresenter x:Name="RootContentDialog" Grid.Row="0" />
+        <ContentPresenter
+            x:Name="RootContentDialog"
+            Grid.Row="0"
+            Grid.RowSpan="2" />
     </Grid>
 </ui:FluentWindow>

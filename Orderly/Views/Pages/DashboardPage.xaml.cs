@@ -1,6 +1,7 @@
 ﻿using Orderly.Database.Entities;
 using Orderly.Interfaces;
 using Orderly.ViewModels.Pages;
+using Orderly.Views.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
@@ -24,8 +25,9 @@ namespace Orderly.Views.Pages
 
             InitializeComponent();
 
-            ApplicationThemeManager.Apply(App.GetService<IProgramConfiguration>().IsDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light);
+            ApplicationThemeManager.Apply(App.GetService<IProgramConfiguration>().IsDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light, WindowBackdropType.Acrylic, false, true);
             App.GetService<IThemeService>().SetAccent(Color.FromRgb(252, 120, 58));
+
         }
 
         private void Popup_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

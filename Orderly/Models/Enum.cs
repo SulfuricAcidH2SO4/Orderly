@@ -12,4 +12,18 @@
         Insert,
         Copy
     }
+
+    public enum CredentialBreachStatus
+    {
+        Unknown,
+        Safe,
+        Breached
+    }
+
+    public enum ExportFormats
+    {
+        TXT,
+        CSV,
+        HTML
+    }
 }

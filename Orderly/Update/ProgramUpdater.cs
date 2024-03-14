@@ -54,7 +54,8 @@ namespace Orderly.Update
             if (File.Exists(executablePath)) {
                 ProcessStartInfo startInfo = new ProcessStartInfo {
                     FileName = executablePath,
-                    Arguments = $"update {downloadUrl}"
+                    Arguments = $"update {downloadUrl}",
+                    UseShellExecute = true
                 };
 
                 Process.Start(startInfo);

@@ -13,11 +13,13 @@ using Orderly.Modules.Notifications;
 using Orderly.Services;
 using Orderly.Update;
 using Orderly.ViewModels.Pages;
+using Orderly.ViewModels.Pages.Tools;
 using Orderly.ViewModels.RadialMenu;
 using Orderly.ViewModels.Windows;
 using Orderly.ViewModels.Wizard;
 using Orderly.Views.Dialogs;
 using Orderly.Views.Pages;
+using Orderly.Views.Pages.Tools;
 using Orderly.Views.RadialMenu;
 using Orderly.Views.Windows;
 using Orderly.Views.Wizard;
@@ -78,6 +80,14 @@ namespace Orderly
                 services.AddSingleton<InputTerminalView>();
                 services.AddSingleton<InputTerminalViewModel>();
 
+                //Tools
+                services.AddSingleton<PasswordGeneratorTool>();
+                services.AddSingleton<PasswordGeneratorToolViewModel>();
+                services.AddSingleton<PwdBreachToolView>();
+                services.AddSingleton<PwdBreachToolViewModel>();
+                services.AddSingleton<PasswordsExporterView>();
+                services.AddSingleton<PasswordsExporterViewModel>();
+
                 //General
                 services.AddSingleton<BackupPage>();
                 services.AddSingleton<BackupViewModel>();
@@ -88,6 +98,8 @@ namespace Orderly
                 services.AddSingleton<AboutView>();
                 services.AddSingleton<NotificationView>();
                 services.AddSingleton<NotificationViewModel>();
+                services.AddSingleton<ToolsPage>();
+                services.AddSingleton<ToolsPageViewModel>();
 
             }).Build();
 
@@ -127,7 +139,7 @@ namespace Orderly
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             ConfirmDialog dialog = new(e.Exception.Message, "Unhandled exception");
-            dialog.Show();
+            dialog.ShowDialog();
         }
         #endregion
 

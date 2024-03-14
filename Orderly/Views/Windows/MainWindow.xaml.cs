@@ -114,10 +114,7 @@ namespace Orderly.Views.Windows
 
         private void FluentWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Configuration.IsDarkMode) ApplicationThemeManager.Apply(ApplicationTheme.Dark);
-            else ApplicationThemeManager.Apply(ApplicationTheme.Light);
-
-            Navigate(typeof(DashboardPage));
+             Navigate(typeof(DashboardPage));
         }
     }
 }

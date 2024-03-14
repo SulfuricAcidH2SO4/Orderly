@@ -15,7 +15,7 @@ namespace Orderly.Modules
                 strength++;
 
             int distinctCharacterCount = password.Distinct().Count();
-            if (distinctCharacterCount >= 10)
+            if (distinctCharacterCount >= 16)
                 strength++;
 
             bool hasUppercase = Regex.IsMatch(password, @"[A-Z]");

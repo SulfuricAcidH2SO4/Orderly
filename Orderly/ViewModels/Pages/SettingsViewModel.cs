@@ -5,6 +5,9 @@ using Orderly.Modules;
 using Orderly.Views.Dialogs;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Media;
+using Wpf.Ui;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace Orderly.ViewModels.Pages
@@ -54,6 +57,12 @@ namespace Orderly.ViewModels.Pages
                 Configuration = IProgramConfiguration.Load(App.GetService<Vault>());
                 Configuration.PropertyChanged += OnPropertyChanged;
             }
+
+            if (e.PropertyName == nameof(Configuration.IsDarkMode)) {
+                ApplicationThemeManager.Apply(App.GetService<IProgramConfiguration>().IsDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light, WindowBackdropType.Acrylic, false, true);
+                App.GetService<IThemeService>().SetAccent(Color.FromRgb(252, 120, 58));
+            }
+
             Configuration.Save();
         }
 
