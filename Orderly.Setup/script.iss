@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Orderly"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.2.0"
 #define MyAppPublisher "Sulfuric Acid"
 #define MyAppURL "http://orderlyapp.altervista.org/"
 #define MyAppExeName "Orderly.exe"
@@ -26,7 +26,7 @@ InfoBeforeFile=PreInfo.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 PrivilegesRequired=admin
 OutputDir=C:\LocalProjects\Orderly\Orderly.Setup
-OutputBaseFilename=orderly1.0.0-setup
+OutputBaseFilename=orderly{#MyAppVersion}-setup
 SetupIconFile=Logo_ICO.ico
 Compression=lzma
 SolidCompression=yes
